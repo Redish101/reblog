@@ -22,8 +22,8 @@ type AdminLoginResp struct {
 //	@Router			/admin/login [post]
 func AdminLogin(router fiber.Router) {
 	router.Post("/login", func(c fiber.Ctx) error {
-		username := common.GetFormValue(c, "username")
-		password := common.GetFormValue(c, "password")
+		username := c.FormValue("username")
+		password := c.FormValue("password")
 
 		token := auth.GetToken(username, password)
 

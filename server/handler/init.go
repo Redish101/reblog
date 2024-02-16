@@ -38,14 +38,14 @@ func Init(router fiber.Router) {
 			return common.RespFail(c, http.StatusForbidden, "此站点已初始化", nil)
 		}
 
-		username := common.GetFormValue(c, "username")
-		nickname := common.GetFormValue(c, "nickname")
-		email := common.GetFormValue(c, "email")
-		password := hash.Hash(common.GetFormValue(c, "password"))
-		name := common.GetFormValue(c, "name")
-		url := common.GetFormValue(c, "url")
-		desc := common.GetFormValue(c, "desc")
-		icon := common.GetFormValue(c, "icon")
+		username := c.FormValue("username")
+		nickname := c.FormValue("nickname")
+		email := c.FormValue("email")
+		password := hash.Hash(c.FormValue("password"))
+		name := c.FormValue("name")
+		url := c.FormValue("url")
+		desc := c.FormValue("desc")
+		icon := c.FormValue("icon")
 
 		usernameRegex := `^[a-zA-Z0-9._%+-]`
 		emailRegex := `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`
