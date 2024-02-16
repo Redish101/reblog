@@ -1,0 +1,173 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "reblog api",
+        "contact": {},
+        "license": {
+            "name": "GPL-V3"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:3000",
+    "basePath": "/",
+    "paths": {
+        "/admin/login": {
+            "post": {
+                "description": "管理员使用用户名和密码进行登录，若登录成功，返回token",
+                "tags": [
+                    "站点管理"
+                ],
+                "summary": "登录",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户名或邮箱",
+                        "name": "username",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "密码",
+                        "name": "password",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "登录成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/common.Resp"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/handler.AdminLoginResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "401": {
+                        "description": "用户名或密码错误",
+                        "schema": {
+                            "$ref": "#/definitions/common.Resp"
+                        }
+                    }
+                }
+            }
+        },
+        "/init": {
+            "post": {
+                "description": "使用给定的参数初始化站点",
+                "tags": [
+                    "站点管理"
+                ],
+                "summary": "初始化站点",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户名",
+                        "name": "username",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "昵称",
+                        "name": "nickname",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "邮箱",
+                        "name": "email",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "密码",
+                        "name": "password",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "站点名称",
+                        "name": "name",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "站点URL",
+                        "name": "url",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "站点描述",
+                        "name": "desc",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "站点图标(base64格式)",
+                        "name": "icon",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "初始化成功",
+                        "schema": {
+                            "$ref": "#/definitions/common.Resp"
+                        }
+                    },
+                    "400": {
+                        "description": "无效的邮箱或URL",
+                        "schema": {
+                            "$ref": "#/definitions/common.Resp"
+                        }
+                    },
+                    "403": {
+                        "description": "此站点已初始化",
+                        "schema": {
+                            "$ref": "#/definitions/common.Resp"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "common.Resp": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "handler.AdminLoginResp": {
+            "type": "object",
+            "properties": {
+                "token": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

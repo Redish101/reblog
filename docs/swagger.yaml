@@ -1,0 +1,113 @@
+basePath: /
+definitions:
+  common.Resp:
+    properties:
+      data: {}
+      msg:
+        type: string
+      success:
+        type: boolean
+    type: object
+  handler.AdminLoginResp:
+    properties:
+      token:
+        type: string
+    type: object
+host: localhost:3000
+info:
+  contact: {}
+  license:
+    name: GPL-V3
+  title: reblog api
+  version: "1.0"
+paths:
+  /admin/login:
+    post:
+      description: 管理员使用用户名和密码进行登录，若登录成功，返回token
+      parameters:
+      - description: 用户名或邮箱
+        in: formData
+        name: username
+        required: true
+        type: string
+      - description: 密码
+        in: formData
+        name: password
+        required: true
+        type: string
+      responses:
+        "200":
+          description: 登录成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/common.Resp'
+            - properties:
+                data:
+                  $ref: '#/definitions/handler.AdminLoginResp'
+              type: object
+        "401":
+          description: 用户名或密码错误
+          schema:
+            $ref: '#/definitions/common.Resp'
+      summary: 登录
+      tags:
+      - 站点管理
+  /init:
+    post:
+      description: 使用给定的参数初始化站点
+      parameters:
+      - description: 用户名
+        in: formData
+        name: username
+        required: true
+        type: string
+      - description: 昵称
+        in: formData
+        name: nickname
+        required: true
+        type: string
+      - description: 邮箱
+        in: formData
+        name: email
+        required: true
+        type: string
+      - description: 密码
+        in: formData
+        name: password
+        required: true
+        type: string
+      - description: 站点名称
+        in: formData
+        name: name
+        required: true
+        type: string
+      - description: 站点URL
+        in: formData
+        name: url
+        required: true
+        type: string
+      - description: 站点描述
+        in: formData
+        name: desc
+        type: string
+      - description: 站点图标(base64格式)
+        in: formData
+        name: icon
+        type: string
+      responses:
+        "200":
+          description: 初始化成功
+          schema:
+            $ref: '#/definitions/common.Resp'
+        "400":
+          description: 无效的邮箱或URL
+          schema:
+            $ref: '#/definitions/common.Resp'
+        "403":
+          description: 此站点已初始化
+          schema:
+            $ref: '#/definitions/common.Resp'
+      summary: 初始化站点
+      tags:
+      - 站点管理
+swagger: "2.0"
