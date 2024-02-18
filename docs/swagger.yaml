@@ -8,9 +8,45 @@ definitions:
       success:
         type: boolean
     type: object
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
   handler.AdminLoginResp:
     properties:
       token:
+        type: string
+    type: object
+  handler.ArticlesListResp:
+    properties:
+      articles:
+        items:
+          $ref: '#/definitions/model.Article'
+        type: array
+      count:
+        type: integer
+    type: object
+  model.Article:
+    properties:
+      content:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        $ref: '#/definitions/gorm.DeletedAt'
+      desc:
+        type: string
+      id:
+        type: integer
+      slug:
+        type: string
+      title:
+        type: string
+      updated_at:
         type: string
     type: object
 host: localhost:3000
@@ -23,6 +59,8 @@ info:
 paths:
   /admin/login:
     post:
+      consumes:
+      - application/json
       description: 管理员使用用户名和密码进行登录，若登录成功，返回token
       parameters:
       - description: 用户名或邮箱
@@ -35,6 +73,8 @@ paths:
         name: password
         required: true
         type: string
+      produces:
+      - application/json
       responses:
         "200":
           description: 登录成功
@@ -52,8 +92,77 @@ paths:
       summary: 登录
       tags:
       - 站点管理
+  /articles/{slug}:
+    get:
+      consumes:
+      - application/json
+      description: 根据slug获取文章详情
+      parameters:
+      - description: 文章slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/common.Resp'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.Article'
+              type: object
+        "404":
+          description: 未知的slug
+          schema:
+            $ref: '#/definitions/common.Resp'
+      summary: 获取文章详情
+      tags:
+      - 文章
+  /articles/list:
+    get:
+      consumes:
+      - application/json
+      description: 分页获取文章列表
+      parameters:
+      - description: 页码, 默认为1
+        in: query
+        name: pageIndex
+        type: integer
+      - description: 每页数量, 默认为10
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功返回文章列表
+          schema:
+            allOf:
+            - $ref: '#/definitions/common.Resp'
+            - properties:
+                data:
+                  $ref: '#/definitions/handler.ArticlesListResp'
+              type: object
+        "400":
+          description: 参数不合法
+          schema:
+            $ref: '#/definitions/common.Resp'
+        "500":
+          description: 服务器内部错误
+          schema:
+            $ref: '#/definitions/common.Resp'
+      summary: 分页获取文章列表
+      tags:
+      - 文章
   /init:
     post:
+      consumes:
+      - application/json
       description: 使用给定的参数初始化站点
       parameters:
       - description: 用户名
@@ -94,6 +203,8 @@ paths:
         in: formData
         name: icon
         type: string
+      produces:
+      - application/json
       responses:
         "200":
           description: 初始化成功

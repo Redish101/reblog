@@ -1,0 +1,34 @@
+package handler
+
+import (
+	"net/http"
+	"reblog/internal/query"
+	"reblog/server/common"
+
+	"github.com/gofiber/fiber/v3"
+)
+
+//	@Summary		获取文章详情
+//	@Description	根据slug获取文章详情
+//	@Tags			文章
+//	@Accept			json
+//	@Produce		json
+//	@Param			slug	path		string							true	"文章slug"
+//	@Success		200		{object}	common.Resp{data=model.Article}	"操作成功"
+//	@Failure		404		{object}	common.Resp						"未知的slug"
+//	@Router			/articles/{slug} [get]
+func ArticlesSlug(router fiber.Router) {
+	router.Get("/:slug", func(c fiber.Ctx) error {
+		a := query.Article
+
+		slug := c.Params("slug")
+
+		article, _ := a.Where(a.Slug.Eq(slug)).First()
+
+		if article == nil {
+			return common.RespFail(c, http.StatusNotFound, "未知的slug", nil)
+		}
+
+		return common.RespSuccess(c, "操作成功", article)
+	})
+}

@@ -9,6 +9,7 @@ import (
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/cors"
 	"github.com/gofiber/fiber/v3/middleware/logger"
+	_ "gorm.io/gorm"
 )
 
 //	@Title			reblog api
@@ -42,8 +43,13 @@ func Start() {
 	// admin
 	admin := app.Group("/admin")
 
-	// login
 	h.AdminLogin(admin)
+
+	// articles
+	articles := app.Group("/articles")
+
+	h.ArticlesList(articles)
+	h.ArticlesSlug(articles)
 
 	// notFound
 	h.NotFound(app)

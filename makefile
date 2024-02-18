@@ -8,7 +8,7 @@ gen:
 
 apidoc:
 	swag fmt
-	swag init -g server/start.go
+	swag init -g server/server.go --parseDependency --parseInternal 
 	redocly build-docs docs/swagger.yaml -o apidoc/index.html
 
 dev:
