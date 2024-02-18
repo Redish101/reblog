@@ -12,11 +12,12 @@ import (
 	_ "gorm.io/gorm"
 )
 
-//	@Title			reblog api
-//	@Version		1.0
-//	@License.name	GPL-V3
-//	@Host			localhost:3000
-//	@BasePath		/
+//	@Title						reblog api
+//	@Version					1.0
+//	@License.name				GPL-V3
+//	@Host						localhost:3000
+//	@BasePath					/
+//	@securityDefinitions.apikey	[header Authorization] ApiKeyAuth
 func Start() {
 	auth.SetKey()
 
@@ -51,6 +52,7 @@ func Start() {
 	h.ArticlesList(articles)
 	h.ArticlesSlug(articles)
 	h.ArticlesAdd(articles)
+	h.ArticlesDelete(articles)
 
 	// notFound
 	h.NotFound(app)

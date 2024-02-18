@@ -137,10 +137,42 @@ paths:
           description: slug已被其他文章使用
           schema:
             $ref: '#/definitions/common.Resp'
+      security:
+      - ApiKeyAuth: []
       summary: 添加文章
       tags:
-      - 文章管理
+      - 文章
   /articles/{slug}:
+    delete:
+      consumes:
+      - application/json
+      description: 根据slug删除文章
+      parameters:
+      - description: 文章的slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 删除成功
+          schema:
+            $ref: '#/definitions/common.Resp'
+        "400":
+          description: 缺少必要参数
+          schema:
+            $ref: '#/definitions/common.Resp'
+        "404":
+          description: 未知的文章
+          schema:
+            $ref: '#/definitions/common.Resp'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除文章
+      tags:
+      - 文章管理
     get:
       consumes:
       - application/json

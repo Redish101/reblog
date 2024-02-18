@@ -76,6 +76,11 @@
         },
         "/articles": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "添加一篇新的文章",
                 "consumes": [
                     "application/json"
@@ -84,7 +89,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "文章管理"
+                    "文章"
                 ],
                 "summary": "添加文章",
                 "parameters": [
@@ -249,6 +254,53 @@
                     },
                     "404": {
                         "description": "未知的slug",
+                        "schema": {
+                            "$ref": "#/definitions/common.Resp"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "根据slug删除文章",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "文章管理"
+                ],
+                "summary": "删除文章",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "文章的slug",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "删除成功",
+                        "schema": {
+                            "$ref": "#/definitions/common.Resp"
+                        }
+                    },
+                    "400": {
+                        "description": "缺少必要参数",
+                        "schema": {
+                            "$ref": "#/definitions/common.Resp"
+                        }
+                    },
+                    "404": {
+                        "description": "未知的文章",
                         "schema": {
                             "$ref": "#/definitions/common.Resp"
                         }
