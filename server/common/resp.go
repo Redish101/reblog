@@ -1,6 +1,10 @@
 package common
 
-import "github.com/gofiber/fiber/v3"
+import (
+	"net/http"
+
+	"github.com/gofiber/fiber/v3"
+)
 
 type Resp struct {
 	Success bool        `json:"success"`
@@ -29,5 +33,22 @@ func RespFail(c fiber.Ctx, code int, msg string, data interface{}) error {
 		Success: false,
 		Msg:     msg,
 		Data:    data,
+	})
+}
+
+func RespServerError(c fiber.Ctx, errs ...error) error {
+	var msg string
+
+	for _, err := range errs {
+		msg += err.Error()	
+	}
+
+	return RespFail(c, http.StatusInternalServerError, msg, nil)
+}
+
+func RespMissingParameters(c fiber.Ctx) error {
+	return c.Status(http.StatusBadRequest).JSON(Resp{
+		Success: false,
+		Msg:     "参数缺失",
 	})
 }

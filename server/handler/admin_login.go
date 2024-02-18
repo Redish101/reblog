@@ -20,12 +20,17 @@ type AdminLoginResp struct {
 //	@Param			username	formData	string								true	"用户名或邮箱"
 //	@Param			password	formData	string								true	"密码"
 //	@Success		200			{object}	common.Resp{data=AdminLoginResp}	"登录成功"
+//	@Failure		400			{object}	common.Resp							"缺少必要参数"
 //	@Failure		401			{object}	common.Resp							"用户名或密码错误"
 //	@Router			/admin/login [post]
 func AdminLogin(router fiber.Router) {
 	router.Post("/login", func(c fiber.Ctx) error {
 		username := c.FormValue("username")
 		password := c.FormValue("password")
+
+		if common.CheckEmpty(username, password) {
+			return common.RespMissingParameters(c)
+		}
 
 		token := auth.GetToken(username, password)
 

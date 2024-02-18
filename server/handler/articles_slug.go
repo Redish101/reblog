@@ -15,6 +15,7 @@ import (
 //	@Produce		json
 //	@Param			slug	path		string							true	"文章slug"
 //	@Success		200		{object}	common.Resp{data=model.Article}	"操作成功"
+//	@Failure		400		{object}	common.Resp						"缺少必要参数"
 //	@Failure		404		{object}	common.Resp						"未知的slug"
 //	@Router			/articles/{slug} [get]
 func ArticlesSlug(router fiber.Router) {
@@ -23,7 +24,15 @@ func ArticlesSlug(router fiber.Router) {
 
 		slug := c.Params("slug")
 
-		article, _ := a.Where(a.Slug.Eq(slug)).First()
+		if common.CheckEmpty(slug) {
+			return common.RespMissingParameters(c)
+		}
+
+		article, err := a.Where(a.Slug.Eq(slug)).First()
+
+		if err != nil {
+			return common.RespServerError(c, err)
+		}
 
 		if article == nil {
 			return common.RespFail(c, http.StatusNotFound, "未知的slug", nil)

@@ -34,6 +34,10 @@ func ArticlesList(router fiber.Router) {
 		pageIndexStr := c.Query("pageIndex", "1")
 		pageSizeStr := c.Query("pageSize", "10")
 
+		if common.CheckEmpty(pageIndexStr, pageSizeStr) {
+			return common.RespMissingParameters(c)
+		}
+
 		pageIndex, indexErr := strconv.Atoi(pageIndexStr)
 		pageSize, sizeErr := strconv.Atoi(pageSizeStr)
 
@@ -46,9 +50,8 @@ func ArticlesList(router fiber.Router) {
 		articles, count, err := a.Order(a.CreatedAt.Desc()).FindByPage((pageIndex-1)*pageSize, pageSize)
 
 		if err != nil {
-			return common.RespFail(c, http.StatusInternalServerError, err.Error(), nil)
+			return common.RespServerError(c, err)
 		}
-
 		return common.RespSuccess(c, "操作成功", ArticlesListResp {
 			Count: count,
 			Articles: articles,

@@ -49,6 +49,10 @@ func Init(router fiber.Router) {
 		desc := c.FormValue("desc")
 		icon := c.FormValue("icon")
 
+		if common.CheckEmpty(username, nickname, email, password, name, url, desc, icon) {
+			return common.RespMissingParameters(c)
+		}
+
 		usernameRegex := `^[a-zA-Z0-9._%+-]`
 		emailRegex := `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`
 		urlRegex := `^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$`
@@ -81,8 +85,12 @@ func Init(router fiber.Router) {
 			Icon: icon,
 		}
 
-		query.User.Create(user)
-		query.Site.Create(site)
+		userErr := query.User.Create(user)
+		siteErr := query.Site.Create(site)
+
+		if userErr != nil || siteErr != nil {
+			return common.RespServerError(c, userErr, siteErr)
+		}
 
 		return common.RespSuccess(c, "初始化成功", nil)
 	})

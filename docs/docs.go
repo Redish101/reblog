@@ -66,8 +66,79 @@ const docTemplate = `{
                             ]
                         }
                     },
+                    "400": {
+                        "description": "缺少必要参数",
+                        "schema": {
+                            "$ref": "#/definitions/common.Resp"
+                        }
+                    },
                     "401": {
                         "description": "用户名或密码错误",
+                        "schema": {
+                            "$ref": "#/definitions/common.Resp"
+                        }
+                    }
+                }
+            }
+        },
+        "/articles": {
+            "post": {
+                "description": "添加一篇新的文章",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "文章管理"
+                ],
+                "summary": "添加文章",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "文章标题",
+                        "name": "title",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "文章slug",
+                        "name": "slug",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "文章描述",
+                        "name": "desc",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "文章内容",
+                        "name": "content",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "操作成功",
+                        "schema": {
+                            "$ref": "#/definitions/common.Resp"
+                        }
+                    },
+                    "400": {
+                        "description": "缺少必要参数",
+                        "schema": {
+                            "$ref": "#/definitions/common.Resp"
+                        }
+                    },
+                    "409": {
+                        "description": "slug已被其他文章使用",
                         "schema": {
                             "$ref": "#/definitions/common.Resp"
                         }
@@ -175,6 +246,12 @@ const docTemplate = `{
                                     }
                                 }
                             ]
+                        }
+                    },
+                    "400": {
+                        "description": "缺少必要参数",
+                        "schema": {
+                            "$ref": "#/definitions/common.Resp"
                         }
                     },
                     "404": {
