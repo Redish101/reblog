@@ -15,21 +15,22 @@ import (
 //	@Tags			文章
 //	@Accept			json
 //	@Produce		json
+//	@Param			slug	path		string		true	"文章slug"
 //	@Param			title	formData	string		true	"文章标题"
-//	@Param			slug	formData	string		true	"文章slug"
 //	@Param			desc	formData	string		true	"文章描述"
 //	@Param			content	formData	string		true	"文章内容"
 //	@Success		200		{object}	common.Resp	"操作成功"
 //	@Failure		400		{object}	common.Resp	"缺少必要参数"
 //	@Failure		409		{object}	common.Resp	"slug已被其他文章使用"
 //	@Security		ApiKeyAuth
-//	@Router			/articles [post]
+//	@Router			/article/{slug} [post]
 func ArticlesAdd(router fiber.Router) {
-	router.Post("/", func(c fiber.Ctx) error {
+	router.Post("/:slug", func(c fiber.Ctx) error {
 		a := query.Article
 
+		slug := c.Params("slug")
+
 		title := c.FormValue("title")
-		slug := c.FormValue("slug")
 		desc := c.FormValue("desc")
 		content := c.FormValue("content")
 
@@ -37,11 +38,11 @@ func ArticlesAdd(router fiber.Router) {
 			return common.RespMissingParameters(c)
 		}
 
-		existingArticle, _ := a.Where(a.Slug.Eq("slug")).First()
+		existingArticle, _ := a.Where(a.Slug.Eq(slug)).First()
 
 		fmt.Println(existingArticle)
 
-		if existingArticle == nil {
+		if existingArticle != nil && !existingArticle.DeletedAt.Valid {
 			return common.RespFail(c, http.StatusConflict, "当前slug已被其他文章使用", nil)
 		}
 

@@ -81,77 +81,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/articles": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "添加一篇新的文章",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "文章"
-                ],
-                "summary": "添加文章",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "文章标题",
-                        "name": "title",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "文章slug",
-                        "name": "slug",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "文章描述",
-                        "name": "desc",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "文章内容",
-                        "name": "content",
-                        "in": "formData",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "操作成功",
-                        "schema": {
-                            "$ref": "#/definitions/common.Resp"
-                        }
-                    },
-                    "400": {
-                        "description": "缺少必要参数",
-                        "schema": {
-                            "$ref": "#/definitions/common.Resp"
-                        }
-                    },
-                    "409": {
-                        "description": "slug已被其他文章使用",
-                        "schema": {
-                            "$ref": "#/definitions/common.Resp"
-                        }
-                    }
-                }
-            }
-        },
-        "/articles/list": {
+        "/article/list": {
             "get": {
                 "description": "分页获取文章列表",
                 "consumes": [
@@ -212,7 +142,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/articles/{slug}": {
+        "/article/{slug}": {
             "get": {
                 "description": "根据slug获取文章详情",
                 "consumes": [
@@ -267,6 +197,142 @@ const docTemplate = `{
                     }
                 }
             },
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "根据slug更新文章的标题、描述和内容",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "文章"
+                ],
+                "summary": "更新文章",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "文章的slug",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "文章的标题",
+                        "name": "title",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "文章的描述",
+                        "name": "desc",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "文章的内容",
+                        "name": "content",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "更新成功",
+                        "schema": {
+                            "$ref": "#/definitions/common.Resp"
+                        }
+                    },
+                    "400": {
+                        "description": "缺失参数",
+                        "schema": {
+                            "$ref": "#/definitions/common.Resp"
+                        }
+                    },
+                    "404": {
+                        "description": "未知的文章",
+                        "schema": {
+                            "$ref": "#/definitions/common.Resp"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "添加一篇新的文章",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "文章"
+                ],
+                "summary": "添加文章",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "文章slug",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "文章标题",
+                        "name": "title",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "文章描述",
+                        "name": "desc",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "文章内容",
+                        "name": "content",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "操作成功",
+                        "schema": {
+                            "$ref": "#/definitions/common.Resp"
+                        }
+                    },
+                    "400": {
+                        "description": "缺少必要参数",
+                        "schema": {
+                            "$ref": "#/definitions/common.Resp"
+                        }
+                    },
+                    "409": {
+                        "description": "slug已被其他文章使用",
+                        "schema": {
+                            "$ref": "#/definitions/common.Resp"
+                        }
+                    }
+                }
+            },
             "delete": {
                 "security": [
                     {
@@ -281,7 +347,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "文章管理"
+                    "文章"
                 ],
                 "summary": "删除文章",
                 "parameters": [
@@ -482,6 +548,13 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }`

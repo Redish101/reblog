@@ -26,7 +26,7 @@ type ArticlesListResp struct {
 //	@Success		200			{object}	common.Resp{data=ArticlesListResp}	"成功返回文章列表"
 //	@Failure		400			{object}	common.Resp							"参数不合法"
 //	@Failure		500			{object}	common.Resp							"服务器内部错误"
-//	@Router			/articles/list [get]
+//	@Router			/article/list [get]
 func ArticlesList(router fiber.Router) {
 	router.Get("/list", func(c fiber.Ctx) error {
 		a := query.Article

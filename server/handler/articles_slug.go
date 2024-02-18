@@ -17,7 +17,7 @@ import (
 //	@Success		200		{object}	common.Resp{data=model.Article}	"操作成功"
 //	@Failure		400		{object}	common.Resp						"缺少必要参数"
 //	@Failure		404		{object}	common.Resp						"未知的slug"
-//	@Router			/articles/{slug} [get]
+//	@Router			/article/{slug} [get]
 func ArticlesSlug(router fiber.Router) {
 	router.Get("/:slug", func(c fiber.Ctx) error {
 		a := query.Article

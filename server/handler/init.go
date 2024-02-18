@@ -49,7 +49,7 @@ func Init(router fiber.Router) {
 		desc := c.FormValue("desc")
 		icon := c.FormValue("icon")
 
-		if common.CheckEmpty(username, nickname, email, password, name, url, desc, icon) {
+		if common.CheckEmpty(username, nickname, email, password, name, url) {
 			return common.RespMissingParameters(c)
 		}
 

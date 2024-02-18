@@ -17,7 +17,9 @@ import (
 //	@License.name				GPL-V3
 //	@Host						localhost:3000
 //	@BasePath					/
-//	@securityDefinitions.apikey	[header Authorization] ApiKeyAuth
+//	@SecurityDefinitions.apikey	ApiKeyAuth
+//	@In							header
+//	@Name						Authorization
 func Start() {
 	auth.SetKey()
 
@@ -47,12 +49,13 @@ func Start() {
 	h.AdminLogin(admin)
 
 	// articles
-	articles := app.Group("/articles")
+	articles := app.Group("/article")
 
 	h.ArticlesList(articles)
 	h.ArticlesSlug(articles)
 	h.ArticlesAdd(articles)
 	h.ArticlesDelete(articles)
+	h.ArticlesUpdate(articles)
 
 	// notFound
 	h.NotFound(app)
