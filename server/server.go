@@ -50,6 +50,7 @@ func Start() {
 
 	h.ArticlesList(articles)
 	h.ArticlesSlug(articles)
+	h.ArticlesAdd(articles)
 
 	// notFound
 	h.NotFound(app)

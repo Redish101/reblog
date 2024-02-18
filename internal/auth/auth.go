@@ -70,7 +70,6 @@ func ValidToken(token string) bool {
 	})
 
 	if err != nil {
-		fmt.Println(err)
 		return false
 	}
 
