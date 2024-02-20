@@ -12,7 +12,7 @@ import (
 )
 
 type ArticlesListResp struct {
-	Count int64 `json:"count"`
+	Count    int64            `json:"count"`
 	Articles []*model.Article `json:"articles"`
 }
 
@@ -52,8 +52,8 @@ func ArticlesList(router fiber.Router) {
 		if err != nil {
 			return common.RespServerError(c, err)
 		}
-		return common.RespSuccess(c, "操作成功", ArticlesListResp {
-			Count: count,
+		return common.RespSuccess(c, "操作成功", ArticlesListResp{
+			Count:    count,
 			Articles: articles,
 		})
 	})

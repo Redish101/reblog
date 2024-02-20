@@ -13,7 +13,7 @@ import (
 //	@Accept			json
 //	@Produce		json
 //	@Success		200	{object}	common.Resp{data=model.Site}
-//	@Router			/ [get]
+//	@Router			/site [get]
 func Site(router fiber.Router) {
 	router.Get("/", func(c fiber.Ctx) error {
 		s := query.Site

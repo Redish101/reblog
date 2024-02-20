@@ -1,740 +1,680 @@
 {
-    "swagger": "2.0",
-    "info": {
-        "title": "reblog api",
-        "contact": {},
-        "license": {
-            "name": "GPL-V3"
-        },
-        "version": "1.0"
+  "swagger": "2.0",
+  "info": {
+    "title": "reblog api",
+    "contact": {},
+    "license": {
+      "name": "GPL-V3"
     },
-    "host": "localhost:3000",
-    "basePath": "/",
-    "paths": {
-        "/": {
-            "get": {
-                "description": "获取站点信息",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "站点"
-                ],
-                "summary": "获取站点信息",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/common.Resp"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/model.Site"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
+    "version": "1.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "paths": {
+    "/": {
+      "get": {
+        "description": "获取站点信息",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["站点"],
+        "summary": "获取站点信息",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/common.Resp"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/model.Site"
                     }
+                  }
                 }
+              ]
             }
-        },
-        "/admin/login": {
-            "post": {
-                "description": "管理员使用用户名和密码进行登录，若登录成功，返回token",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "站点管理"
-                ],
-                "summary": "登录",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "用户名或邮箱",
-                        "name": "username",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "密码",
-                        "name": "password",
-                        "in": "formData",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "登录成功",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/common.Resp"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/handler.AdminLoginResp"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "缺少必要参数",
-                        "schema": {
-                            "$ref": "#/definitions/common.Resp"
-                        }
-                    },
-                    "401": {
-                        "description": "用户名或密码错误",
-                        "schema": {
-                            "$ref": "#/definitions/common.Resp"
-                        }
-                    }
-                }
-            }
-        },
-        "/article/list": {
-            "get": {
-                "description": "分页获取文章列表",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "文章"
-                ],
-                "summary": "分页获取文章列表",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "页码, 默认为1",
-                        "name": "pageIndex",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "每页数量, 默认为10",
-                        "name": "pageSize",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "成功返回文章列表",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/common.Resp"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/handler.ArticlesListResp"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "参数不合法",
-                        "schema": {
-                            "$ref": "#/definitions/common.Resp"
-                        }
-                    },
-                    "500": {
-                        "description": "服务器内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/common.Resp"
-                        }
-                    }
-                }
-            }
-        },
-        "/article/{slug}": {
-            "get": {
-                "description": "根据slug获取文章详情",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "文章"
-                ],
-                "summary": "获取文章详情",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "文章slug",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "操作成功",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/common.Resp"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/model.Article"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "缺少必要参数",
-                        "schema": {
-                            "$ref": "#/definitions/common.Resp"
-                        }
-                    },
-                    "404": {
-                        "description": "未知的slug",
-                        "schema": {
-                            "$ref": "#/definitions/common.Resp"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "根据slug更新文章的标题、描述和内容",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "文章"
-                ],
-                "summary": "更新文章",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "文章的slug",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "文章的标题",
-                        "name": "title",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "文章的描述",
-                        "name": "desc",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "文章的内容",
-                        "name": "content",
-                        "in": "formData",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "更新成功",
-                        "schema": {
-                            "$ref": "#/definitions/common.Resp"
-                        }
-                    },
-                    "400": {
-                        "description": "缺失参数",
-                        "schema": {
-                            "$ref": "#/definitions/common.Resp"
-                        }
-                    },
-                    "404": {
-                        "description": "未知的文章",
-                        "schema": {
-                            "$ref": "#/definitions/common.Resp"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "添加一篇新的文章",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "文章"
-                ],
-                "summary": "添加文章",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "文章slug",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "文章标题",
-                        "name": "title",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "文章描述",
-                        "name": "desc",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "文章内容",
-                        "name": "content",
-                        "in": "formData",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "操作成功",
-                        "schema": {
-                            "$ref": "#/definitions/common.Resp"
-                        }
-                    },
-                    "400": {
-                        "description": "缺少必要参数",
-                        "schema": {
-                            "$ref": "#/definitions/common.Resp"
-                        }
-                    },
-                    "409": {
-                        "description": "slug已被其他文章使用",
-                        "schema": {
-                            "$ref": "#/definitions/common.Resp"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "根据slug删除文章",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "文章"
-                ],
-                "summary": "删除文章",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "文章的slug",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "删除成功",
-                        "schema": {
-                            "$ref": "#/definitions/common.Resp"
-                        }
-                    },
-                    "400": {
-                        "description": "缺少必要参数",
-                        "schema": {
-                            "$ref": "#/definitions/common.Resp"
-                        }
-                    },
-                    "404": {
-                        "description": "未知的文章",
-                        "schema": {
-                            "$ref": "#/definitions/common.Resp"
-                        }
-                    }
-                }
-            }
-        },
-        "/init": {
-            "post": {
-                "description": "使用给定的参数初始化站点",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "站点管理"
-                ],
-                "summary": "初始化站点",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "用户名",
-                        "name": "username",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "昵称",
-                        "name": "nickname",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "邮箱",
-                        "name": "email",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "密码",
-                        "name": "password",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "站点名称",
-                        "name": "name",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "站点URL",
-                        "name": "url",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "站点描述",
-                        "name": "desc",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "string",
-                        "description": "站点图标(base64格式)",
-                        "name": "icon",
-                        "in": "formData"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "初始化成功",
-                        "schema": {
-                            "$ref": "#/definitions/common.Resp"
-                        }
-                    },
-                    "400": {
-                        "description": "无效的邮箱或URL",
-                        "schema": {
-                            "$ref": "#/definitions/common.Resp"
-                        }
-                    },
-                    "403": {
-                        "description": "此站点已初始化",
-                        "schema": {
-                            "$ref": "#/definitions/common.Resp"
-                        }
-                    }
-                }
-            }
-        },
-        "/site": {
-            "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "更新站点的名称、URL、描述和图标",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "站点管理"
-                ],
-                "summary": "更新站点信息",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "站点名称",
-                        "name": "name",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "站点URL",
-                        "name": "url",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "站点描述",
-                        "name": "desc",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "站点图标(base64格式)",
-                        "name": "icon",
-                        "in": "formData",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "操作成功, 部分主题可能需重新部署生效",
-                        "schema": {
-                            "$ref": "#/definitions/common.Resp"
-                        }
-                    },
-                    "400": {
-                        "description": "缺少参数",
-                        "schema": {
-                            "$ref": "#/definitions/common.Resp"
-                        }
-                    }
-                }
-            }
-        },
-        "/user/{username}": {
-            "put": {
-                "description": "管理员更新用户信息",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "站点管理"
-                ],
-                "summary": "更新用户信息",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "用户名",
-                        "name": "username",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "昵称",
-                        "name": "nickname",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "邮箱",
-                        "name": "email",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "密码",
-                        "name": "password",
-                        "in": "formData",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/common.Resp"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/common.Resp"
-                        }
-                    }
-                }
-            }
+          }
         }
+      }
     },
-    "definitions": {
-        "common.Resp": {
-            "type": "object",
-            "properties": {
-                "data": {},
-                "msg": {
-                    "type": "string"
+    "/admin/login": {
+      "post": {
+        "description": "管理员使用用户名和密码进行登录，若登录成功，返回token",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["站点管理"],
+        "summary": "登录",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "用户名或邮箱",
+            "name": "username",
+            "in": "formData",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "密码",
+            "name": "password",
+            "in": "formData",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "登录成功",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/common.Resp"
                 },
-                "success": {
-                    "type": "boolean"
-                }
-            }
-        },
-        "gorm.DeletedAt": {
-            "type": "object",
-            "properties": {
-                "time": {
-                    "type": "string"
-                },
-                "valid": {
-                    "description": "Valid is true if Time is not NULL",
-                    "type": "boolean"
-                }
-            }
-        },
-        "handler.AdminLoginResp": {
-            "type": "object",
-            "properties": {
-                "token": {
-                    "type": "string"
-                }
-            }
-        },
-        "handler.ArticlesListResp": {
-            "type": "object",
-            "properties": {
-                "articles": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/model.Article"
+                {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/handler.AdminLoginResp"
                     }
-                },
-                "count": {
-                    "type": "integer"
+                  }
                 }
+              ]
             }
-        },
-        "model.Article": {
-            "type": "object",
-            "properties": {
-                "content": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "deleted_at": {
-                    "$ref": "#/definitions/gorm.DeletedAt"
-                },
-                "desc": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "slug": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                }
+          },
+          "400": {
+            "description": "缺少必要参数",
+            "schema": {
+              "$ref": "#/definitions/common.Resp"
             }
-        },
-        "model.Site": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "deleted_at": {
-                    "$ref": "#/definitions/gorm.DeletedAt"
-                },
-                "desc": {
-                    "type": "string"
-                },
-                "icon": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                },
-                "url": {
-                    "type": "string"
-                }
+          },
+          "401": {
+            "description": "用户名或密码错误",
+            "schema": {
+              "$ref": "#/definitions/common.Resp"
             }
+          }
         }
+      }
     },
-    "securityDefinitions": {
-        "ApiKeyAuth": {
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header"
+    "/article/list": {
+      "get": {
+        "description": "分页获取文章列表",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["文章"],
+        "summary": "分页获取文章列表",
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "页码, 默认为1",
+            "name": "pageIndex",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "description": "每页数量, 默认为10",
+            "name": "pageSize",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功返回文章列表",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/common.Resp"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/handler.ArticlesListResp"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "400": {
+            "description": "参数不合法",
+            "schema": {
+              "$ref": "#/definitions/common.Resp"
+            }
+          },
+          "500": {
+            "description": "服务器内部错误",
+            "schema": {
+              "$ref": "#/definitions/common.Resp"
+            }
+          }
         }
+      }
+    },
+    "/article/{slug}": {
+      "get": {
+        "description": "根据slug获取文章详情",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["文章"],
+        "summary": "获取文章详情",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "文章slug",
+            "name": "slug",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "操作成功",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/common.Resp"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/model.Article"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "400": {
+            "description": "缺少必要参数",
+            "schema": {
+              "$ref": "#/definitions/common.Resp"
+            }
+          },
+          "404": {
+            "description": "未知的slug",
+            "schema": {
+              "$ref": "#/definitions/common.Resp"
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "description": "根据slug更新文章的标题、描述和内容",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["文章"],
+        "summary": "更新文章",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "文章的slug",
+            "name": "slug",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "文章的标题",
+            "name": "title",
+            "in": "formData",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "文章的描述",
+            "name": "desc",
+            "in": "formData",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "文章的内容",
+            "name": "content",
+            "in": "formData",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "更新成功",
+            "schema": {
+              "$ref": "#/definitions/common.Resp"
+            }
+          },
+          "400": {
+            "description": "缺失参数",
+            "schema": {
+              "$ref": "#/definitions/common.Resp"
+            }
+          },
+          "404": {
+            "description": "未知的文章",
+            "schema": {
+              "$ref": "#/definitions/common.Resp"
+            }
+          }
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "description": "添加一篇新的文章",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["文章"],
+        "summary": "添加文章",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "文章slug",
+            "name": "slug",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "文章标题",
+            "name": "title",
+            "in": "formData",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "文章描述",
+            "name": "desc",
+            "in": "formData",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "文章内容",
+            "name": "content",
+            "in": "formData",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "操作成功",
+            "schema": {
+              "$ref": "#/definitions/common.Resp"
+            }
+          },
+          "400": {
+            "description": "缺少必要参数",
+            "schema": {
+              "$ref": "#/definitions/common.Resp"
+            }
+          },
+          "409": {
+            "description": "slug已被其他文章使用",
+            "schema": {
+              "$ref": "#/definitions/common.Resp"
+            }
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "description": "根据slug删除文章",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["文章"],
+        "summary": "删除文章",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "文章的slug",
+            "name": "slug",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "删除成功",
+            "schema": {
+              "$ref": "#/definitions/common.Resp"
+            }
+          },
+          "400": {
+            "description": "缺少必要参数",
+            "schema": {
+              "$ref": "#/definitions/common.Resp"
+            }
+          },
+          "404": {
+            "description": "未知的文章",
+            "schema": {
+              "$ref": "#/definitions/common.Resp"
+            }
+          }
+        }
+      }
+    },
+    "/init": {
+      "post": {
+        "description": "使用给定的参数初始化站点",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["站点管理"],
+        "summary": "初始化站点",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "用户名",
+            "name": "username",
+            "in": "formData",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "昵称",
+            "name": "nickname",
+            "in": "formData",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "邮箱",
+            "name": "email",
+            "in": "formData",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "密码",
+            "name": "password",
+            "in": "formData",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "站点名称",
+            "name": "name",
+            "in": "formData",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "站点URL",
+            "name": "url",
+            "in": "formData",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "站点描述",
+            "name": "desc",
+            "in": "formData"
+          },
+          {
+            "type": "string",
+            "description": "站点图标(base64格式)",
+            "name": "icon",
+            "in": "formData"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "初始化成功",
+            "schema": {
+              "$ref": "#/definitions/common.Resp"
+            }
+          },
+          "400": {
+            "description": "无效的邮箱或URL",
+            "schema": {
+              "$ref": "#/definitions/common.Resp"
+            }
+          },
+          "403": {
+            "description": "此站点已初始化",
+            "schema": {
+              "$ref": "#/definitions/common.Resp"
+            }
+          }
+        }
+      }
+    },
+    "/site": {
+      "put": {
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "description": "更新站点的名称、URL、描述和图标",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["站点管理"],
+        "summary": "更新站点信息",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "站点名称",
+            "name": "name",
+            "in": "formData",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "站点URL",
+            "name": "url",
+            "in": "formData",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "站点描述",
+            "name": "desc",
+            "in": "formData",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "站点图标(base64格式)",
+            "name": "icon",
+            "in": "formData",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "操作成功, 部分主题可能需重新部署生效",
+            "schema": {
+              "$ref": "#/definitions/common.Resp"
+            }
+          },
+          "400": {
+            "description": "缺少参数",
+            "schema": {
+              "$ref": "#/definitions/common.Resp"
+            }
+          }
+        }
+      }
+    },
+    "/user/{username}": {
+      "put": {
+        "description": "管理员更新用户信息",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["站点管理"],
+        "summary": "更新用户信息",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "用户名",
+            "name": "username",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "昵称",
+            "name": "nickname",
+            "in": "formData",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "邮箱",
+            "name": "email",
+            "in": "formData",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "密码",
+            "name": "password",
+            "in": "formData",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/common.Resp"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/common.Resp"
+            }
+          }
+        }
+      }
     }
+  },
+  "definitions": {
+    "common.Resp": {
+      "type": "object",
+      "properties": {
+        "data": {},
+        "msg": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        }
+      }
+    },
+    "gorm.DeletedAt": {
+      "type": "object",
+      "properties": {
+        "time": {
+          "type": "string"
+        },
+        "valid": {
+          "description": "Valid is true if Time is not NULL",
+          "type": "boolean"
+        }
+      }
+    },
+    "handler.AdminLoginResp": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "handler.ArticlesListResp": {
+      "type": "object",
+      "properties": {
+        "articles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/model.Article"
+          }
+        },
+        "count": {
+          "type": "integer"
+        }
+      }
+    },
+    "model.Article": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "deleted_at": {
+          "$ref": "#/definitions/gorm.DeletedAt"
+        },
+        "desc": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "slug": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "model.Site": {
+      "type": "object",
+      "properties": {
+        "created_at": {
+          "type": "string"
+        },
+        "deleted_at": {
+          "$ref": "#/definitions/gorm.DeletedAt"
+        },
+        "desc": {
+          "type": "string"
+        },
+        "icon": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "ApiKeyAuth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
 }

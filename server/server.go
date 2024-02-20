@@ -60,7 +60,7 @@ func Start() {
 
 	// site
 	site := app.Group("/site")
-	
+
 	h.Site(site)
 
 	// notFound

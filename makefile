@@ -11,6 +11,11 @@ apidoc:
 	swag init -g server/server.go --parseDependency --parseInternal 
 	redocly build-docs docs/swagger.yaml -o apidoc/index.html
 
+fmt:
+	gofmt -w .
+	prettier -w ui
+	swag fmt
+
 dev:
 	go build -o bin/reblog-dev
 	./bin/reblog-dev

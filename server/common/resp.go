@@ -40,7 +40,7 @@ func RespServerError(c fiber.Ctx, errs ...error) error {
 	var msg string
 
 	for _, err := range errs {
-		msg += err.Error()	
+		msg += err.Error()
 	}
 
 	return RespFail(c, http.StatusInternalServerError, msg, nil)

@@ -38,7 +38,7 @@ func AdminLogin(router fiber.Router) {
 			return common.RespFail(c, http.StatusUnauthorized, "用户名或密码错误", nil)
 		}
 
-		return common.RespSuccess(c, "登录成功", AdminLoginResp {
+		return common.RespSuccess(c, "登录成功", AdminLoginResp{
 			Token: token,
 		})
 	})
