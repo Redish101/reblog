@@ -10,6 +10,7 @@
     "api": "swagger-typescript-api -p ../docs/swagger.json -o ./src/api -n api.ts"
   },
   "dependencies": {
+    "@types/node": "^20.11.19",
     "element-plus": "^2.5.6",
     "swagger-typescript-api": "^13.0.3",
     "unplugin-auto-import": "^0.17.5",

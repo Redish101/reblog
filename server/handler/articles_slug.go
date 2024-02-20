@@ -30,12 +30,12 @@ func ArticlesSlug(router fiber.Router) {
 
 		article, err := a.Where(a.Slug.Eq(slug)).First()
 
-		if err != nil {
-			return common.RespServerError(c, err)
-		}
-
 		if article == nil {
 			return common.RespFail(c, http.StatusNotFound, "未知的slug", nil)
+		}
+
+		if err != nil {
+			return common.RespServerError(c, err)
 		}
 
 		return common.RespSuccess(c, "操作成功", article)
