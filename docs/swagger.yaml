@@ -430,6 +430,46 @@ paths:
       summary: 更新站点信息
       tags:
       - 站点管理
+  /user/{username}:
+    put:
+      consumes:
+      - application/json
+      description: 管理员更新用户信息
+      parameters:
+      - description: 用户名
+        in: path
+        name: username
+        required: true
+        type: string
+      - description: 昵称
+        in: formData
+        name: nickname
+        required: true
+        type: string
+      - description: 邮箱
+        in: formData
+        name: email
+        required: true
+        type: string
+      - description: 密码
+        in: formData
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.Resp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/common.Resp'
+      summary: 更新用户信息
+      tags:
+      - 站点管理
 securityDefinitions:
   ApiKeyAuth:
     in: header
