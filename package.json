@@ -1,0 +1,10 @@
+{
+  "name": "reblog",
+  "private": "true",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Redish101 <i@redish101.top>",
+  "license": "GPL-3.0-only"
+}
