@@ -47,15 +47,21 @@ func Start() {
 	admin := app.Group("/admin")
 
 	h.AdminLogin(admin)
+	h.AdminSiteUpdate(admin)
 
-	// articles
-	articles := app.Group("/article")
+	// article
+	article := app.Group("/article")
 
-	h.ArticlesList(articles)
-	h.ArticlesSlug(articles)
-	h.ArticlesAdd(articles)
-	h.ArticlesDelete(articles)
-	h.ArticlesUpdate(articles)
+	h.ArticlesList(article)
+	h.ArticlesSlug(article)
+	h.ArticlesAdd(article)
+	h.ArticlesDelete(article)
+	h.ArticlesUpdate(article)
+
+	// site
+	site := app.Group("/site")
+	
+	h.Site(site)
 
 	// notFound
 	h.NotFound(app)

@@ -49,6 +49,25 @@ definitions:
       updated_at:
         type: string
     type: object
+  model.Site:
+    properties:
+      created_at:
+        type: string
+      deleted_at:
+        $ref: '#/definitions/gorm.DeletedAt'
+      desc:
+        type: string
+      icon:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      updated_at:
+        type: string
+      url:
+        type: string
+    type: object
 host: localhost:3000
 info:
   contact: {}
@@ -57,6 +76,26 @@ info:
   title: reblog api
   version: "1.0"
 paths:
+  /:
+    get:
+      consumes:
+      - application/json
+      description: 获取站点信息
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/common.Resp'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.Site'
+              type: object
+      summary: 获取站点信息
+      tags:
+      - 站点
   /admin/login:
     post:
       consumes:
@@ -347,6 +386,48 @@ paths:
           schema:
             $ref: '#/definitions/common.Resp'
       summary: 初始化站点
+      tags:
+      - 站点管理
+  /site:
+    put:
+      consumes:
+      - application/json
+      description: 更新站点的名称、URL、描述和图标
+      parameters:
+      - description: 站点名称
+        in: formData
+        name: name
+        required: true
+        type: string
+      - description: 站点URL
+        in: formData
+        name: url
+        required: true
+        type: string
+      - description: 站点描述
+        in: formData
+        name: desc
+        required: true
+        type: string
+      - description: 站点图标(base64格式)
+        in: formData
+        name: icon
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功, 部分主题可能需重新部署生效
+          schema:
+            $ref: '#/definitions/common.Resp'
+        "400":
+          description: 缺少参数
+          schema:
+            $ref: '#/definitions/common.Resp'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新站点信息
       tags:
       - 站点管理
 securityDefinitions:
