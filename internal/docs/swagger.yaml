@@ -1,0 +1,477 @@
+basePath: /
+definitions:
+  common.Resp:
+    properties:
+      data: {}
+      msg:
+        type: string
+      success:
+        type: boolean
+    type: object
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+  handler.AdminLoginResp:
+    properties:
+      token:
+        type: string
+    type: object
+  handler.ArticlesListResp:
+    properties:
+      articles:
+        items:
+          $ref: '#/definitions/model.Article'
+        type: array
+      count:
+        type: integer
+    type: object
+  model.Article:
+    properties:
+      content:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        $ref: '#/definitions/gorm.DeletedAt'
+      desc:
+        type: string
+      id:
+        type: integer
+      slug:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  model.Site:
+    properties:
+      created_at:
+        type: string
+      deleted_at:
+        $ref: '#/definitions/gorm.DeletedAt'
+      desc:
+        type: string
+      icon:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      updated_at:
+        type: string
+      url:
+        type: string
+    type: object
+host: localhost:3000
+info:
+  contact: {}
+  license:
+    name: GPL-V3
+  title: reblog api
+  version: "1.0"
+paths:
+  /admin/login:
+    post:
+      consumes:
+      - application/json
+      description: 管理员使用用户名和密码进行登录，若登录成功，返回token
+      parameters:
+      - description: 用户名或邮箱
+        in: formData
+        name: username
+        required: true
+        type: string
+      - description: 密码
+        in: formData
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 登录成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/common.Resp'
+            - properties:
+                data:
+                  $ref: '#/definitions/handler.AdminLoginResp'
+              type: object
+        "400":
+          description: 缺少必要参数
+          schema:
+            $ref: '#/definitions/common.Resp'
+        "401":
+          description: 用户名或密码错误
+          schema:
+            $ref: '#/definitions/common.Resp'
+      summary: 登录
+      tags:
+      - 站点管理
+  /article/{slug}:
+    delete:
+      consumes:
+      - application/json
+      description: 根据slug删除文章
+      parameters:
+      - description: 文章的slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 删除成功
+          schema:
+            $ref: '#/definitions/common.Resp'
+        "400":
+          description: 缺少必要参数
+          schema:
+            $ref: '#/definitions/common.Resp'
+        "404":
+          description: 未知的文章
+          schema:
+            $ref: '#/definitions/common.Resp'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除文章
+      tags:
+      - 文章
+    get:
+      consumes:
+      - application/json
+      description: 根据slug获取文章详情
+      parameters:
+      - description: 文章slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/common.Resp'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.Article'
+              type: object
+        "400":
+          description: 缺少必要参数
+          schema:
+            $ref: '#/definitions/common.Resp'
+        "404":
+          description: 未知的slug
+          schema:
+            $ref: '#/definitions/common.Resp'
+      summary: 获取文章详情
+      tags:
+      - 文章
+    post:
+      consumes:
+      - application/json
+      description: 添加一篇新的文章
+      parameters:
+      - description: 文章slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      - description: 文章标题
+        in: formData
+        name: title
+        required: true
+        type: string
+      - description: 文章描述
+        in: formData
+        name: desc
+        required: true
+        type: string
+      - description: 文章内容
+        in: formData
+        name: content
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            $ref: '#/definitions/common.Resp'
+        "400":
+          description: 缺少必要参数
+          schema:
+            $ref: '#/definitions/common.Resp'
+        "409":
+          description: slug已被其他文章使用
+          schema:
+            $ref: '#/definitions/common.Resp'
+      security:
+      - ApiKeyAuth: []
+      summary: 添加文章
+      tags:
+      - 文章
+    put:
+      consumes:
+      - application/json
+      description: 根据slug更新文章的标题、描述和内容
+      parameters:
+      - description: 文章的slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      - description: 文章的标题
+        in: formData
+        name: title
+        required: true
+        type: string
+      - description: 文章的描述
+        in: formData
+        name: desc
+        required: true
+        type: string
+      - description: 文章的内容
+        in: formData
+        name: content
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 更新成功
+          schema:
+            $ref: '#/definitions/common.Resp'
+        "400":
+          description: 缺失参数
+          schema:
+            $ref: '#/definitions/common.Resp'
+        "404":
+          description: 未知的文章
+          schema:
+            $ref: '#/definitions/common.Resp'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新文章
+      tags:
+      - 文章
+  /article/list:
+    get:
+      consumes:
+      - application/json
+      description: 分页获取文章列表
+      parameters:
+      - description: 页码, 默认为1
+        in: query
+        name: pageIndex
+        type: integer
+      - description: 每页数量, 默认为10
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功返回文章列表
+          schema:
+            allOf:
+            - $ref: '#/definitions/common.Resp'
+            - properties:
+                data:
+                  $ref: '#/definitions/handler.ArticlesListResp'
+              type: object
+        "400":
+          description: 参数不合法
+          schema:
+            $ref: '#/definitions/common.Resp'
+        "500":
+          description: 服务器内部错误
+          schema:
+            $ref: '#/definitions/common.Resp'
+      summary: 分页获取文章列表
+      tags:
+      - 文章
+  /init:
+    post:
+      consumes:
+      - application/json
+      description: 使用给定的参数初始化站点
+      parameters:
+      - description: 用户名
+        in: formData
+        name: username
+        required: true
+        type: string
+      - description: 昵称
+        in: formData
+        name: nickname
+        required: true
+        type: string
+      - description: 邮箱
+        in: formData
+        name: email
+        required: true
+        type: string
+      - description: 密码
+        in: formData
+        name: password
+        required: true
+        type: string
+      - description: 站点名称
+        in: formData
+        name: name
+        required: true
+        type: string
+      - description: 站点URL
+        in: formData
+        name: url
+        required: true
+        type: string
+      - description: 站点描述
+        in: formData
+        name: desc
+        type: string
+      - description: 站点图标(base64格式)
+        in: formData
+        name: icon
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 初始化成功
+          schema:
+            $ref: '#/definitions/common.Resp'
+        "400":
+          description: 无效的邮箱或URL
+          schema:
+            $ref: '#/definitions/common.Resp'
+        "403":
+          description: 此站点已初始化
+          schema:
+            $ref: '#/definitions/common.Resp'
+      summary: 初始化站点
+      tags:
+      - 站点管理
+  /site:
+    get:
+      consumes:
+      - application/json
+      description: 获取站点信息
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/common.Resp'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.Site'
+              type: object
+      summary: 获取站点信息
+      tags:
+      - 站点
+    put:
+      consumes:
+      - application/json
+      description: 更新站点的名称、URL、描述和图标
+      parameters:
+      - description: 站点名称
+        in: formData
+        name: name
+        required: true
+        type: string
+      - description: 站点URL
+        in: formData
+        name: url
+        required: true
+        type: string
+      - description: 站点描述
+        in: formData
+        name: desc
+        required: true
+        type: string
+      - description: 站点图标(base64格式)
+        in: formData
+        name: icon
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功, 部分主题可能需重新部署生效
+          schema:
+            $ref: '#/definitions/common.Resp'
+        "400":
+          description: 缺少参数
+          schema:
+            $ref: '#/definitions/common.Resp'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新站点信息
+      tags:
+      - 站点管理
+  /user/{username}:
+    put:
+      consumes:
+      - application/json
+      description: 管理员更新用户信息
+      parameters:
+      - description: 用户名
+        in: path
+        name: username
+        required: true
+        type: string
+      - description: 昵称
+        in: formData
+        name: nickname
+        required: true
+        type: string
+      - description: 邮箱
+        in: formData
+        name: email
+        required: true
+        type: string
+      - description: 密码
+        in: formData
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.Resp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/common.Resp'
+      summary: 更新用户信息
+      tags:
+      - 站点管理
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

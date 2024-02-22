@@ -1,4 +1,5 @@
 reblog.db
 bin
 apidoc
+document/_build
 .DS_STORE
