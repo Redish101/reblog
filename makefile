@@ -12,7 +12,7 @@ apidoc:
 	redocly build-docs internal/docs/swagger.yaml -o apidoc/index.html
 
 document: apidoc
-	make -C document html
+	$(MAKE) -C document html
 	mkdir -p document/_build/html/apidoc
 	cp apidoc/index.html document/_build/html/apidoc/index.html
 
@@ -21,6 +21,9 @@ fmt:
 	prettier -w ui
 	swag fmt
 
+ui:
+	$(MAKE) -C ui
+
 dev:
 	go build -o bin/reblog-dev
 	./bin/reblog-dev
@@ -28,4 +31,4 @@ dev:
 clean:
 	rm -rf bin/*
 
-.PHONY: clean apidoc document
+.PHONY: clean apidoc document ui
