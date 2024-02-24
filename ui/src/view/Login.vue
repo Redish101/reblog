@@ -43,9 +43,8 @@ const submit = async (form: RealForm) => {
 
   api.admin
     .loginCreate({ username: form.username, password: form.password })
-    .then((res) => res.json())
-    .then((data) => {
-      const token = data.data.token;
+    .then(res => {
+      const token = res.data.data.token;
       api.setSecurityData(token);
       localStorage.setItem("token", token);
       ElMessage.success("登录成功");
