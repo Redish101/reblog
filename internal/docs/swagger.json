@@ -1,4 +1,7 @@
 {
+    "produces": [
+        "application/json"
+    ],
     "swagger": "2.0",
     "info": {
         "title": "reblog api",

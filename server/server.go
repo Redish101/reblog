@@ -20,6 +20,7 @@ import (
 //	@License.name				GPL-V3
 //	@Host						localhost:3000
 //	@BasePath					/
+//	@Produce					json
 //	@SecurityDefinitions.apikey	ApiKeyAuth
 //	@In							header
 //	@Name						Authorization

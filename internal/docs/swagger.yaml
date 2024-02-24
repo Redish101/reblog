@@ -429,6 +429,8 @@ paths:
       summary: 更新用户信息
       tags:
       - 站点管理
+produces:
+- application/json
 securityDefinitions:
   ApiKeyAuth:
     in: header
