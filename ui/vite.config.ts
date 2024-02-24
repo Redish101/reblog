@@ -21,4 +21,7 @@ export default defineConfig({
       resolvers: [ElementPlusResolver()],
     }),
   ],
+  build: {
+    chunkSizeWarningLimit: 1000
+  }
 });
