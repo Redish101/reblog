@@ -18,9 +18,9 @@ import (
 //	@Success		200		{object}	common.Resp	"操作成功, 部分主题可能需重新部署生效"
 //	@Failure		400		{object}	common.Resp	"缺少参数"
 //	@Security		ApiKeyAuth
-//	@Router			/site [PUT]
+//	@Router			/admin/site [PUT]
 func AdminSiteUpdate(router fiber.Router) {
-	router.Put("/", func(c fiber.Ctx) error {
+	router.Put("/site", func(c fiber.Ctx) error {
 		s := query.Site
 
 		name := c.FormValue("name")

@@ -1,3 +1,4 @@
+import { checkAuth } from "@/utils/auth";
 import { createRouter, createWebHashHistory } from "vue-router";
 
 const routes = [
@@ -25,8 +26,8 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, _) => {
-  if (to.name != "login" && localStorage.getItem("token") == null) {
-    router.push({ name: "login" });
+  if (to.name != "login" && !(await checkAuth())) {
+    return { name: "login" };
   }
   document.title = `${to.meta["title"]} | reblog admin`;
 });

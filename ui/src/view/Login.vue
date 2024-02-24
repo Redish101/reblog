@@ -20,10 +20,6 @@ import { ElMessage } from "element-plus";
 import "element-plus/theme-chalk/el-message.css"; // 为什么要加一行如此突兀的css?因为element的自动导入不会导入message组件的css, WTF?
 import { reactive } from "vue";
 
-api.site.siteList().then(res => {
-  console.log(res)
-})
-
 interface RealForm {
   username: string;
   password: string;
@@ -43,12 +39,10 @@ const submit = async (form: RealForm) => {
 
   api.admin
     .loginCreate({ username: form.username, password: form.password })
-    .then(res => {
+    .then(async (res) => {
       const token = res.data.data.token;
-      api.setSecurityData(token);
       localStorage.setItem("token", token);
-      ElMessage.success("登录成功");
-      router.push("/");
+      router.push({ name: "home" });
     })
     .catch((err) => {
       if (err.status == 401) {

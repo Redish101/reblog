@@ -56,6 +56,7 @@ func Start() {
 	admin := app.Group("/admin")
 
 	h.AdminLogin(admin)
+	h.AdminTokenState(admin)
 	h.AdminSiteUpdate(admin)
 
 	// article
@@ -86,7 +87,7 @@ func dashboard(app *fiber.App, uifs fs.FS) {
 	// fiber无法直接获取到index.html并返回, WTF?
 	app.Get("/dashboard/", func(c fiber.Ctx) error {
 		indexFile, err := uifs.Open("dist/index.html")
-		
+
 		if err != nil {
 			panic(err)
 		}

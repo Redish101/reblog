@@ -7,7 +7,7 @@ import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/dashboard',
+  base: "/dashboard",
   resolve: {
     alias: {
       "@": resolve(__dirname, "src"),
@@ -23,6 +23,6 @@ export default defineConfig({
     }),
   ],
   build: {
-    chunkSizeWarningLimit: 1000
-  }
+    chunkSizeWarningLimit: 1000,
+  },
 });

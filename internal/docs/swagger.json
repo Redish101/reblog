@@ -71,6 +71,98 @@
                 }
             }
         },
+        "/admin/site": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "更新站点的名称、URL、描述和图标",
+                "tags": [
+                    "站点管理"
+                ],
+                "summary": "更新站点信息",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "站点名称",
+                        "name": "name",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "站点URL",
+                        "name": "url",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "站点描述",
+                        "name": "desc",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "站点图标(base64格式)",
+                        "name": "icon",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "操作成功, 部分主题可能需重新部署生效",
+                        "schema": {
+                            "$ref": "#/definitions/common.Resp"
+                        }
+                    },
+                    "400": {
+                        "description": "缺少参数",
+                        "schema": {
+                            "$ref": "#/definitions/common.Resp"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/tokenState": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "获取当前token的状态",
+                "tags": [
+                    "站点管理"
+                ],
+                "summary": "获取token状态",
+                "responses": {
+                    "200": {
+                        "description": "若值为true则token有效",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/common.Resp"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/article/list": {
             "get": {
                 "description": "分页获取文章列表",
@@ -450,62 +542,6 @@
                                     }
                                 }
                             ]
-                        }
-                    }
-                }
-            },
-            "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "更新站点的名称、URL、描述和图标",
-                "tags": [
-                    "站点管理"
-                ],
-                "summary": "更新站点信息",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "站点名称",
-                        "name": "name",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "站点URL",
-                        "name": "url",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "站点描述",
-                        "name": "desc",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "站点图标(base64格式)",
-                        "name": "icon",
-                        "in": "formData",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "操作成功, 部分主题可能需重新部署生效",
-                        "schema": {
-                            "$ref": "#/definitions/common.Resp"
-                        }
-                    },
-                    "400": {
-                        "description": "缺少参数",
-                        "schema": {
-                            "$ref": "#/definitions/common.Resp"
                         }
                     }
                 }
