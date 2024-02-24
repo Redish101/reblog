@@ -1,4 +1,4 @@
-all: clean backend
+all: clean ui backend
 
 backend:
 	go build -o bin/reblog -ldflags "-w -s" -gcflags "-N -l"

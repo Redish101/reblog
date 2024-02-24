@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 	"reblog/internal/model"
 	"reblog/internal/query"
@@ -37,8 +36,6 @@ func ArticlesAdd(router fiber.Router) {
 		}
 
 		existingArticle, _ := a.Where(a.Slug.Eq(slug)).First()
-
-		fmt.Println(existingArticle)
 
 		if existingArticle != nil && !existingArticle.DeletedAt.Valid {
 			return common.RespFail(c, http.StatusConflict, "当前slug已被其他文章使用", nil)

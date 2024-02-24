@@ -1,5 +1,5 @@
 // reblog
-// Copyright by Redish101.
+// Copyright by Redish101
 // GPL-V3 Lincesed
 
 package main
