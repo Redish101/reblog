@@ -18,17 +18,20 @@ reblog是一个使用go编写的轻量化的动态博客框架，本文将介绍
 执行如下脚本:
 
 .. code-block:: bash
+
     curl https://github.com/redish101/reblog/raw/main/scripts/quick_start.sh | sh
 
 此时docker-compose会自动拉取镜像后运行，之后可通过以下命令运行reblog:
 
 .. code-block:: bash
+
     cd ~/reblog
     docker-compose up -d
 
 若需更新，可执行:
 
 .. code-block:: bash
+
     cd ~/reblog
     docker-compose update
     docker-compose up -d
