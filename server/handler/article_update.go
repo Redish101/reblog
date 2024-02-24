@@ -21,7 +21,7 @@ import (
 //	@Failure		404		{object}	common.Resp	"未知的文章"
 //	@Security		ApiKeyAuth
 //	@Router			/article/{slug} [put]
-func ArticlesUpdate(router fiber.Router) {
+func ArticleUpdate(router fiber.Router) {
 	router.Put("/:slug", func(c fiber.Ctx) error {
 		a := query.Article
 

@@ -21,7 +21,7 @@ import (
 //	@Failure		409		{object}	common.Resp	"slug已被其他文章使用"
 //	@Security		ApiKeyAuth
 //	@Router			/article/{slug} [post]
-func ArticlesAdd(router fiber.Router) {
+func ArticleAdd(router fiber.Router) {
 	router.Post("/:slug", func(c fiber.Ctx) error {
 		a := query.Article
 
@@ -33,6 +33,10 @@ func ArticlesAdd(router fiber.Router) {
 
 		if common.CheckEmpty(title, slug, desc, content) {
 			return common.RespMissingParameters(c)
+		}
+
+		if slug == "list" {
+			return common.RespFail(c, http.StatusForbidden, "不能将list作为slug", nil)
 		}
 
 		existingArticle, _ := a.Where(a.Slug.Eq(slug)).First()

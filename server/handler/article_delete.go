@@ -17,7 +17,7 @@ import (
 //	@Failure		404		{object}	common.Resp	"未知的文章"
 //	@Security		ApiKeyAuth
 //	@Router			/article/{slug} [delete]
-func ArticlesDelete(router fiber.Router) {
+func ArticleDelete(router fiber.Router) {
 	router.Delete("/:slug", func(c fiber.Ctx) error {
 		a := query.Article
 

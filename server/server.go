@@ -15,14 +15,14 @@ import (
 	_ "gorm.io/gorm"
 )
 
-// @Title						reblog api
-// @Version					1.0
-// @License.name				GPL-V3
-// @Host						localhost:3000
-// @BasePath					/
-// @SecurityDefinitions.apikey	ApiKeyAuth
-// @In							header
-// @Name						Authorization
+//	@Title						reblog api
+//	@Version					1.0
+//	@License.name				GPL-V3
+//	@Host						localhost:3000
+//	@BasePath					/
+//	@SecurityDefinitions.apikey	ApiKeyAuth
+//	@In							header
+//	@Name						Authorization
 func Start() {
 	auth.SetKey()
 
@@ -60,11 +60,11 @@ func Start() {
 	// article
 	article := app.Group("/article")
 
-	h.ArticlesList(article)
-	h.ArticlesSlug(article)
-	h.ArticlesAdd(article)
-	h.ArticlesDelete(article)
-	h.ArticlesUpdate(article)
+	h.ArticleList(article)
+	h.ArticleSlug(article)
+	h.ArticleAdd(article)
+	h.ArticleDelete(article)
+	h.ArticleUpdate(article)
 
 	// site
 	site := app.Group("/site")
