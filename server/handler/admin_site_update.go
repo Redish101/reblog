@@ -11,8 +11,6 @@ import (
 //	@Summary		更新站点信息
 //	@Description	更新站点的名称、URL、描述和图标
 //	@Tags			站点管理
-//	@Accept			json
-//	@Produce		json
 //	@Param			name	formData	string		true	"站点名称"
 //	@Param			url		formData	string		true	"站点URL"
 //	@Param			desc	formData	string		true	"站点描述"

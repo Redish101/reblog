@@ -11,8 +11,6 @@ import (
 //	@Summary		删除文章
 //	@Description	根据slug删除文章
 //	@Tags			文章
-//	@Accept			json
-//	@Produce		json
 //	@Param			slug	path		string		true	"文章的slug"
 //	@Success		200		{object}	common.Resp	"删除成功"
 //	@Failure		400		{object}	common.Resp	"缺少必要参数"

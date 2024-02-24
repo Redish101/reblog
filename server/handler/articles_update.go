@@ -12,8 +12,6 @@ import (
 //	@Summary		更新文章
 //	@Description	根据slug更新文章的标题、描述和内容
 //	@Tags			文章
-//	@Accept			json
-//	@Produce		json
 //	@Param			slug	path		string		true	"文章的slug"
 //	@Param			title	formData	string		true	"文章的标题"
 //	@Param			desc	formData	string		true	"文章的描述"

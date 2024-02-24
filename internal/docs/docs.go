@@ -21,12 +21,6 @@ const docTemplate = `{
         "/admin/login": {
             "post": {
                 "description": "管理员使用用户名和密码进行登录，若登录成功，返回token",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
                 "tags": [
                     "站点管理"
                 ],
@@ -84,12 +78,6 @@ const docTemplate = `{
         "/article/list": {
             "get": {
                 "description": "分页获取文章列表",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
                 "tags": [
                     "文章"
                 ],
@@ -145,12 +133,6 @@ const docTemplate = `{
         "/article/{slug}": {
             "get": {
                 "description": "根据slug获取文章详情",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
                 "tags": [
                     "文章"
                 ],
@@ -204,12 +186,6 @@ const docTemplate = `{
                     }
                 ],
                 "description": "根据slug更新文章的标题、描述和内容",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
                 "tags": [
                     "文章"
                 ],
@@ -272,12 +248,6 @@ const docTemplate = `{
                     }
                 ],
                 "description": "添加一篇新的文章",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
                 "tags": [
                     "文章"
                 ],
@@ -340,12 +310,6 @@ const docTemplate = `{
                     }
                 ],
                 "description": "根据slug删除文章",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
                 "tags": [
                     "文章"
                 ],
@@ -384,12 +348,6 @@ const docTemplate = `{
         "/init": {
             "post": {
                 "description": "使用给定的参数初始化站点",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
                 "tags": [
                     "站点管理"
                 ],
@@ -475,12 +433,6 @@ const docTemplate = `{
         "/site": {
             "get": {
                 "description": "获取站点信息",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
                 "tags": [
                     "站点"
                 ],
@@ -513,12 +465,6 @@ const docTemplate = `{
                     }
                 ],
                 "description": "更新站点的名称、URL、描述和图标",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
                 "tags": [
                     "站点管理"
                 ],
@@ -572,12 +518,6 @@ const docTemplate = `{
         "/user/{username}": {
             "put": {
                 "description": "管理员更新用户信息",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
                 "tags": [
                     "站点管理"
                 ],

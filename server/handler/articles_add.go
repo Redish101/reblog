@@ -13,8 +13,6 @@ import (
 //	@Summary		添加文章
 //	@Description	添加一篇新的文章
 //	@Tags			文章
-//	@Accept			json
-//	@Produce		json
 //	@Param			slug	path		string		true	"文章slug"
 //	@Param			title	formData	string		true	"文章标题"
 //	@Param			desc	formData	string		true	"文章描述"

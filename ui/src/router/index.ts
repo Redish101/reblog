@@ -1,23 +1,34 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from "vue-router";
 
 const routes = [
-    {
-        path: '/',
-        name: 'a',
-        component: () => import("@/view/a.vue"),
-        meta: {
-            title: 'A'
-        }
-    }
-]
+  {
+    path: "/",
+    name: "home",
+    component: () => import("@/view/Home.vue"),
+    meta: {
+      title: "首页",
+    },
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: () => import("@/view/Login.vue"),
+    meta: {
+      title: "登录",
+    },
+  },
+];
 
 const router = createRouter({
-    history: createWebHashHistory(),
-    routes
-})
+  history: createWebHashHistory(),
+  routes,
+});
 
 router.beforeEach(async (to, _) => {
-    document.title = `${to.meta["title"]} | reblog admin`
-})
+  if (to.name != "login" && localStorage.getItem("token") == null) {
+    router.push({ name: "login" });
+  }
+  document.title = `${to.meta["title"]} | reblog admin`;
+});
 
 export default router;

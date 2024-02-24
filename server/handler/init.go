@@ -20,8 +20,6 @@ func isInited() bool {
 //	@Summary		初始化站点
 //	@Description	使用给定的参数初始化站点
 //	@Tags			站点管理
-//	@Accept			json
-//	@Produce		json
 //	@Param			username	formData	string		true	"用户名"
 //	@Param			nickname	formData	string		true	"昵称"
 //	@Param			email		formData	string		true	"邮箱"

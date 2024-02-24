@@ -10,8 +10,6 @@ import (
 //	@Summary		获取站点信息
 //	@Description	获取站点信息
 //	@Tags			站点
-//	@Accept			json
-//	@Produce		json
 //	@Success		200	{object}	common.Resp{data=model.Site}
 //	@Router			/site [get]
 func Site(router fiber.Router) {

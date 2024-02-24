@@ -19,8 +19,6 @@ type ArticlesListResp struct {
 //	@Summary		分页获取文章列表
 //	@Description	分页获取文章列表
 //	@Tags			文章
-//	@Accept			json
-//	@Produce		json
 //	@Param			pageIndex	query		int									false	"页码, 默认为1"
 //	@Param			pageSize	query		int									false	"每页数量, 默认为10"
 //	@Success		200			{object}	common.Resp{data=ArticlesListResp}	"成功返回文章列表"

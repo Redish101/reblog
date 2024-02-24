@@ -7,11 +7,13 @@
     "dev": "vite",
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
-    "api": "swagger-typescript-api -p ../docs/swagger.json -o ./src/api -n api.ts"
+    "api": "swagger-typescript-api -p ../internal/docs/swagger.json -o ./src/api -n api.ts"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
     "@types/node": "^20.11.19",
     "element-plus": "^2.5.6",
+    "pinia": "^2.1.7",
     "swagger-typescript-api": "^13.0.3",
     "unplugin-auto-import": "^0.17.5",
     "unplugin-vue-components": "^0.26.0",

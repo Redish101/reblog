@@ -310,28 +310,6 @@ export class HttpClient<SecurityDataType = unknown> {
 export class Api<
   SecurityDataType extends unknown,
 > extends HttpClient<SecurityDataType> {
-  /**
-   * @description 获取站点信息
-   *
-   * @tags 站点
-   * @name GetRoot
-   * @summary 获取站点信息
-   * @request GET:/
-   */
-  getRoot = (params: RequestParams = {}) =>
-    this.request<
-      CommonResp & {
-        data?: ModelSite;
-      },
-      any
-    >({
-      path: `/`,
-      method: "GET",
-      type: ContentType.Json,
-      format: "json",
-      ...params,
-    });
-
   admin = {
     /**
      * @description 管理员使用用户名和密码进行登录，若登录成功，返回token
@@ -359,8 +337,7 @@ export class Api<
         path: `/admin/login`,
         method: "POST",
         body: data,
-        type: ContentType.Json,
-        format: "json",
+        type: ContentType.UrlEncoded,
         ...params,
       }),
   };
@@ -391,8 +368,6 @@ export class Api<
         path: `/article/list`,
         method: "GET",
         query: query,
-        type: ContentType.Json,
-        format: "json",
         ...params,
       }),
 
@@ -413,8 +388,6 @@ export class Api<
       >({
         path: `/article/${slug}`,
         method: "GET",
-        type: ContentType.Json,
-        format: "json",
         ...params,
       }),
 
@@ -445,7 +418,6 @@ export class Api<
         body: data,
         secure: true,
         type: ContentType.FormData,
-        format: "json",
         ...params,
       }),
 
@@ -476,7 +448,6 @@ export class Api<
         body: data,
         secure: true,
         type: ContentType.FormData,
-        format: "json",
         ...params,
       }),
 
@@ -494,8 +465,6 @@ export class Api<
         path: `/article/${slug}`,
         method: "DELETE",
         secure: true,
-        type: ContentType.Json,
-        format: "json",
         ...params,
       }),
   };
@@ -533,12 +502,31 @@ export class Api<
         path: `/init`,
         method: "POST",
         body: data,
-        type: ContentType.Json,
-        format: "json",
+        type: ContentType.UrlEncoded,
         ...params,
       }),
   };
   site = {
+    /**
+     * @description 获取站点信息
+     *
+     * @tags 站点
+     * @name SiteList
+     * @summary 获取站点信息
+     * @request GET:/site
+     */
+    siteList: (params: RequestParams = {}) =>
+      this.request<
+        CommonResp & {
+          data?: ModelSite;
+        },
+        any
+      >({
+        path: `/site`,
+        method: "GET",
+        ...params,
+      }),
+
     /**
      * @description 更新站点的名称、URL、描述和图标
      *
@@ -566,8 +554,7 @@ export class Api<
         method: "PUT",
         body: data,
         secure: true,
-        type: ContentType.Json,
-        format: "json",
+        type: ContentType.UrlEncoded,
         ...params,
       }),
   };
@@ -597,7 +584,6 @@ export class Api<
         method: "PUT",
         body: data,
         type: ContentType.FormData,
-        format: "json",
         ...params,
       }),
   };

@@ -1,9 +1,16 @@
-<template></template>
+<template>
+  <Layout>
+    <router-view />
+  </Layout>
+</template>
 
 <script lang="ts" setup>
-import api from "@/api/index";
-
-api.article.articleDetail("test1").then((res) => {
-  console.log(res.data);
-});
+import Layout from "./component/Layout.vue";
 </script>
+
+<style>
+body {
+  margin: 0;
+  padding: 0;
+}
+</style>

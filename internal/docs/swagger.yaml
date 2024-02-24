@@ -78,8 +78,6 @@ info:
 paths:
   /admin/login:
     post:
-      consumes:
-      - application/json
       description: 管理员使用用户名和密码进行登录，若登录成功，返回token
       parameters:
       - description: 用户名或邮箱
@@ -92,8 +90,6 @@ paths:
         name: password
         required: true
         type: string
-      produces:
-      - application/json
       responses:
         "200":
           description: 登录成功
@@ -117,8 +113,6 @@ paths:
       - 站点管理
   /article/{slug}:
     delete:
-      consumes:
-      - application/json
       description: 根据slug删除文章
       parameters:
       - description: 文章的slug
@@ -126,8 +120,6 @@ paths:
         name: slug
         required: true
         type: string
-      produces:
-      - application/json
       responses:
         "200":
           description: 删除成功
@@ -147,8 +139,6 @@ paths:
       tags:
       - 文章
     get:
-      consumes:
-      - application/json
       description: 根据slug获取文章详情
       parameters:
       - description: 文章slug
@@ -156,8 +146,6 @@ paths:
         name: slug
         required: true
         type: string
-      produces:
-      - application/json
       responses:
         "200":
           description: 操作成功
@@ -180,8 +168,6 @@ paths:
       tags:
       - 文章
     post:
-      consumes:
-      - application/json
       description: 添加一篇新的文章
       parameters:
       - description: 文章slug
@@ -204,8 +190,6 @@ paths:
         name: content
         required: true
         type: string
-      produces:
-      - application/json
       responses:
         "200":
           description: 操作成功
@@ -225,8 +209,6 @@ paths:
       tags:
       - 文章
     put:
-      consumes:
-      - application/json
       description: 根据slug更新文章的标题、描述和内容
       parameters:
       - description: 文章的slug
@@ -249,8 +231,6 @@ paths:
         name: content
         required: true
         type: string
-      produces:
-      - application/json
       responses:
         "200":
           description: 更新成功
@@ -271,8 +251,6 @@ paths:
       - 文章
   /article/list:
     get:
-      consumes:
-      - application/json
       description: 分页获取文章列表
       parameters:
       - description: 页码, 默认为1
@@ -283,8 +261,6 @@ paths:
         in: query
         name: pageSize
         type: integer
-      produces:
-      - application/json
       responses:
         "200":
           description: 成功返回文章列表
@@ -308,8 +284,6 @@ paths:
       - 文章
   /init:
     post:
-      consumes:
-      - application/json
       description: 使用给定的参数初始化站点
       parameters:
       - description: 用户名
@@ -350,8 +324,6 @@ paths:
         in: formData
         name: icon
         type: string
-      produces:
-      - application/json
       responses:
         "200":
           description: 初始化成功
@@ -370,11 +342,7 @@ paths:
       - 站点管理
   /site:
     get:
-      consumes:
-      - application/json
       description: 获取站点信息
-      produces:
-      - application/json
       responses:
         "200":
           description: OK
@@ -389,8 +357,6 @@ paths:
       tags:
       - 站点
     put:
-      consumes:
-      - application/json
       description: 更新站点的名称、URL、描述和图标
       parameters:
       - description: 站点名称
@@ -413,8 +379,6 @@ paths:
         name: icon
         required: true
         type: string
-      produces:
-      - application/json
       responses:
         "200":
           description: 操作成功, 部分主题可能需重新部署生效
@@ -431,8 +395,6 @@ paths:
       - 站点管理
   /user/{username}:
     put:
-      consumes:
-      - application/json
       description: 管理员更新用户信息
       parameters:
       - description: 用户名
@@ -455,8 +417,6 @@ paths:
         name: password
         required: true
         type: string
-      produces:
-      - application/json
       responses:
         "200":
           description: OK

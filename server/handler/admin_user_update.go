@@ -11,8 +11,6 @@ import (
 //	@Summary		更新用户信息
 //	@Description	管理员更新用户信息
 //	@Tags			站点管理
-//	@Accept			json
-//	@Produce		json
 //	@Param			username	path		string	true	"用户名"
 //	@Param			nickname	formData	string	true	"昵称"
 //	@Param			email		formData	string	true	"邮箱"
