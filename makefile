@@ -1,5 +1,8 @@
 all: clean ui backend
 
+install-dev:
+	$(MAKE) -C ui install-dev
+
 backend:
 	go build -o bin/reblog -ldflags "-w -s" -gcflags "-N -l"
 

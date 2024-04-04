@@ -1,29 +1,28 @@
 {
-  "name": "retalk-admin",
+  "name": "ui",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc && vite build",
-    "preview": "vite preview",
-    "api": "swagger-typescript-api -p ../internal/docs/swagger.json -o ./src/api -n api.ts"
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "@element-plus/icons-vue": "^2.3.1",
-    "@types/node": "^20.11.19",
-    "element-plus": "^2.5.6",
-    "pinia": "^2.1.7",
-    "swagger-typescript-api": "^13.0.3",
-    "unplugin-auto-import": "^0.17.5",
-    "unplugin-vue-components": "^0.26.0",
-    "vue": "^3.4.15",
-    "vue-router": "^4.2.5"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^5.0.3",
+    "@types/react": "^18.2.66",
+    "@types/react-dom": "^18.2.22",
+    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "@typescript-eslint/parser": "^7.2.0",
+    "@vitejs/plugin-react-swc": "^3.5.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.6",
     "typescript": "^5.2.2",
-    "vite": "^5.1.0",
-    "vue-tsc": "^1.8.27"
+    "vite": "^5.2.0"
   }
 }
