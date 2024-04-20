@@ -3,6 +3,7 @@ package server
 import (
 	"io/fs"
 	"reblog/internal/auth"
+	"reblog/internal/config"
 	"reblog/internal/db"
 	"reblog/internal/query"
 	"reblog/internal/ui"
@@ -25,6 +26,8 @@ import (
 //	@In							header
 //	@Name						Authorization
 func Start() {
+	config.InitConfig()
+
 	auth.SetKey()
 
 	query.Use(db.DB())
