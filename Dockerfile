@@ -13,7 +13,6 @@ fi
 RUN apk update --no-cache && \
     apk add --no-cache make nodejs npm gcc musl-dev
 
-
 RUN if [ "$CNMIRROR" = "true" ]; then \
     npm config set registry https://registry.npmmirror.com/; \
 fi

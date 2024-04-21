@@ -20,7 +20,7 @@ func InitConfig() {
 	DEV = GetEnv("DEV") == "true"
 
 	if DEV {
-		log.Default().Println("以调试模式运行")
+		log.Println("以调试模式运行")
 		DB_TYPE = "sqlite3"
 	} else {
 		DB_TYPE = GetEnv("DB_TYPE")

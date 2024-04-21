@@ -2,6 +2,7 @@ package server
 
 import (
 	"io/fs"
+	"log"
 	"reblog/internal/auth"
 	"reblog/internal/config"
 	"reblog/internal/db"
@@ -79,7 +80,7 @@ func Start() {
 	// notFound
 	h.NotFound(app)
 
-	app.Listen(":3000")
+	log.Fatalln(app.Listen(":3000"))
 }
 
 func dashboard(app *fiber.App, uifs fs.FS) {
