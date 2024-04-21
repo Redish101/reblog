@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  reblog:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - REBLOG_DB_TYPE=mysql
+      - REBLOG_DB_DSN=user:password@tcp(mysql:3306)/reblog?charset=utf8mb4&parseTime=True&loc=Local
+  
