@@ -7,7 +7,7 @@ docker-install-dev:
 	$(MAKE) -C ui docker-install-dev
 
 docker-build: clean backend
-	$(MAKE) -C ui docker-build
+	$(MAKE) -C ui docker-all
 
 backend:
 	go build -o bin/reblog -ldflags "-w -s" -gcflags "-N -l"
