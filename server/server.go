@@ -72,6 +72,10 @@ func Start() {
 	h.ArticleDelete(article)
 	h.ArticleUpdate(article)
 
+	// rss
+
+	h.Rss(app)
+
 	// site
 	site := app.Group("/site")
 

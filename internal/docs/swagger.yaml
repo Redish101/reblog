@@ -396,6 +396,21 @@ paths:
       summary: 初始化站点
       tags:
       - 站点管理
+  /rss:
+    get:
+      description: 获取包含所有文章的RSS
+      produces:
+      - text/xml
+      responses:
+        "200":
+          description: RSS Feed
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/common.Resp'
+      summary: 获取Rss
+      tags:
+      - Rss
   /site:
     get:
       description: 获取站点信息

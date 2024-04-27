@@ -525,6 +525,29 @@ const docTemplate = `{
                 }
             }
         },
+        "/rss": {
+            "get": {
+                "description": "获取包含所有文章的RSS",
+                "produces": [
+                    "text/xml"
+                ],
+                "tags": [
+                    "Rss"
+                ],
+                "summary": "获取Rss",
+                "responses": {
+                    "200": {
+                        "description": "RSS Feed"
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/common.Resp"
+                        }
+                    }
+                }
+            }
+        },
         "/site": {
             "get": {
                 "description": "获取站点信息",
