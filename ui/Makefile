@@ -7,3 +7,10 @@ clean:
 
 install-dev:
 	pnpm install
+
+docker-install-dev:
+	npm install
+
+docker-all:
+	npm run build
+	

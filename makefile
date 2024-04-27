@@ -3,6 +3,12 @@ all: clean ui backend
 install-dev:
 	$(MAKE) -C ui install-dev
 
+docker-install-dev:
+	$(MAKE) -C ui docker-install-dev
+
+docker-build: clean backend
+	$(MAKE) -C ui docker-build
+
 backend:
 	go build -o bin/reblog -ldflags "-w -s" -gcflags "-N -l"
 
