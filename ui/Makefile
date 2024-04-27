@@ -4,13 +4,3 @@ all:
 
 clean:
 	rm -rf dist
-
-install-dev:
-	pnpm install
-
-docker-install-dev:
-	npm install
-
-docker-all:
-	npm run build
-	cp -r dist ../internal/ui
