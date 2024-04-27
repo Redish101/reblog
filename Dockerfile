@@ -23,7 +23,7 @@ RUN if [ "$CNMIRROR" = "true" ]; then go env -w GOPROXY=https://goproxy.cn,direc
 # Fuck CGO
 RUN go env -w CGO_ENABLED=0
 
-RUN make dokcer-install-dev
+RUN make docker-install-dev
 
 RUN make docker-build
 
