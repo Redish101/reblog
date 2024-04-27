@@ -13,4 +13,4 @@ docker-install-dev:
 
 docker-all:
 	npm run build
-	
+	cp -r dist ../internal/ui
