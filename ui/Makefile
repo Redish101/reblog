@@ -4,3 +4,6 @@ all:
 
 clean:
 	rm -rf dist
+
+install-dev:
+	pnpm install
