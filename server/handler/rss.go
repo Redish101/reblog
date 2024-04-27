@@ -31,6 +31,8 @@ func Rss(router fiber.Router) {
 			return common.RespServerError(c, err)
 		}
 
-		return c.XML(rssString)
+		c.Set("Content-Type", "application/xml")
+
+		return c.SendString(rssString)
 	})
 }
