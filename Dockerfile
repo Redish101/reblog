@@ -17,6 +17,8 @@ RUN if [ "$CNMIRROR" = "true" ]; then \
     npm config set registry https://registry.npmmirror.com/; \
 fi
 
+RUN npm install -g pnpm
+
 RUN if [ "$CNMIRROR" = "true" ]; then go env -w GOPROXY=https://goproxy.cn,direct; fi
 
 # Fuck CGO
