@@ -31,7 +31,7 @@ func GenerateRSS(articles []*model.Article) (string, error) {
 		})
 	}
 
-	rssString, err := feed.ToRss()
+	rssString, err := feed.ToAtom()
 
 	if err != nil {
 		return "", err

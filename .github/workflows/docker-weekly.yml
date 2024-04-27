@@ -3,6 +3,8 @@ name: Docker Weekly
 on:
   schedule:
     - cron: '0 12 * * 6' # Docker每周构建
+  workflow_dispatch:
+
 
 jobs:
   build-and-push:
