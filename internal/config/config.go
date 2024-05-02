@@ -13,6 +13,7 @@ const configFile = "retalk.yml"
 
 type ServerConfig struct {
 	Port int `yaml:"port"`
+	Prefork bool `yaml:"prefork"`
 }
 
 type DBConfig struct {
@@ -86,6 +87,7 @@ func DefuaulConfig() *ConfigSchema {
 		Dev: false,
 		Server: ServerConfig{
 			Port: 3000,
+			Prefork: true,
 		},
 		DB: DBConfig{
 			Type:     "mysql",
