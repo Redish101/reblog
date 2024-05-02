@@ -1,6 +1,7 @@
 package db
 
 import (
+	"fmt"
 	"reblog/internal/config"
 	"reblog/internal/model"
 
@@ -14,19 +15,24 @@ import (
 var dbInterface *gorm.DB
 
 func LoadDB() {
+	config := config.Config().DB
+
 	var db *gorm.DB
 	var err error
 
-	switch config.DB_TYPE {
+	switch config.Type {
 	case "sqlite3":
-		db, err = gorm.Open(sqlite.Open("reblog.db"), &gorm.Config{})
+		dsn := config.Name
+		db, err = gorm.Open(sqlite.Open(dsn), &gorm.Config{})
 	case "mysql":
-		db, err = gorm.Open(mysql.Open(config.DB_DSN), &gorm.Config{})
+		dsn := fmt.Sprint(config.User, ":", config.Password, "@tcp(", config.Host, ":", config.Port, ")/", config.Name, "?charset=utf8mb4&parseTime=True&loc=Local")
+		db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	// case "mongodb":
 	// 	db, err = gorm.Open(mongodb.Open(config.DB_URI), &gorm.Config{})
 	// Q: 为什么没有MongoDB? A: 因为MongoDB无法进行自动迁移!!!!!!!!!!
 	case "postgres":
-		db, err = gorm.Open(postgres.Open(config.DB_DSN), &gorm.Config{})
+		dsn := fmt.Sprint("host=", config.Host, " port=", config.Port, " user=", config.User, " password=", config.Password, " dbname=", config.Name, " sslmode=disable")
+		db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	default:
 		panic("不支持的数据库类型")
 	}

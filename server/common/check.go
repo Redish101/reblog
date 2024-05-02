@@ -1,6 +1,6 @@
 package common
 
-func CheckEmpty(values ...string) bool {
+func IsEmpty(values ...string) bool {
 	for _, value := range values {
 		if value == "" {
 			return true

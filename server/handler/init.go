@@ -17,21 +17,21 @@ func isInited() bool {
 	return site != nil
 }
 
-//	@Summary		初始化站点
-//	@Description	使用给定的参数初始化站点
-//	@Tags			站点管理
-//	@Param			username	formData	string		true	"用户名"
-//	@Param			nickname	formData	string		true	"昵称"
-//	@Param			email		formData	string		true	"邮箱"
-//	@Param			password	formData	string		true	"密码"
-//	@Param			name		formData	string		true	"站点名称"
-//	@Param			url			formData	string		true	"站点URL"
-//	@Param			desc		formData	string		false	"站点描述"
-//	@Param			icon		formData	string		false	"站点图标(base64格式)"
-//	@Success		200			{object}	common.Resp	"初始化成功"
-//	@Failure		400			{object}	common.Resp	"无效的邮箱或URL"
-//	@Failure		403			{object}	common.Resp	"此站点已初始化"
-//	@Router			/init [post]
+// @Summary		初始化站点
+// @Description	使用给定的参数初始化站点
+// @Tags			站点管理
+// @Param			username	formData	string		true	"用户名"
+// @Param			nickname	formData	string		true	"昵称"
+// @Param			email		formData	string		true	"邮箱"
+// @Param			password	formData	string		true	"密码"
+// @Param			name		formData	string		true	"站点名称"
+// @Param			url			formData	string		true	"站点URL"
+// @Param			desc		formData	string		false	"站点描述"
+// @Param			icon		formData	string		false	"站点图标(base64格式)"
+// @Success		200			{object}	common.Resp	"初始化成功"
+// @Failure		400			{object}	common.Resp	"无效的邮箱或URL"
+// @Failure		403			{object}	common.Resp	"此站点已初始化"
+// @Router			/init [post]
 func Init(router fiber.Router) {
 	router.Post("/init", func(c fiber.Ctx) error {
 		if isInited() {
@@ -47,7 +47,7 @@ func Init(router fiber.Router) {
 		desc := c.FormValue("desc")
 		icon := c.FormValue("icon")
 
-		if common.CheckEmpty(username, nickname, email, password, name, url) {
+		if common.IsEmpty(username, nickname, email, password, name, url) {
 			return common.RespMissingParameters(c)
 		}
 

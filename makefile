@@ -29,7 +29,7 @@ ui:
 
 dev:
 	go build -o bin/reblog-dev
-	REBLOG_DEV=true ./bin/reblog-dev
+	./bin/reblog-dev
 
 clean:
 	rm -rf bin/*

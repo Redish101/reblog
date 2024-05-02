@@ -37,3 +37,5 @@ WORKDIR /root
 CMD ["/app/reblog"]
 
 EXPOSE 3000
+
+VOLUME [ "reblog.yml" ]

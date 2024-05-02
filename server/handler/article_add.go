@@ -9,18 +9,18 @@ import (
 	"github.com/gofiber/fiber/v3"
 )
 
-//	@Summary		添加文章
-//	@Description	添加一篇新的文章
-//	@Tags			文章
-//	@Param			slug	path		string		true	"文章slug"
-//	@Param			title	formData	string		true	"文章标题"
-//	@Param			desc	formData	string		true	"文章描述"
-//	@Param			content	formData	string		true	"文章内容"
-//	@Success		200		{object}	common.Resp	"操作成功"
-//	@Failure		400		{object}	common.Resp	"缺少必要参数"
-//	@Failure		409		{object}	common.Resp	"slug已被其他文章使用"
-//	@Security		ApiKeyAuth
-//	@Router			/article/{slug} [post]
+// @Summary		添加文章
+// @Description	添加一篇新的文章
+// @Tags			文章
+// @Param			slug	path		string		true	"文章slug"
+// @Param			title	formData	string		true	"文章标题"
+// @Param			desc	formData	string		true	"文章描述"
+// @Param			content	formData	string		true	"文章内容"
+// @Success		200		{object}	common.Resp	"操作成功"
+// @Failure		400		{object}	common.Resp	"缺少必要参数"
+// @Failure		409		{object}	common.Resp	"slug已被其他文章使用"
+// @Security		ApiKeyAuth
+// @Router			/article/{slug} [post]
 func ArticleAdd(router fiber.Router) {
 	router.Post("/:slug", func(c fiber.Ctx) error {
 		a := query.Article
@@ -31,7 +31,7 @@ func ArticleAdd(router fiber.Router) {
 		desc := c.FormValue("desc")
 		content := c.FormValue("content")
 
-		if common.CheckEmpty(title, slug, desc, content) {
+		if common.IsEmpty(title, slug, desc, content) {
 			return common.RespMissingParameters(c)
 		}
 

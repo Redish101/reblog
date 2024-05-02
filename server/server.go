@@ -48,7 +48,9 @@ func Start() {
 	app.Use(cors.New(cors.ConfigDefault))
 
 	// dashboard
-	dashboard(app, uifs)
+	if config.Config().Dashboard.Enable {
+		dashboard(app, uifs)
+	}
 
 	// apidoc
 	h.Apidoc(app)

@@ -8,16 +8,16 @@ import (
 	"github.com/gofiber/fiber/v3"
 )
 
-//	@Summary		更新用户信息
-//	@Description	管理员更新用户信息
-//	@Tags			站点管理
-//	@Param			username	path		string	true	"用户名"
-//	@Param			nickname	formData	string	true	"昵称"
-//	@Param			email		formData	string	true	"邮箱"
-//	@Param			password	formData	string	true	"密码"
-//	@Success		200			{object}	common.Resp
-//	@Failure		400			{object}	common.Resp
-//	@Router			/user/{username} [put]
+// @Summary		更新用户信息
+// @Description	管理员更新用户信息
+// @Tags			站点管理
+// @Param			username	path		string	true	"用户名"
+// @Param			nickname	formData	string	true	"昵称"
+// @Param			email		formData	string	true	"邮箱"
+// @Param			password	formData	string	true	"密码"
+// @Success		200			{object}	common.Resp
+// @Failure		400			{object}	common.Resp
+// @Router			/user/{username} [put]
 func AdminUserUpdate(router fiber.Router) {
 	router.Put("/user/:username", func(c fiber.Ctx) error {
 		u := query.User
@@ -27,7 +27,7 @@ func AdminUserUpdate(router fiber.Router) {
 		email := c.FormValue("email")
 		password := c.FormValue("password")
 
-		if common.CheckEmpty(username, nickname, email, password) {
+		if common.IsEmpty(username, nickname, email, password) {
 			return common.RespMissingParameters(c)
 		}
 

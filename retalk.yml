@@ -1,0 +1,11 @@
+dev: true
+
+server:
+    port: 3000
+
+dashboard:
+    enabled: true
+    
+db:
+    type: sqlite3
+    name: reblog.db
