@@ -16,11 +16,11 @@ type ServerConfig struct {
 }
 
 type DBConfig struct {
-	Type string `yaml:"type"`
-	Host string `yaml:"host"`
-	Port int    `yaml:"port"`
-	Name string `yaml:"name"`
-	User string `yaml:"user"`
+	Type     string `yaml:"type"`
+	Host     string `yaml:"host"`
+	Port     int    `yaml:"port"`
+	Name     string `yaml:"name"`
+	User     string `yaml:"user"`
 	Password string `yaml:"pass"`
 }
 
@@ -29,9 +29,9 @@ type DashboardConfig struct {
 }
 
 type ConfigSchema struct {
-	Dev bool `yaml:"dev"`
-	Server ServerConfig `yaml:"server"`
-	DB DBConfig `yaml:"db"`
+	Dev       bool            `yaml:"dev"`
+	Server    ServerConfig    `yaml:"server"`
+	DB        DBConfig        `yaml:"db"`
 	Dashboard DashboardConfig `yaml:"dashboard"`
 }
 
@@ -82,20 +82,20 @@ func (c *ConfigSchema) LoadConfig() error {
 }
 
 func DefuaulConfig() *ConfigSchema {
-	return &ConfigSchema {
+	return &ConfigSchema{
 		Dev: false,
-		Server: ServerConfig {
+		Server: ServerConfig{
 			Port: 3000,
 		},
-		DB: DBConfig {
-			Type: "mysql",
-			Host: "localhost",
-			Port: 3306,
-			Name: "reblog",
-			User: "reblog",
+		DB: DBConfig{
+			Type:     "mysql",
+			Host:     "localhost",
+			Port:     3306,
+			Name:     "reblog",
+			User:     "reblog",
 			Password: "reblog",
 		},
-		Dashboard: DashboardConfig {
+		Dashboard: DashboardConfig{
 			Enable: true,
 		},
 	}
