@@ -9,7 +9,7 @@ import (
 
 var configInterface *ConfigSchema
 
-const configFile = "retalk.yml"
+const configFile = "reblog.yml"
 
 type ServerConfig struct {
 	Port    int  `yaml:"port"`
