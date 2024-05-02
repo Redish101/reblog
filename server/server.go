@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"io/fs"
 	"log"
 	"reblog/internal/auth"
@@ -86,7 +87,22 @@ func Start() {
 	// notFound
 	h.NotFound(app)
 
-	log.Fatalln(app.Listen(":3000"))
+	log.Fatalln(listen(app))
+}
+
+func listen(app *fiber.App) error {
+	serverConfig := config.Config().Server
+
+	port := serverConfig.Port
+	prefork := serverConfig.Prefork
+
+	listenConfig := fiber.ListenConfig{
+		EnablePrefork: prefork,
+	}
+
+	listenUrl := fmt.Sprintf(":%d", port)
+
+	return app.Listen(listenUrl, listenConfig)
 }
 
 func dashboard(app *fiber.App, uifs fs.FS) {

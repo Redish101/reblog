@@ -12,7 +12,7 @@ var configInterface *ConfigSchema
 const configFile = "retalk.yml"
 
 type ServerConfig struct {
-	Port int `yaml:"port"`
+	Port    int  `yaml:"port"`
 	Prefork bool `yaml:"prefork"`
 }
 
@@ -86,7 +86,7 @@ func DefuaulConfig() *ConfigSchema {
 	return &ConfigSchema{
 		Dev: false,
 		Server: ServerConfig{
-			Port: 3000,
+			Port:    3000,
 			Prefork: true,
 		},
 		DB: DBConfig{
