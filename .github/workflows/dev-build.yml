@@ -13,9 +13,9 @@ on:
 jobs:
   build:
     strategy:
-        matrix:
-            os: [ubuntu-latest, macos-latest, windows-latest]
-            arch: [amd64, arm64]
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        arch: [amd64, arm64]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
@@ -33,6 +33,8 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
+        with:
+          version: 8.10.2
 
       - name: Install Dependencies
         run: make install-dev
