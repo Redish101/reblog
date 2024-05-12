@@ -15,7 +15,8 @@ export default defineConfig({
             9: '2.5rem'
         },
         borderRadius: {
-            DEFAULT: '2.5rem'
+            DEFAULT: '2.5rem',
+            md: '0.25rem'
         },
         fontWeight: {
             semibold: "500",
