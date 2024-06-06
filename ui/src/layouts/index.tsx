@@ -5,13 +5,14 @@ import {
   ProCard,
   ProLayout,
 } from "@ant-design/pro-components";
-import { Outlet, useLocation } from "umi";
+import { Outlet, useLocation, Icon } from "umi";
 
 const Layout = () => {
   const location = useLocation();
   return (
     <ProLayout
       title="reblog"
+      logo={<Icon icon="local:logo" />}
       siderWidth={216}
       location={location}
       route={{
