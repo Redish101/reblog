@@ -74,7 +74,7 @@ func Start() {
 	h.ArticleUpdate(article)
 
 	// rss
-	h.Rss(app)
+	h.Rss(api)
 
 	// site
 	site := api.Group("/site")
