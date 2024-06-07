@@ -1,7 +1,6 @@
 package config
 
 import (
-	"log"
 	"os"
 
 	"gopkg.in/yaml.v3"
@@ -45,8 +44,6 @@ func Config() *ConfigSchema {
 }
 
 func (c *ConfigSchema) SaveConfig() {
-	log.Println("创建配置文件...")
-
 	configFile, err := os.OpenFile(configFile, os.O_CREATE|os.O_WRONLY, 0644)
 
 	if err != nil {
@@ -69,8 +66,6 @@ func (c *ConfigSchema) SaveConfig() {
 }
 
 func (c *ConfigSchema) LoadConfig() error {
-	log.Println("加载配置文件...")
-
 	configFile, err := os.ReadFile(configFile)
 
 	if err != nil {

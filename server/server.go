@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/fs"
 	"log"
+	v "reblog/config"
 	"reblog/internal/auth"
 	"reblog/internal/config"
 	"reblog/internal/db"
@@ -22,7 +23,7 @@ import (
 //	@Version					1.0
 //	@License.name				GPL-V3
 //	@Host						localhost:3000
-//	@BasePath					/
+//	@BasePath					/api
 //	@Produce					json
 //	@SecurityDefinitions.apikey	ApiKeyAuth
 //	@In							header
@@ -36,9 +37,11 @@ func Start() {
 	query.SetDefault(db.DB())
 
 	app := fiber.New(fiber.Config{
-		AppName:      "reblog",
-		ServerHeader: "reblog",
+		AppName:      v.GetAppName(),
+		ServerHeader: v.GetAppName(),
 	})
+
+	api := app.Group("/api")
 
 	uifs := ui.GetUIFS()
 
@@ -48,26 +51,22 @@ func Start() {
 	// cors
 	app.Use(cors.New(cors.ConfigDefault))
 
-	// dashboard
-	if config.Config().Dashboard.Enable {
-		dashboard(app, uifs)
-	}
-
 	// apidoc
 	h.Apidoc(app)
 
 	// init
-	h.Init(app)
+	h.Init(api)
 
 	// admin
-	admin := app.Group("/admin")
+	admin := api.Group("/admin")
 
 	h.AdminLogin(admin)
 	h.AdminTokenState(admin)
 	h.AdminSiteUpdate(admin)
+	h.AdminUserInfo(admin)
 
 	// article
-	article := app.Group("/article")
+	article := api.Group("/article")
 
 	h.ArticleList(article)
 	h.ArticleSlug(article)
@@ -76,13 +75,20 @@ func Start() {
 	h.ArticleUpdate(article)
 
 	// rss
-
-	h.Rss(app)
+	h.Rss(api)
 
 	// site
-	site := app.Group("/site")
+	site := api.Group("/site")
 
 	h.Site(site)
+
+	// version
+	h.Version(api)
+
+	// dashboard
+	if config.Config().Dashboard.Enable {
+		dashboard(app, uifs)
+	}
 
 	// notFound
 	h.NotFound(app)
@@ -106,12 +112,8 @@ func listen(app *fiber.App) error {
 }
 
 func dashboard(app *fiber.App, uifs fs.FS) {
-	app.Get("/", func(c fiber.Ctx) error {
-		return c.Redirect().To("/dashboard/")
-	})
-
 	// fiber无法直接获取到index.html并返回, WTF?
-	app.Get("/dashboard/", func(c fiber.Ctx) error {
+	app.Get("/", func(c fiber.Ctx) error {
 		indexFile, err := uifs.Open("dist/index.html")
 
 		if err != nil {
@@ -121,7 +123,7 @@ func dashboard(app *fiber.App, uifs fs.FS) {
 		return c.Type("html").SendStream(indexFile)
 	})
 
-	app.Use("/dashboard", filesystem.New(filesystem.Config{
+	app.Use("/", filesystem.New(filesystem.Config{
 		Root:       ui.GetUIFS(),
 		PathPrefix: "dist",
 	}))
