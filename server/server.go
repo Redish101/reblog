@@ -63,6 +63,7 @@ func Start() {
 	h.AdminLogin(admin)
 	h.AdminTokenState(admin)
 	h.AdminSiteUpdate(admin)
+	h.AdminUserInfo(admin)
 
 	// article
 	article := api.Group("/article")
