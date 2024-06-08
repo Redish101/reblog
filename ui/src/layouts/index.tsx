@@ -1,4 +1,9 @@
-import { HomeFilled, KeyOutlined, SmileTwoTone } from "@ant-design/icons";
+import {
+  BookTwoTone,
+  HomeFilled,
+  KeyOutlined,
+  SmileTwoTone,
+} from "@ant-design/icons";
 import { PageContainer, ProCard, ProLayout } from "@ant-design/pro-components";
 import { App, ConfigProvider, notification } from "antd";
 import { useEffect, useState } from "react";
@@ -12,6 +17,12 @@ interface UserInfo {
 }
 
 const Layout = () => {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    history.push("/login");
+  }
+
   const location = useLocation();
 
   const [userInfo, setUserInfo] = useState<UserInfo>();
@@ -41,7 +52,7 @@ const Layout = () => {
       <App>
         <ProLayout
           title="reblog"
-          logo={<Icon icon="local:logo" />}
+          logo={<BookTwoTone />}
           siderWidth={216}
           location={location}
           route={{

@@ -20,11 +20,13 @@ const useApi = async (url: string | URL | Request, options?: RequestInit) => {
 
   if (res.status == 401) {
     localStorage.removeItem("token");
-    message.open({
-      type: "info",
-      content: "登录信息已过期，请重新登录",
-    });
-    history.push("/login");
+    if (history.location.pathname != "/login") {
+      message.open({
+        type: "info",
+        content: "登录信息已过期，请重新登录",
+      });
+      history.push("/login");
+    }
   }
 
   return res;
