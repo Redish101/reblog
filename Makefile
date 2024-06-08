@@ -17,11 +17,6 @@ apidoc:
 	swag init -g server/server.go -o internal/docs --parseDependency --parseInternal
 	redocly build-docs internal/docs/swagger.yaml -o apidoc/index.html
 
-document: apidoc
-	$(MAKE) -C document html
-	mkdir -p document/_build/html/apidoc
-	cp apidoc/index.html document/_build/html/apidoc/index.html
-
 fmt:
 	gofmt -w .
 	prettier -w ui
