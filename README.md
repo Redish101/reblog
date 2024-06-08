@@ -11,3 +11,4 @@
 ```bash
 wget https://reblog-resource.redish101.top/scripts/quick_start.sh | sh
 ```
+

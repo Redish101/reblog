@@ -9,6 +9,11 @@ on:
     branches:
       - dev
       - main
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+      - '.gitignore'
+      - '.github/**'
 
 jobs:
   build:
