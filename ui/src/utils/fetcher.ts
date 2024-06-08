@@ -1,3 +1,6 @@
+import { message } from "antd";
+import { history } from "umi";
+
 const useApi = async (url: string | URL | Request, options?: RequestInit) => {
   const token = localStorage.getItem("token");
 
@@ -13,7 +16,18 @@ const useApi = async (url: string | URL | Request, options?: RequestInit) => {
     };
   }
 
-  return fetch(url, options);
+  const res = await fetch(url, options);
+
+  if (res.status == 401) {
+    localStorage.removeItem("token");
+    message.open({
+      type: "info",
+      content: "登录信息已过期，请重新登录",
+    });
+    history.push("/login");
+  }
+
+  return res;
 };
 
 export default useApi;

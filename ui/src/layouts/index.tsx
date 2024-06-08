@@ -1,14 +1,20 @@
-import { HomeFilled, SmileTwoTone } from "@ant-design/icons";
+import { HomeFilled, KeyOutlined, SmileTwoTone } from "@ant-design/icons";
 import { PageContainer, ProCard, ProLayout } from "@ant-design/pro-components";
-import { notification } from "antd";
+import { App, ConfigProvider, notification } from "antd";
 import { useEffect, useState } from "react";
-import { Outlet, useLocation, Icon } from "umi";
+import { Outlet, useLocation, Icon, history } from "umi";
 import useApi from "@/utils/fetcher";
+
+interface UserInfo {
+  data: {
+    nickname: string;
+  };
+}
 
 const Layout = () => {
   const location = useLocation();
 
-  const [userInfo, setUserInfo] = useState();
+  const [userInfo, setUserInfo] = useState<UserInfo>();
 
   const refresh = async () => {
     try {
@@ -18,8 +24,10 @@ const Layout = () => {
 
       if (res.status != 200) throw new Error("获取用户信息失败");
     } catch (err) {
-      notification.error({
-        message: `无法获取用户信息: ${err}`,
+      setUserInfo({
+        data: {
+          nickname: "获取失败",
+        },
       });
     }
   };
@@ -29,33 +37,48 @@ const Layout = () => {
   }, []);
 
   return (
-    <ProLayout
-      title="reblog"
-      logo={<Icon icon="local:logo" />}
-      siderWidth={216}
-      location={location}
-      route={{
-        path: "/",
-        routes: [
-          {
+    <ConfigProvider>
+      <App>
+        <ProLayout
+          title="reblog"
+          logo={<Icon icon="local:logo" />}
+          siderWidth={216}
+          location={location}
+          route={{
             path: "/",
-            name: "首页",
-            icon: <HomeFilled />,
-          },
-        ],
-      }}
-      avatarProps={{
-        src: <SmileTwoTone />,
-        title: userInfo ? userInfo["data"]["nickname"] : "Loading",
-        size: "small",
-      }}
-    >
-      <PageContainer>
-        <ProCard style={{ minHeight: 700 }}>
-          <Outlet />
-        </ProCard>
-      </PageContainer>
-    </ProLayout>
+            routes: [
+              {
+                path: "/",
+                name: "首页",
+                icon: <HomeFilled />,
+              },
+            ],
+          }}
+          avatarProps={{
+            src: <SmileTwoTone />,
+            title: userInfo ? userInfo["data"]["nickname"] : "Loading",
+            size: "small",
+          }}
+          actionsRender={(props) => {
+            if (props.isMobile) return [];
+            return [
+              <KeyOutlined
+                onClick={() => {
+                  localStorage.removeItem("token");
+                  history.push("/login");
+                }}
+              />,
+            ];
+          }}
+        >
+          <PageContainer>
+            <ProCard style={{ minHeight: 700 }}>
+              <Outlet />
+            </ProCard>
+          </PageContainer>
+        </ProLayout>
+      </App>
+    </ConfigProvider>
   );
 };
 

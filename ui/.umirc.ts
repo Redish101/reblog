@@ -7,6 +7,11 @@ export default defineConfig({
       component: "index",
     },
     {
+      path: "/login",
+      component: "login",
+      layout: false,
+    },
+    {
       path: "/init",
       component: "init",
       layout: false,
