@@ -5,15 +5,15 @@ on:
     branches:
       - dev
       - main
+    paths-ignore:
+      - "README.md"
+      - "LICENSE"
+      - ".gitignore"
+      - ".github/**"
   pull_request:
     branches:
       - dev
       - main
-    paths-ignore:
-      - 'README.md'
-      - 'LICENSE'
-      - '.gitignore'
-      - '.github/**'
 
 jobs:
   build:
