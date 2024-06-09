@@ -56,6 +56,10 @@ export default defineMock({
   "GET /api/site": {
     success: true,
     msg: "success",
-    data: null
+    data: {
+      name: "伟大的站点",
+      url: "https://the-greatest-site.com",
+      desc: "这是世界上最伟大的站点",
+    },
   },
 });

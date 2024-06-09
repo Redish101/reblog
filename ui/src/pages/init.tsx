@@ -5,11 +5,9 @@ import {
   ProFormText,
   StepsForm,
 } from "@ant-design/pro-components";
-import { GetProp, UploadProps, message } from "antd";
-import { useEffect, useRef, useState } from "react";
+import { message } from "antd";
+import { useEffect, useRef } from "react";
 import { history } from "umi";
-
-type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
 
 interface Init {
   name: string;
