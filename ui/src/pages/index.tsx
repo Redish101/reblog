@@ -84,13 +84,13 @@ const HomePage = () => {
   return (
     <div>
       <div>
-        <Row gutter={18}>
-          <Col span={6}>
+        <Row gutter={[16, 16]}>
+          <Col xs={24} sm={12} md={8}>
             <Card bordered={false}>
               <Statistic title="文章数量" value={articles?.count || 0} />
             </Card>
           </Col>
-          <Col span={6}>
+          <Col xs={24} sm={12} md={8}>
             <Card bordered={false}>
               <Statistic
                 title="距上次更新"
@@ -98,7 +98,7 @@ const HomePage = () => {
               />
             </Card>
           </Col>
-          <Col span={6}>
+          <Col xs={24} sm={12} md={8}>
             <Card bordered={false}>
               <Statistic title="reblog 版本" value={version || "暂无数据"} />
             </Card>
