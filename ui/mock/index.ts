@@ -36,6 +36,36 @@ export default defineMock({
       nickname: "admin",
     },
   },
+  "GET /api/admin/tokenState": {
+    success: true,
+    msg: "success",
+    data: true,
+  },
+  "GET /api/article/list": {
+    success: true,
+    msg: "success",
+    data: {
+      count: 2,
+      articles: [
+        {
+          id: 1,
+          slug: "hello-world",
+          title: "Hello, World!",
+          content: "This is the first article.",
+          created_at: "2024-01-01 00:00:00",
+          updated_at: "2024-01-01 00:00:00",
+        },
+        {
+          id: 2,
+          slug: "about-me",
+          title: "About Me",
+          content: "This is a about me article.",
+          created_at: "2021-01-02 00:00:00",
+          updated_at: "2021-01-02 00:00:00",
+        },
+      ],
+    },
+  },
   "POST /api/article/:slug": (req, res) => {
     if (req.headers.authorization != "admin-token") {
       res.status(401).json({

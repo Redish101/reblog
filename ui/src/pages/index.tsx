@@ -1,63 +1,113 @@
 import useApi from "@/utils/fetcher";
-import { Button } from "antd";
+import { ArrowDownOutlined } from "@ant-design/icons";
+import { Card, Col, Row, Statistic, Typography, message } from "antd";
 import { useEffect, useState } from "react";
 import { history } from "umi";
 
+interface Article {
+  created_at: string;
+  updated_at: string;
+  id: number;
+  title: string;
+  desc: string;
+  content: string;
+}
+
+interface Articles {
+  count: number;
+  articles: Article[];
+}
+
 const HomePage = () => {
   const token = localStorage.getItem("token");
+
   if (!token) {
     history.push("/login");
   }
-  const [version, setVersion] = useState();
+
+  useApi("/api/admin/tokenState")
+    .then((res) => res.json())
+    .then((data) => {
+      if (!data["data"]) {
+        localStorage.removeItem("token");
+        history.push("/login");
+      }
+    });
+
+  const calculateDaysAgo = (updatedAt: string) => {
+    const lastUpdatedDate = new Date(updatedAt);
+    const now = new Date();
+    const diff = now.getTime() - lastUpdatedDate.getTime();
+    const daysDiff = diff / (1000 * 3600 * 24);
+    return Math.floor(daysDiff);
+  };
+
+  const [articles, setArticles] = useState<Articles>();
+  const [lastUpdatedDay, setLastUpdatedDay] = useState<string>("暂无数据");
+  const [version, setVersion] = useState<string>("暂无数据");
 
   const refresh = async () => {
-    try {
-      const res = await fetch("/api/version");
-      setVersion(await res.json());
-    } catch (err) {
-      console.error(err);
+    const articleListRes = await useApi("/api/article/list/?page=1&size=1");
+    const articleListData = await articleListRes.json();
+
+    if (!articleListData["success"]) {
+      message.open({
+        type: "error",
+        content: `获取文章列表失败: ${articleListData["msg"]}`,
+      });
     }
+
+    setArticles(articleListData["data"]);
+
+    const daysAgo = calculateDaysAgo(
+      articleListData["data"].articles[0].updated_at,
+    );
+    setLastUpdatedDay(daysAgo === 0 ? "今天" : `${daysAgo} 天`);
+
+    const versionRes = await useApi("/api/version");
+    const versionData = await versionRes.json();
+
+    if (!versionData["success"]) {
+      message.open({
+        type: "error",
+        content: `获取版本信息失败: ${versionData["msg"]}`,
+      });
+    }
+
+    setVersion(versionData["data"]["version"]);
   };
 
   useEffect(() => {
     refresh();
   }, []);
 
-  const handleClick = async () => {
-    const formData = new FormData();
-    formData.append("title", "测试文章");
-    formData.append("desc", "这是一个测试文章");
-    formData.append(
-      "content",
-      "wow，这是一个测试文章，他里面什么都没有，但是是一个来自前端的测试文章！哇！！！",
-    );
-    const res = await useApi("/api/article/test", {
-      method: "POST",
-      body: formData,
-    });
-  };
-
   return (
     <div>
-      <h1>Placeeeeeeeeee Holder!</h1>
-      <p>伟大的占位符！</p>
-      <p>占位符静静地看着你。</p>
-      <p>Hurr durr, i'ma placeholder!</p>
-      <Button type="primary">我是一个按钮</Button>
-      <p>他是一个按钮，尽管你按下他不会发生什么，但他的确是一个按钮。</p>
-      <p>而且是一个尊贵的primary按钮。</p>
-      <Button type="default" onClick={handleClick}>
-        我也是一个按钮
-      </Button>
-      <p>他也是一个按钮，但是你按下这个按钮后会尝试新建一篇文章</p>
-      <h2>版本信息</h2>
-      {!version && <p>正在获取版本信息...</p>}
-      {version && (
-        <div>
-          <p>{version["data"]["app_name"]}</p>
-          <p>{version["data"]["runtime"]}</p>
-        </div>
-      )}
+      <div>
+        <Row gutter={18}>
+          <Col span={6}>
+            <Card bordered={false}>
+              <Statistic title="文章数量" value={articles?.count || 0} />
+            </Card>
+          </Col>
+          <Col span={6}>
+            <Card bordered={false}>
+              <Statistic
+                title="距上次更新"
+                value={lastUpdatedDay || "暂无数据"}
+              />
+            </Card>
+          </Col>
+          <Col span={6}>
+            <Card bordered={false}>
+              <Statistic title="reblog 版本" value={version || "暂无数据"} />
+            </Card>
+          </Col>
+        </Row>
+      </div>
+      <div style={{ marginTop: 20 }}>
+        <Typography.Text type="secondary">今天也要多写文章</Typography.Text>
+      </div>
     </div>
   );
 };
