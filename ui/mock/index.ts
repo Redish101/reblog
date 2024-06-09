@@ -49,8 +49,13 @@ export default defineMock({
       res.status(200).json({
         success: true,
         msg: "success",
-        data: {},
+        data: null,
       });
     }
+  },
+  "GET /api/site": {
+    success: true,
+    msg: "success",
+    data: null
   },
 });

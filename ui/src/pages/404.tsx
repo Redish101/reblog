@@ -1,6 +1,6 @@
 import { Button, Result } from "antd";
 
-const NotFound = () => (
+const NotFoundPage = () => (
   <Result
     status="404"
     title="404 - Not Found"
@@ -13,4 +13,4 @@ const NotFound = () => (
   />
 );
 
-export default NotFound;
+export default NotFoundPage;

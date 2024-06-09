@@ -1,15 +1,26 @@
 import useApi from "@/utils/fetcher";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { LoginForm, ProFormText } from "@ant-design/pro-components";
-import { App, message } from "antd";
-import { Link, history } from "umi";
+import { message } from "antd";
+import { useEffect } from "react";
+import { history } from "umi";
 
 interface LoginFormValues {
   username: string;
   password: string;
 }
 
-const Login = () => {
+const LoginPage = () => {
+  useEffect(() => {
+    useApi("/api/site")
+      .then((res) => res.json())
+      .then((data) => {
+        if (!data["data"]) {
+          history.push("/init");
+        }
+      });
+  }, []);
+
   const onFinish = async (values: LoginFormValues) => {
     const { username, password } = values;
     const formData = new FormData();
@@ -54,11 +65,8 @@ const Login = () => {
         fieldProps={{ size: "large", prefix: <LockOutlined /> }}
         rules={[{ required: true, message: "请输入密码" }]}
       />
-      <div style={{ marginBottom: "16px", textAlign: "right" }}>
-        <Link to="/init">尚未初始化?</Link>
-      </div>
     </LoginForm>
   );
 };
 
-export default Login;
+export default LoginPage;

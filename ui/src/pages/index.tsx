@@ -1,18 +1,23 @@
 import useApi from "@/utils/fetcher";
 import { Button } from "antd";
 import { useEffect, useState } from "react";
+import { history } from "umi";
 
 const HomePage = () => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    history.push("/login");
+  }
   const [version, setVersion] = useState();
 
-  async function refresh() {
+  const refresh = async () => {
     try {
       const res = await fetch("/api/version");
       setVersion(await res.json());
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   useEffect(() => {
     refresh();
