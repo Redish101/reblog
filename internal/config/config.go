@@ -2,13 +2,19 @@ package config
 
 import (
 	"os"
+	"reblog/internal/log"
 
 	"gopkg.in/yaml.v3"
 )
 
-var configInterface *ConfigSchema
+var configInstance *ConfigSchema
 
 const configFile = "reblog.yml"
+
+func init() {
+	log.Info("初始化配置")
+	configInstance = NewConfig()
+}
 
 type ServerConfig struct {
 	Port    int  `yaml:"port"`
@@ -36,11 +42,11 @@ type ConfigSchema struct {
 }
 
 func Config() *ConfigSchema {
-	if configInterface == nil {
-		InitConfig()
+	if configInstance == nil {
+		configInstance = NewConfig()
 	}
 
-	return configInterface
+	return configInstance
 }
 
 func (c *ConfigSchema) SaveConfig() {
@@ -98,14 +104,16 @@ func DefuaulConfig() *ConfigSchema {
 	}
 }
 
-func InitConfig() {
+func NewConfig() *ConfigSchema {
 	_, err := os.Stat(configFile)
 
 	if os.IsNotExist(err) {
 		DefuaulConfig().SaveConfig()
 	}
 
-	configInterface = &ConfigSchema{}
+	config := &ConfigSchema{}
 
-	configInterface.LoadConfig()
+	config.LoadConfig()
+
+	return config
 }

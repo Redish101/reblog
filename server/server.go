@@ -5,7 +5,6 @@ import (
 	"io/fs"
 	"log"
 	v "reblog/config"
-	"reblog/internal/auth"
 	"reblog/internal/config"
 	"reblog/internal/db"
 	"reblog/internal/query"
@@ -29,10 +28,6 @@ import (
 //	@In							header
 //	@Name						Authorization
 func Start() {
-	config.InitConfig()
-
-	auth.SetKey()
-
 	query.Use(db.DB())
 	query.SetDefault(db.DB())
 

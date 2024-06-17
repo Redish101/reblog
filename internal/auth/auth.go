@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/rand"
 	"reblog/internal/hash"
+	"reblog/internal/log"
 	"reblog/internal/model"
 	"reblog/internal/query"
 	"regexp"
@@ -14,6 +15,11 @@ import (
 
 var key []byte
 
+func init() {
+	log.Info("初始化权限认证")
+	key = NewKey()
+}
+
 type TokenClaim struct {
 	Username string `json:"usr"`
 	Password string `json:"pwd"`
@@ -21,8 +27,8 @@ type TokenClaim struct {
 	jwt.RegisteredClaims
 }
 
-func SetKey() {
-	key = []byte(hash.Hash("reblog_sign_key" + fmt.Sprint(time.Now().UnixMicro()+rand.Int63n(1000000000))))
+func NewKey() []byte {
+	return []byte(hash.Hash("reblog_sign_key" + fmt.Sprint(time.Now().UnixMicro()+rand.Int63n(1000000000))))
 }
 
 func GetToken(username string, password string) string {

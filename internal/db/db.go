@@ -3,6 +3,7 @@ package db
 import (
 	"fmt"
 	"reblog/internal/config"
+	"reblog/internal/log"
 	"reblog/internal/model"
 
 	"gorm.io/driver/mysql"
@@ -12,9 +13,14 @@ import (
 	"gorm.io/gorm"
 )
 
-var dbInterface *gorm.DB
+var dbInstance *gorm.DB
 
-func LoadDB() {
+func init() {
+	log.Info("初始化数据库")
+	dbInstance = NewDB()
+}
+
+func NewDB() *gorm.DB {
 	config := config.Config().DB
 
 	var db *gorm.DB
@@ -43,13 +49,13 @@ func LoadDB() {
 
 	db.AutoMigrate(&model.Site{}, &model.Article{}, &model.User{})
 
-	dbInterface = db
+	return db
 }
 
 func DB() *gorm.DB {
-	if dbInterface == nil {
-		LoadDB()
+	if dbInstance == nil {
+		dbInstance = NewDB()
 	}
 
-	return dbInterface
+	return dbInstance
 }
