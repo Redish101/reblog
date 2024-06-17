@@ -17,6 +17,16 @@ export default defineConfig({
       layout: false,
     },
     {
+      path: "/article",
+      component: "article",
+      routes: [
+        {
+          path: "/article/create",
+          component: "article/create",
+        },
+      ],
+    },
+    {
       path: "/*",
       component: "404",
     },

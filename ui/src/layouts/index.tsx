@@ -1,11 +1,12 @@
 import {
   BookTwoTone,
+  ContainerFilled,
   HomeFilled,
   KeyOutlined,
   SmileTwoTone,
 } from "@ant-design/icons";
-import { PageContainer, ProCard, ProLayout } from "@ant-design/pro-components";
-import { App, ConfigProvider, notification } from "antd";
+import { PageContainer, ProLayout } from "@ant-design/pro-components";
+import { App, ConfigProvider } from "antd";
 import { useEffect, useState } from "react";
 import { Outlet, useLocation, Icon, history } from "umi";
 import useApi from "@/utils/fetcher";
@@ -63,6 +64,11 @@ const Layout = () => {
                 name: "首页",
                 icon: <HomeFilled />,
               },
+              {
+                path: "/article",
+                name: "文章",
+                icon: <ContainerFilled />,
+              },
             ],
           }}
           avatarProps={{
@@ -81,11 +87,18 @@ const Layout = () => {
               />,
             ];
           }}
+          menuItemRender={(item, dom) => (
+            <div
+              onClick={() => {
+                history.push(item.path || "/");
+              }}
+            >
+              {dom}
+            </div>
+          )}
         >
           <PageContainer>
-            <ProCard style={{ minHeight: 700 }}>
-              <Outlet />
-            </ProCard>
+            <Outlet />
           </PageContainer>
         </ProLayout>
       </App>

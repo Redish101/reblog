@@ -1,5 +1,4 @@
 import useApi from "@/utils/fetcher";
-import { ArrowDownOutlined } from "@ant-design/icons";
 import { Card, Col, Row, Statistic, Typography, message } from "antd";
 import { useEffect, useState } from "react";
 import { history } from "umi";
@@ -86,12 +85,12 @@ const HomePage = () => {
       <div>
         <Row gutter={[16, 16]}>
           <Col xs={24} sm={12} md={8}>
-            <Card bordered={false}>
+            <Card>
               <Statistic title="文章数量" value={articles?.count || 0} />
             </Card>
           </Col>
           <Col xs={24} sm={12} md={8}>
-            <Card bordered={false}>
+            <Card>
               <Statistic
                 title="距上次更新"
                 value={lastUpdatedDay || "暂无数据"}
@@ -99,7 +98,7 @@ const HomePage = () => {
             </Card>
           </Col>
           <Col xs={24} sm={12} md={8}>
-            <Card bordered={false}>
+            <Card>
               <Statistic title="reblog 版本" value={version || "暂无数据"} />
             </Card>
           </Col>
