@@ -2,6 +2,7 @@ package handler
 
 import (
 	"net/http"
+	"reblog/internal/core"
 	"reblog/internal/model"
 	"reblog/internal/query"
 	"reblog/server/common"
@@ -21,7 +22,7 @@ import (
 //	@Failure		409		{object}	common.Resp	"slug已被其他文章使用"
 //	@Security		ApiKeyAuth
 //	@Router			/article/{slug} [post]
-func ArticleAdd(router fiber.Router) {
+func ArticleAdd(app *core.App, router fiber.Router) {
 	router.Post("/:slug", func(c fiber.Ctx) error {
 		a := query.Article
 
@@ -59,5 +60,5 @@ func ArticleAdd(router fiber.Router) {
 		}
 
 		return common.RespSuccess(c, "操作成功", nil)
-	}, common.Auth())
+	}, common.Auth(app))
 }

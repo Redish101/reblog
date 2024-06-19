@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"math/rand"
 	"reblog/internal/hash"
-	"reblog/internal/log"
 	"reblog/internal/model"
 	"reblog/internal/query"
 	"regexp"
@@ -13,11 +12,16 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-var key []byte
+type Auth struct {
+	key   []byte
+	query *query.Query
+}
 
-func init() {
-	log.Info("初始化权限认证")
-	key = NewKey()
+func NewAuth(q *query.Query) *Auth {
+	return &Auth{
+		key:   NewKey(),
+		query: q,
+	}
 }
 
 type TokenClaim struct {
@@ -31,8 +35,8 @@ func NewKey() []byte {
 	return []byte(hash.Hash("reblog_sign_key" + fmt.Sprint(time.Now().UnixMicro()+rand.Int63n(1000000000))))
 }
 
-func GetToken(username string, password string) string {
-	u := query.User
+func (a *Auth) GetToken(username string, password string) string {
+	u := a.query.User
 
 	emailRegex := `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`
 	emailMatched, _ := regexp.MatchString(emailRegex, username)
@@ -65,14 +69,14 @@ func GetToken(username string, password string) string {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	signedToken, _ := token.SignedString(key)
+	signedToken, _ := token.SignedString(a.key)
 
 	return signedToken
 }
 
-func ValidToken(token string) bool {
+func (a *Auth) ValidToken(token string) bool {
 	parsedToken, err := jwt.ParseWithClaims(token, &TokenClaim{}, func(t *jwt.Token) (interface{}, error) {
-		return key, nil
+		return a.key, nil
 	})
 
 	if err != nil {

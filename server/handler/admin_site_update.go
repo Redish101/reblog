@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"reblog/internal/core"
 	"reblog/internal/model"
 	"reblog/internal/query"
 	"reblog/server/common"
@@ -19,7 +20,7 @@ import (
 //	@Failure		400		{object}	common.Resp	"缺少参数"
 //	@Security		ApiKeyAuth
 //	@Router			/admin/site [PUT]
-func AdminSiteUpdate(router fiber.Router) {
+func AdminSiteUpdate(app *core.App, router fiber.Router) {
 	router.Put("/site", func(c fiber.Ctx) error {
 		s := query.Site
 
@@ -44,5 +45,5 @@ func AdminSiteUpdate(router fiber.Router) {
 		}
 
 		return common.RespSuccess(c, "操作成功, 部分主题可能需重新部署生效", nil)
-	}, common.Auth())
+	}, common.Auth(app))
 }

@@ -1,9 +1,8 @@
-name: Dev Build
+name: Build
 
 on:
   push:
     branches:
-      - dev
       - main
     paths-ignore:
       - "README.md"

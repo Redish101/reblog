@@ -2,6 +2,7 @@ package handler
 
 import (
 	"net/http"
+	"reblog/internal/core"
 	"reblog/internal/query"
 	"reblog/server/common"
 
@@ -16,7 +17,7 @@ import (
 //	@Failure		400		{object}	common.Resp						"缺少必要参数"
 //	@Failure		404		{object}	common.Resp						"未知的slug"
 //	@Router			/article/{slug} [get]
-func ArticleSlug(router fiber.Router) {
+func ArticleSlug(app *core.App, router fiber.Router) {
 	router.Get("/:slug", func(c fiber.Ctx) error {
 		a := query.Article
 

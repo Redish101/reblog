@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"reblog/internal/core"
 	"reblog/internal/query"
 	"reblog/server/common"
 
@@ -12,7 +13,7 @@ import (
 //	@Tags			站点
 //	@Success		200	{object}	common.Resp{data=model.Site}
 //	@Router			/site [get]
-func Site(router fiber.Router) {
+func Site(app *core.App, router fiber.Router) {
 	router.Get("/", func(c fiber.Ctx) error {
 		s := query.Site
 

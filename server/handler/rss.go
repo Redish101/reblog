@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"reblog/internal/core"
 	"reblog/internal/query"
 	"reblog/internal/rss"
 	"reblog/server/common"
@@ -15,7 +16,7 @@ import (
 //	@Success		200	"RSS Feed"
 //	@Failure		500	{object}	common.Resp	"服务器错误"
 //	@Router			/rss [get]
-func Rss(router fiber.Router) {
+func Rss(app *core.App, router fiber.Router) {
 	router.Get("/rss", func(c fiber.Ctx) error {
 		a := query.Article
 

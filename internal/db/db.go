@@ -3,7 +3,6 @@ package db
 import (
 	"fmt"
 	"reblog/internal/config"
-	"reblog/internal/log"
 	"reblog/internal/model"
 
 	"gorm.io/driver/mysql"
@@ -16,12 +15,11 @@ import (
 var dbInstance *gorm.DB
 
 func init() {
-	log.Info("初始化数据库")
 	dbInstance = NewDB()
 }
 
 func NewDB() *gorm.DB {
-	config := config.Config().DB
+	config := config.NewFromFile().DB
 
 	var db *gorm.DB
 	var err error

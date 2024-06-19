@@ -5,10 +5,10 @@ import "github.com/sirupsen/logrus"
 var loggerInstance *logrus.Logger
 
 func init() {
-	loggerInstance = Init()
+	loggerInstance = NewLogger()
 }
 
-func Init() *logrus.Logger {
+func NewLogger() *logrus.Logger {
 	logger := logrus.New()
 
 	return logger
@@ -16,7 +16,7 @@ func Init() *logrus.Logger {
 
 func Logger() *logrus.Logger {
 	if loggerInstance == nil {
-		Init()
+		loggerInstance = NewLogger()
 	}
 
 	return loggerInstance

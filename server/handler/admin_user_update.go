@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"reblog/internal/core"
 	"reblog/internal/model"
 	"reblog/internal/query"
 	"reblog/server/common"
@@ -18,7 +19,7 @@ import (
 //	@Success		200			{object}	common.Resp
 //	@Failure		400			{object}	common.Resp
 //	@Router			/user/{username} [put]
-func AdminUserUpdate(router fiber.Router) {
+func AdminUserUpdate(app *core.App, router fiber.Router) {
 	router.Put("/user/:username", func(c fiber.Ctx) error {
 		u := query.User
 
@@ -43,5 +44,5 @@ func AdminUserUpdate(router fiber.Router) {
 		}
 
 		return common.RespSuccess(c, "操作成功, 登录态将失效", nil)
-	}, common.Auth())
+	}, common.Auth(app))
 }

@@ -1,7 +1,11 @@
 package handler
 
-import "github.com/gofiber/fiber/v3"
+import (
+	"reblog/internal/core"
 
-func Apidoc(router fiber.Router) {
+	"github.com/gofiber/fiber/v3"
+)
+
+func Apidoc(app *core.App, router fiber.Router) {
 	router.Static("/apidoc", "./apidoc")
 }

@@ -2,6 +2,7 @@ package handler
 
 import (
 	"net/http"
+	"reblog/internal/core"
 	"reblog/internal/hash"
 	"reblog/internal/model"
 	"reblog/internal/query"
@@ -32,7 +33,7 @@ func isInited() bool {
 //	@Failure		400			{object}	common.Resp	"无效的邮箱或URL"
 //	@Failure		403			{object}	common.Resp	"此站点已初始化"
 //	@Router			/init [post]
-func Init(router fiber.Router) {
+func Init(app *core.App, router fiber.Router) {
 	router.Post("/init", func(c fiber.Ctx) error {
 		if isInited() {
 			return common.RespFail(c, http.StatusForbidden, "此站点已初始化", nil)

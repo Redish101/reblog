@@ -1,13 +1,9 @@
 package server
 
 import (
-	"fmt"
 	"io/fs"
-	"log"
-	v "reblog/config"
-	"reblog/internal/config"
-	"reblog/internal/db"
-	"reblog/internal/query"
+	"reblog/internal/core"
+	"reblog/internal/log"
 	"reblog/internal/ui"
 	h "reblog/server/handler"
 
@@ -28,87 +24,70 @@ import (
 //	@In							header
 //	@Name						Authorization
 func Start() {
-	query.Use(db.DB())
-	query.SetDefault(db.DB())
+	log.Info("欢迎使用reblog")
 
-	app := fiber.New(fiber.Config{
-		AppName:      v.GetAppName(),
-		ServerHeader: v.GetAppName(),
-	})
+	app := core.NewApp()
 
-	api := app.Group("/api")
+	fb := app.Fiber()
+
+	api := fb.Group("/api")
 
 	uifs := ui.GetUIFS()
 
 	// logger
-	app.Use(logger.New())
+	fb.Use(logger.New())
 
 	// cors
-	app.Use(cors.New(cors.ConfigDefault))
+	fb.Use(cors.New(cors.ConfigDefault))
 
 	// apidoc
-	h.Apidoc(app)
+	h.Apidoc(app, fb)
 
 	// init
-	h.Init(api)
+	h.Init(app, api)
 
 	// admin
 	admin := api.Group("/admin")
 
-	h.AdminLogin(admin)
-	h.AdminTokenState(admin)
-	h.AdminSiteUpdate(admin)
-	h.AdminUserInfo(admin)
+	h.AdminLogin(app, admin)
+	h.AdminTokenState(app, admin)
+	h.AdminSiteUpdate(app, admin)
+	h.AdminUserInfo(app, admin)
 
 	// article
 	article := api.Group("/article")
 
-	h.ArticleList(article)
-	h.ArticleSlug(article)
-	h.ArticleAdd(article)
-	h.ArticleDelete(article)
-	h.ArticleUpdate(article)
+	h.ArticleList(app, article)
+	h.ArticleSlug(app, article)
+	h.ArticleAdd(app, article)
+	h.ArticleDelete(app, article)
+	h.ArticleUpdate(app, article)
 
 	// rss
-	h.Rss(api)
+	h.Rss(app, api)
 
 	// site
 	site := api.Group("/site")
 
-	h.Site(site)
+	h.Site(app, site)
 
 	// version
-	h.Version(api)
+	h.Version(app, api)
 
 	// dashboard
-	if config.Config().Dashboard.Enable {
-		dashboard(app, uifs)
+	if app.Config().Dashboard.Enable {
+		dashboard(fb, uifs)
 	}
 
 	// notFound
-	h.NotFound(app)
+	h.NotFound(app, fb)
 
-	log.Fatalln(listen(app))
+	log.Fatal(app.Listen())
 }
 
-func listen(app *fiber.App) error {
-	serverConfig := config.Config().Server
-
-	port := serverConfig.Port
-	prefork := serverConfig.Prefork
-
-	listenConfig := fiber.ListenConfig{
-		EnablePrefork: prefork,
-	}
-
-	listenUrl := fmt.Sprintf(":%d", port)
-
-	return app.Listen(listenUrl, listenConfig)
-}
-
-func dashboard(app *fiber.App, uifs fs.FS) {
+func dashboard(fb *fiber.App, uifs fs.FS) {
 	// fiber无法直接获取到index.html并返回, WTF?
-	app.Get("/", func(c fiber.Ctx) error {
+	fb.Get("/", func(c fiber.Ctx) error {
 		indexFile, err := uifs.Open("dist/index.html")
 
 		if err != nil {
@@ -118,7 +97,7 @@ func dashboard(app *fiber.App, uifs fs.FS) {
 		return c.Type("html").SendStream(indexFile)
 	})
 
-	app.Use("/", filesystem.New(filesystem.Config{
+	fb.Use("/", filesystem.New(filesystem.Config{
 		Root:       ui.GetUIFS(),
 		PathPrefix: "dist",
 	}))

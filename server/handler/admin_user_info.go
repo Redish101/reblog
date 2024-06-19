@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"reblog/internal/core"
 	"reblog/internal/query"
 	"reblog/server/common"
 
@@ -17,7 +18,7 @@ type RespUserInfo struct {
 //	@Tags			站点管理
 //	@Success		200	{object}	common.Resp{data=RespUserInfo}
 //	@Router			/admin/userInfo [GET]
-func AdminUserInfo(router fiber.Router) {
+func AdminUserInfo(app *core.App, router fiber.Router) {
 	router.Get("/userInfo", func(c fiber.Ctx) error {
 		u := query.User
 
