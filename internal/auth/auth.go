@@ -74,7 +74,7 @@ func (a *Auth) GetToken(username string, password string) string {
 	return signedToken
 }
 
-func (a *Auth) ValidToken(token string) bool {
+func (a *Auth) VerifyToken(token string) bool {
 	parsedToken, err := jwt.ParseWithClaims(token, &TokenClaim{}, func(t *jwt.Token) (interface{}, error) {
 		return a.key, nil
 	})

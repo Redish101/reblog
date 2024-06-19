@@ -21,7 +21,7 @@ func Auth(app *core.App) func(c fiber.Ctx) error {
 			return RespServerError(c, err)
 		}
 
-		if !auth.ValidToken(token) {
+		if !auth.VerifyToken(token) {
 			return RespFail(c, http.StatusUnauthorized, "token错误", nil)
 		}
 

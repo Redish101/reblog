@@ -30,6 +30,6 @@ func (s *AuthService) GetToken(username string, password string) string {
 	return s.auth.GetToken(username, password)
 }
 
-func (s *AuthService) ValidToken(token string) bool {
-	return s.auth.ValidToken(token)
+func (s *AuthService) VerifyToken(token string) bool {
+	return s.auth.VerifyToken(token)
 }
