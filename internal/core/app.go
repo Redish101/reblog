@@ -28,7 +28,7 @@ func (a *App) inject(name string, service Service) {
 
 // 注入服务到App实例, 并生成服务名称
 func AppInject[T Service](app *App, service T) {
-	log.Debugf("注入服务 %s", getServiceName[T]())
+	log.Debugf("[SERVICE] 注入服务 %s", getServiceName[T]())
 	app.inject(getServiceName[T](), service)
 }
 
@@ -82,6 +82,7 @@ func (app *App) Init() {
 	if version.Version == "dev" {
 		app.dev = true
 		log.Logger().SetLevel(logrus.DebugLevel)
+		log.Debug("以开发模式启动")
 	} else {
 		app.dev = false
 	}
@@ -112,6 +113,10 @@ func (app *App) Query() *query.Query {
 	return app.query
 }
 
+func (app *App) Dev() bool {
+	return app.dev
+}
+
 func (app *App) Listen() error {
 	serverConfig := app.config.Server
 
@@ -126,7 +131,7 @@ func (app *App) Listen() error {
 
 	listenUrl := fmt.Sprintf("%s:%d", host, port)
 
-	log.Infof("在 http://%s 启动服务", listenUrl)
+	log.Infof("[HTTP] 在 http://%s 启动服务", listenUrl)
 
 	return app.fiber.Listen(listenUrl, listenConfig)
 }

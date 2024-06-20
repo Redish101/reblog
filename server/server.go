@@ -1,6 +1,7 @@
 package server
 
 import (
+	"io"
 	"io/fs"
 	"reblog/internal/core"
 	"reblog/internal/log"
@@ -10,7 +11,7 @@ import (
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/cors"
 	"github.com/gofiber/fiber/v3/middleware/filesystem"
-	"github.com/gofiber/fiber/v3/middleware/logger"
+	fb_logger "github.com/gofiber/fiber/v3/middleware/logger"
 	_ "gorm.io/gorm"
 )
 
@@ -35,7 +36,21 @@ func Start() {
 	uifs := ui.GetUIFS()
 
 	// logger
-	fb.Use(logger.New())
+	fb.Use(fb_logger.New(fb_logger.Config{
+		Format: "[HTTP] ${time} | ${status} | ${latency} | ${ip} | ${method} | ${path}",
+		Output: io.Discard,
+		Done: func(c fiber.Ctx, logString []byte) {
+			code := c.Response().StatusCode()
+
+			if code >= 200 && code < 400 {
+				if app.Dev() {
+					log.Info(string(logString))
+				}
+			} else {
+				log.Error(string(logString))
+			}
+		},
+	}))
 
 	// cors
 	fb.Use(cors.New(cors.ConfigDefault))
