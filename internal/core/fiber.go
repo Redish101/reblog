@@ -1,15 +1,15 @@
 package core
 
 import (
-	"reblog/config"
+	"reblog/internal/version"
 
 	"github.com/gofiber/fiber/v3"
 )
 
 func GetFiber() *fiber.App {
 	fiberApp := fiber.New(fiber.Config{
-		AppName:      config.GetAppName(),
-		ServerHeader: config.GetAppName(),
+		AppName:      version.GetAppName(),
+		ServerHeader: version.GetAppName(),
 	})
 
 	return fiberApp

@@ -6,14 +6,17 @@ import (
 	"reblog/internal/db"
 	"reblog/internal/log"
 	"reblog/internal/query"
+	"reblog/internal/version"
 
 	"github.com/gofiber/fiber/v3"
+	"github.com/sirupsen/logrus"
 )
 
 type App struct {
 	config *config.Config
 	fiber  *fiber.App
 	query  *query.Query
+	dev    bool
 
 	service *map[string]Service
 }
@@ -25,6 +28,7 @@ func (a *App) inject(name string, service Service) {
 
 // 注入服务到App实例, 并生成服务名称
 func AppInject[T Service](app *App, service T) {
+	log.Debugf("注入服务 %s", getServiceName[T]())
 	app.inject(getServiceName[T](), service)
 }
 
@@ -75,6 +79,13 @@ func (app *App) initDefaultServices() {
 }
 
 func (app *App) Init() {
+	if version.Version == "dev" {
+		app.dev = true
+		log.Logger().SetLevel(logrus.DebugLevel)
+	} else {
+		app.dev = false
+	}
+
 	app.initConfig()
 	app.initFiber()
 	app.initQuery()

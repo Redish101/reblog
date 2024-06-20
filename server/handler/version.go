@@ -1,8 +1,8 @@
 package handler
 
 import (
-	"reblog/config"
 	"reblog/internal/core"
+	"reblog/internal/version"
 	"reblog/server/common"
 	"runtime"
 
@@ -24,9 +24,9 @@ type RespVersion struct {
 func Version(app *core.App, router fiber.Router) {
 	router.Get("/version", func(c fiber.Ctx) error {
 		return common.RespSuccess(c, "操作成功", RespVersion{
-			AppName: config.GetAppName(),
-			Version: config.Version,
-			Commit:  config.Commit,
+			AppName: version.GetAppName(),
+			Version: version.Version,
+			Commit:  version.Commit,
 			Runtime: runtime.Version(),
 		})
 	})

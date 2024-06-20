@@ -7,7 +7,7 @@ install-dev:
 	$(MAKE) -C ui install-dev
 
 backend:
-	go build -o bin/reblog -ldflags "-w -s -X 'reblog/config.Version=$(VERSION)' -X 'reblog/config.Commit=$(COMMIT)'" -gcflags "-N -l"
+	go build -o bin/reblog -ldflags "-w -s -X 'reblog/internal/version.Version=$(VERSION)' -X 'reblog/internal/version.Commit=$(COMMIT)'" -gcflags "-N -l"
 
 gen:
 	go run cmd/gen.go
