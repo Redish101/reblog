@@ -31,7 +31,6 @@ type DashboardConfig struct {
 }
 
 type Config struct {
-	Dev       bool            `yaml:"dev"`
 	Server    ServerConfig    `yaml:"server"`
 	DB        DBConfig        `yaml:"db"`
 	Dashboard DashboardConfig `yaml:"dashboard"`
@@ -73,7 +72,6 @@ func (c *Config) Load() error {
 
 func DefuaulConfig() *Config {
 	return &Config{
-		Dev: false,
 		Server: ServerConfig{
 			Port:    3000,
 			Prefork: true,
