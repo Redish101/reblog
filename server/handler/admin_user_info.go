@@ -12,11 +12,11 @@ type RespUserInfo struct {
 	Nickname string `json:"nickname"`
 }
 
-// @Summary		获取管理员信息
-// @Description	获取管理员信息
-// @Tags			站点管理
-// @Success		200	{object}	common.Resp{data=RespUserInfo}
-// @Router			/admin/userInfo [GET]
+//	@Summary		获取管理员信息
+//	@Description	获取管理员信息
+//	@Tags			站点管理
+//	@Success		200	{object}	common.Resp{data=RespUserInfo}
+//	@Router			/admin/userInfo [GET]
 func AdminUserInfo(app *core.App, router fiber.Router) {
 	router.Get("/userInfo", func(c fiber.Ctx) error {
 		u := app.Query().User
