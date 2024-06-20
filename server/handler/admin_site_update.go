@@ -3,7 +3,6 @@ package handler
 import (
 	"reblog/internal/core"
 	"reblog/internal/model"
-	"reblog/internal/query"
 	"reblog/server/common"
 
 	"github.com/gofiber/fiber/v3"
@@ -22,7 +21,7 @@ import (
 //	@Router			/admin/site [PUT]
 func AdminSiteUpdate(app *core.App, router fiber.Router) {
 	router.Put("/site", func(c fiber.Ctx) error {
-		s := query.Site
+		s := app.Query().Site
 
 		name := c.FormValue("name")
 		url := c.FormValue("url")

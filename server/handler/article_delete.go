@@ -3,24 +3,23 @@ package handler
 import (
 	"net/http"
 	"reblog/internal/core"
-	"reblog/internal/query"
 	"reblog/server/common"
 
 	"github.com/gofiber/fiber/v3"
 )
 
-//	@Summary		删除文章
-//	@Description	根据slug删除文章
-//	@Tags			文章
-//	@Param			slug	path		string		true	"文章的slug"
-//	@Success		200		{object}	common.Resp	"删除成功"
-//	@Failure		400		{object}	common.Resp	"缺少必要参数"
-//	@Failure		404		{object}	common.Resp	"未知的文章"
-//	@Security		ApiKeyAuth
-//	@Router			/article/{slug} [delete]
+// @Summary		删除文章
+// @Description	根据slug删除文章
+// @Tags			文章
+// @Param			slug	path		string		true	"文章的slug"
+// @Success		200		{object}	common.Resp	"删除成功"
+// @Failure		400		{object}	common.Resp	"缺少必要参数"
+// @Failure		404		{object}	common.Resp	"未知的文章"
+// @Security		ApiKeyAuth
+// @Router			/article/{slug} [delete]
 func ArticleDelete(app *core.App, router fiber.Router) {
 	router.Delete("/:slug", func(c fiber.Ctx) error {
-		a := query.Article
+		a := app.Query().Article
 
 		slug := c.Params("slug")
 

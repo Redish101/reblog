@@ -2,20 +2,19 @@ package handler
 
 import (
 	"reblog/internal/core"
-	"reblog/internal/query"
 	"reblog/server/common"
 
 	"github.com/gofiber/fiber/v3"
 )
 
-//	@Summary		获取站点信息
-//	@Description	获取站点信息
-//	@Tags			站点
-//	@Success		200	{object}	common.Resp{data=model.Site}
-//	@Router			/site [get]
+// @Summary		获取站点信息
+// @Description	获取站点信息
+// @Tags			站点
+// @Success		200	{object}	common.Resp{data=model.Site}
+// @Router			/site [get]
 func Site(app *core.App, router fiber.Router) {
 	router.Get("/", func(c fiber.Ctx) error {
-		s := query.Site
+		s := app.Query().Site
 
 		site, err := s.First()
 

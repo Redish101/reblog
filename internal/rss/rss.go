@@ -1,14 +1,14 @@
 package rss
 
 import (
+	"reblog/internal/core"
 	"reblog/internal/model"
-	"reblog/internal/query"
 
 	"github.com/gorilla/feeds"
 )
 
-func GenerateRSS(articles []*model.Article) (string, error) {
-	s := query.Site
+func GenerateRSS(app *core.App, articles []*model.Article) (string, error) {
+	s := app.Query().Site
 
 	site, err := s.First()
 
