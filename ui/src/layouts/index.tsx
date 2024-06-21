@@ -5,7 +5,7 @@ import {
   KeyOutlined,
   SmileTwoTone,
 } from "@ant-design/icons";
-import { PageContainer, ProLayout } from "@ant-design/pro-components";
+import { ProLayout } from "@ant-design/pro-components";
 import { App, ConfigProvider } from "antd";
 import { useEffect, useState } from "react";
 import { Outlet, useLocation, Icon, history } from "umi";
@@ -97,7 +97,7 @@ const Layout = () => {
             </div>
           )}
         >
-            <Outlet />
+          <Outlet />
         </ProLayout>
       </App>
     </ConfigProvider>

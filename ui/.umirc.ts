@@ -32,5 +32,5 @@ export default defineConfig({
   npmClient: "pnpm",
   title: "reblog dashboard",
   icons: {},
-  clientLoader: {}
+  clientLoader: {},
 });
