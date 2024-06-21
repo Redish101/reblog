@@ -1,4 +1,5 @@
 import useApi from "@/utils/fetcher";
+import { PageContainer } from "@ant-design/pro-components";
 import { Card, Col, Row, Statistic, Typography, message } from "antd";
 import { useEffect, useState } from "react";
 import { history } from "umi";
@@ -81,7 +82,7 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div>
+    <PageContainer title="首页">
       <div>
         <Row gutter={[16, 16]}>
           <Col xs={24} sm={12} md={8}>
@@ -107,7 +108,7 @@ const HomePage = () => {
       <div style={{ marginTop: 20 }}>
         <Typography.Text type="secondary">今天也要多写文章</Typography.Text>
       </div>
-    </div>
+    </PageContainer>
   );
 };
 

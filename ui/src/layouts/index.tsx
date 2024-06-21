@@ -97,9 +97,7 @@ const Layout = () => {
             </div>
           )}
         >
-          <PageContainer>
             <Outlet />
-          </PageContainer>
         </ProLayout>
       </App>
     </ConfigProvider>

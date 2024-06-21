@@ -1,5 +1,10 @@
+import { PageContainer } from "@ant-design/pro-components";
+
 const CreateArticlePage = () => {
-  return;
+  return (
+    <PageContainer title="新文章">
+    </PageContainer>
+  );
 };
 
 export default CreateArticlePage;

@@ -19,12 +19,10 @@ export default defineConfig({
     {
       path: "/article",
       component: "article",
-      routes: [
-        {
-          path: "/article/create",
-          component: "article/create",
-        },
-      ],
+    },
+    {
+      path: "/article/create",
+      component: "article/create",
     },
     {
       path: "/*",
@@ -34,4 +32,5 @@ export default defineConfig({
   npmClient: "pnpm",
   title: "reblog dashboard",
   icons: {},
+  clientLoader: {}
 });
