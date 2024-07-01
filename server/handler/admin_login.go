@@ -12,6 +12,11 @@ type AdminLoginResp struct {
 	Token string `json:"token"`
 }
 
+type AdminLoginRequest struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
 //	@Summary		登录
 //	@Description	管理员使用用户名和密码进行登录，若登录成功，返回token
 //	@Tags			站点管理

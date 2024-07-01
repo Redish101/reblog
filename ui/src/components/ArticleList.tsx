@@ -38,7 +38,7 @@ const ArticleList = () => {
       render: (text, record, _, action) => [
         <Link
           key={`edit-${record.slug}-link`}
-          to={`/article/${record.slug}/edit`}
+          to={`/article/edit/${record.slug}`}
         >
           编辑
         </Link>,

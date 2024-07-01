@@ -66,6 +66,19 @@ export default defineMock({
       ],
     },
   },
+  "GET /api/article/:slug": {
+    success: true,
+    msg: "success",
+    data: {
+      id: 1,
+      slug: "hello-world",
+      title: "Hello, World!",
+      desc: "Hurr durr, i'ma super article.",
+      content: "This is the first article.",
+      created_at: "2024-01-01 00:00:00",
+      updated_at: "2024-01-01 00:00:00",
+    },
+  },
   "POST /api/article/:slug": (req, res) => {
     if (req.headers.authorization != "admin-token") {
       res.status(401).json({

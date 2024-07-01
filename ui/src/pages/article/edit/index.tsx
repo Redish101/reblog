@@ -1,4 +1,4 @@
-import { history } from "umi";
+import { history, useParams } from "umi";
 import useVditor from "@/libs/vditor";
 import useApi from "@/utils/fetcher";
 import { SendOutlined } from "@ant-design/icons";
@@ -10,6 +10,7 @@ import {
 import { Drawer, FloatButton, message } from "antd";
 import { useEffect, useState } from "react";
 import Vditor from "vditor";
+import { Article } from "@/types";
 
 interface ArticleFormValues {
   title: string;
@@ -17,19 +18,49 @@ interface ArticleFormValues {
   slug: string;
 }
 
-const CreateArticlePage = () => {
+const EditArticlePage = () => {
+  const articleSlug = useParams()["slug"];
+
   const [vd, setVd] = useState<Vditor>();
-  const [drawerOpen, setDrawerOpen] = useState<boolean>(true);
+  const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [articleMeta, setArticleMeta] = useState<ArticleFormValues>();
+  const [articleData, setArticleData] = useState<Article>();
+
+  const fetchArticle = async () => {
+    if (!articleSlug) {
+      message.open({
+        type: "warning",
+        content: "文章不存在",
+      });
+
+      return;
+    }
+
+    const res = await useApi(`/api/article/${articleSlug}`);
+    const data = await res.json();
+
+    if (data["success"]) {
+      setArticleData(data["data"]);
+      setArticleMeta({
+        title: data["data"]["title"],
+        desc: data["data"]["desc"],
+        slug: data["data"]["slug"],
+      });
+    } else {
+      message.open({
+        type: "warning",
+        content: data["msg"],
+      });
+    }
+  };
+
+  fetchArticle();
 
   useEffect(() => {
-    const vditor = useVditor();
-    setVd(vditor);
+    const vditor = useVditor(articleData?.content);
 
-    return () => {
-      vd?.destroy();
-    };
-  }, []);
+    setVd(vditor);
+  }, [articleData?.content]);
 
   const handleDrawerFormFinish = (values: ArticleFormValues) => {
     setArticleMeta(values);
@@ -72,19 +103,19 @@ const CreateArticlePage = () => {
     if (data["success"]) {
       message.open({
         type: "success",
-        content: "发布成功",
+        content: "更新成功",
       });
       history.push("/article");
     } else {
       message.open({
         type: "error",
-        content: `发布失败: ${data["msg"]}`,
+        content: `更新失败: ${data["msg"]}`,
       });
     }
   };
 
   return (
-    <PageContainer title="新文章">
+    <PageContainer title="编辑">
       <FloatButton.Group>
         <FloatButton
           onClick={() => setDrawerOpen(true)}
@@ -107,16 +138,19 @@ const CreateArticlePage = () => {
             label="标题"
             name="title"
             rules={[{ required: true, message: "请填写标题" }]}
+            initialValue={articleMeta?.title}
           />
           <ProFormText
             label="简介"
             name="desc"
             rules={[{ required: true, message: "请填写简介" }]}
+            initialValue={articleMeta?.desc}
           />
           <ProFormText
             label="slug"
             name="slug"
             rules={[{ required: true, message: "请填写slug" }]}
+            initialValue={articleMeta?.slug}
           />
         </ProForm>
       </Drawer>
@@ -124,5 +158,4 @@ const CreateArticlePage = () => {
     </PageContainer>
   );
 };
-
-export default CreateArticlePage;
+export default EditArticlePage;

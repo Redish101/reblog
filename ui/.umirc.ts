@@ -25,6 +25,10 @@ export default defineConfig({
       component: "article/create",
     },
     {
+      path: "/article/edit/:slug",
+      component: "article/edit",
+    },
+    {
       path: "/*",
       component: "404",
     },
@@ -32,5 +36,5 @@ export default defineConfig({
   npmClient: "pnpm",
   title: "reblog dashboard",
   icons: {},
-  clientLoader: {},
+  esbuildMinifyIIFE: true,
 });
