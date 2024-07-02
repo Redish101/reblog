@@ -85,11 +85,10 @@ const EditArticlePage = () => {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("desc", desc);
-    formData.append("slug", slug);
     formData.append("content", content);
 
     const res = await useApi(`/api/article/${slug}`, {
-      method: "POST",
+      method: "PUT",
       body: formData,
     });
 
@@ -151,6 +150,7 @@ const EditArticlePage = () => {
             name="slug"
             rules={[{ required: true, message: "请填写slug" }]}
             initialValue={articleMeta?.slug}
+            disabled
           />
         </ProForm>
       </Drawer>
