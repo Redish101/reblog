@@ -1,7 +1,8 @@
 package handler
 
 import (
-	"reblog/config"
+	"reblog/internal/core"
+	"reblog/internal/version"
 	"reblog/server/common"
 	"runtime"
 
@@ -20,12 +21,12 @@ type RespVersion struct {
 //	@Tags			版本
 //	@Success		200	{object}	common.Resp{data=RespVersion}
 //	@Router			/site [get]
-func Version(router fiber.Router) {
+func Version(app *core.App, router fiber.Router) {
 	router.Get("/version", func(c fiber.Ctx) error {
 		return common.RespSuccess(c, "操作成功", RespVersion{
-			AppName: config.GetAppName(),
-			Version: config.Version,
-			Commit:  config.Commit,
+			AppName: version.GetAppName(),
+			Version: version.Version,
+			Commit:  version.Commit,
 			Runtime: runtime.Version(),
 		})
 	})

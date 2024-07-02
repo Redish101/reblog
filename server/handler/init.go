@@ -2,17 +2,17 @@ package handler
 
 import (
 	"net/http"
+	"reblog/internal/core"
 	"reblog/internal/hash"
 	"reblog/internal/model"
-	"reblog/internal/query"
 	"reblog/server/common"
 	"regexp"
 
 	"github.com/gofiber/fiber/v3"
 )
 
-func isInited() bool {
-	site, _ := query.Site.First()
+func isInited(app *core.App) bool {
+	site, _ := app.Query().Site.First()
 
 	return site != nil
 }
@@ -32,9 +32,9 @@ func isInited() bool {
 //	@Failure		400			{object}	common.Resp	"无效的邮箱或URL"
 //	@Failure		403			{object}	common.Resp	"此站点已初始化"
 //	@Router			/init [post]
-func Init(router fiber.Router) {
+func Init(app *core.App, router fiber.Router) {
 	router.Post("/init", func(c fiber.Ctx) error {
-		if isInited() {
+		if isInited(app) {
 			return common.RespFail(c, http.StatusForbidden, "此站点已初始化", nil)
 		}
 
@@ -83,8 +83,8 @@ func Init(router fiber.Router) {
 			Icon: icon,
 		}
 
-		userErr := query.User.Create(user)
-		siteErr := query.Site.Create(site)
+		userErr := app.Query().User.Create(user)
+		siteErr := app.Query().Site.Create(site)
 
 		if userErr != nil || siteErr != nil {
 			return common.RespServerError(c, userErr, siteErr)

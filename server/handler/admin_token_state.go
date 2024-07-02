@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"reblog/internal/auth"
+	"reblog/internal/core"
 	"reblog/server/common"
 
 	"github.com/gofiber/fiber/v3"
@@ -13,10 +13,17 @@ import (
 //	@Success		200	{object}	common.Resp{data=bool}	"若值为true则token有效"
 //	@Security		ApiKeyAuth
 //	@Router			/admin/tokenState [GET]
-func AdminTokenState(router fiber.Router) {
+func AdminTokenState(app *core.App, router fiber.Router) {
 	router.Get("/tokenState", func(c fiber.Ctx) error {
 		token := c.Get("Authorization")
-		state := auth.ValidToken(token)
+
+		auth, err := core.AppService[*core.AuthService](app)
+
+		if err != nil {
+			return common.RespServerError(c, err)
+		}
+
+		state := auth.VerifyToken(token)
 
 		return common.RespSuccess(c, "操作成功", state)
 	})

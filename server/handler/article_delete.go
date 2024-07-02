@@ -2,7 +2,7 @@ package handler
 
 import (
 	"net/http"
-	"reblog/internal/query"
+	"reblog/internal/core"
 	"reblog/server/common"
 
 	"github.com/gofiber/fiber/v3"
@@ -17,9 +17,9 @@ import (
 //	@Failure		404		{object}	common.Resp	"未知的文章"
 //	@Security		ApiKeyAuth
 //	@Router			/article/{slug} [delete]
-func ArticleDelete(router fiber.Router) {
+func ArticleDelete(app *core.App, router fiber.Router) {
 	router.Delete("/:slug", func(c fiber.Ctx) error {
-		a := query.Article
+		a := app.Query().Article
 
 		slug := c.Params("slug")
 
@@ -44,5 +44,5 @@ func ArticleDelete(router fiber.Router) {
 		}
 
 		return common.RespSuccess(c, "删除成功", nil)
-	}, common.Auth())
+	}, common.Auth(app))
 }

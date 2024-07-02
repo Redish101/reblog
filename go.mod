@@ -4,6 +4,7 @@ go 1.22
 
 require (
 	github.com/gofiber/fiber/v3 v3.0.0-20240208065812-847a4a959d97
+	github.com/sirupsen/logrus v1.9.3
 	github.com/swaggo/swag v1.16.3
 	gopkg.in/yaml.v3 v3.0.1
 	gorm.io/driver/mysql v1.5.4

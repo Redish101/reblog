@@ -2,17 +2,19 @@ package config
 
 import (
 	"os"
+	"reblog/internal/log"
 
 	"gopkg.in/yaml.v3"
 )
 
-var configInterface *ConfigSchema
-
 const configFile = "reblog.yml"
 
+var configInstance *Config
+
 type ServerConfig struct {
-	Port    int  `yaml:"port"`
-	Prefork bool `yaml:"prefork"`
+	Host    string `yaml:"host"`
+	Port    int    `yaml:"port"`
+	Prefork bool   `yaml:"prefork"`
 }
 
 type DBConfig struct {
@@ -28,22 +30,13 @@ type DashboardConfig struct {
 	Enable bool `yaml:"enable"`
 }
 
-type ConfigSchema struct {
-	Dev       bool            `yaml:"dev"`
+type Config struct {
 	Server    ServerConfig    `yaml:"server"`
 	DB        DBConfig        `yaml:"db"`
 	Dashboard DashboardConfig `yaml:"dashboard"`
 }
 
-func Config() *ConfigSchema {
-	if configInterface == nil {
-		InitConfig()
-	}
-
-	return configInterface
-}
-
-func (c *ConfigSchema) SaveConfig() {
+func (c *Config) SaveConfig() {
 	configFile, err := os.OpenFile(configFile, os.O_CREATE|os.O_WRONLY, 0644)
 
 	if err != nil {
@@ -65,7 +58,7 @@ func (c *ConfigSchema) SaveConfig() {
 	}
 }
 
-func (c *ConfigSchema) LoadConfig() error {
+func (c *Config) Load() error {
 	configFile, err := os.ReadFile(configFile)
 
 	if err != nil {
@@ -77,9 +70,8 @@ func (c *ConfigSchema) LoadConfig() error {
 	return err
 }
 
-func DefuaulConfig() *ConfigSchema {
-	return &ConfigSchema{
-		Dev: false,
+func DefaultConfig() *Config {
+	return &Config{
 		Server: ServerConfig{
 			Port:    3000,
 			Prefork: true,
@@ -98,14 +90,26 @@ func DefuaulConfig() *ConfigSchema {
 	}
 }
 
-func InitConfig() {
+func NewFromFile() *Config {
+	if configInstance != nil {
+		return configInstance
+	}
+
 	_, err := os.Stat(configFile)
 
 	if os.IsNotExist(err) {
-		DefuaulConfig().SaveConfig()
+		DefaultConfig().SaveConfig()
 	}
 
-	configInterface = &ConfigSchema{}
+	if err != nil {
+		log.Panicf("[config] 配置文件加载失败: %v", err)
+	}
 
-	configInterface.LoadConfig()
+	config := &Config{}
+
+	config.Load()
+
+	configInstance = config
+
+	return config
 }

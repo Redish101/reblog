@@ -2,8 +2,8 @@ package handler
 
 import (
 	"net/http"
+	"reblog/internal/core"
 	"reblog/internal/model"
-	"reblog/internal/query"
 	"reblog/server/common"
 
 	"github.com/gofiber/fiber/v3"
@@ -21,9 +21,9 @@ import (
 //	@Failure		404		{object}	common.Resp	"未知的文章"
 //	@Security		ApiKeyAuth
 //	@Router			/article/{slug} [put]
-func ArticleUpdate(router fiber.Router) {
+func ArticleUpdate(app *core.App, router fiber.Router) {
 	router.Put("/:slug", func(c fiber.Ctx) error {
-		a := query.Article
+		a := app.Query().Article
 
 		slug := c.Params("slug")
 
@@ -56,5 +56,5 @@ func ArticleUpdate(router fiber.Router) {
 		}
 
 		return common.RespSuccess(c, "更新成功", nil)
-	}, common.Auth())
+	}, common.Auth(app))
 }

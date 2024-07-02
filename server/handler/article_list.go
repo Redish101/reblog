@@ -3,8 +3,8 @@ package handler
 import (
 	"fmt"
 	"net/http"
+	"reblog/internal/core"
 	"reblog/internal/model"
-	"reblog/internal/query"
 	"reblog/server/common"
 	"strconv"
 
@@ -25,9 +25,9 @@ type ArticlesListResp struct {
 //	@Failure		400			{object}	common.Resp							"参数不合法"
 //	@Failure		500			{object}	common.Resp							"服务器内部错误"
 //	@Router			/article/list [get]
-func ArticleList(router fiber.Router) {
+func ArticleList(app *core.App, router fiber.Router) {
 	router.Get("/list", func(c fiber.Ctx) error {
-		a := query.Article
+		a := app.Query().Article
 
 		pageIndexStr := c.Query("pageIndex", "1")
 		pageSizeStr := c.Query("pageSize", "10")

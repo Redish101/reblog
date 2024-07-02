@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"reblog/internal/query"
+	"reblog/internal/core"
 	"reblog/internal/rss"
 	"reblog/server/common"
 
@@ -15,9 +15,9 @@ import (
 //	@Success		200	"RSS Feed"
 //	@Failure		500	{object}	common.Resp	"服务器错误"
 //	@Router			/rss [get]
-func Rss(router fiber.Router) {
+func Rss(app *core.App, router fiber.Router) {
 	router.Get("/rss", func(c fiber.Ctx) error {
-		a := query.Article
+		a := app.Query().Article
 
 		articles, err := a.Find()
 
@@ -25,7 +25,7 @@ func Rss(router fiber.Router) {
 			return common.RespServerError(c, err)
 		}
 
-		rssString, err := rss.GenerateRSS(articles)
+		rssString, err := rss.GenerateRSS(app, articles)
 
 		if err != nil {
 			return common.RespServerError(c, err)

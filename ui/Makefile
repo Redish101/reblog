@@ -9,4 +9,4 @@ build:
 	cp -r dist ../internal/ui/dist
 
 install-dev:
-	pnpm install
+	pnpm install --no-frozen-lockfile

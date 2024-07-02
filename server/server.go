@@ -1,21 +1,17 @@
 package server
 
 import (
-	"fmt"
+	"io"
 	"io/fs"
-	"log"
-	v "reblog/config"
-	"reblog/internal/auth"
-	"reblog/internal/config"
-	"reblog/internal/db"
-	"reblog/internal/query"
+	"reblog/internal/core"
+	"reblog/internal/log"
 	"reblog/internal/ui"
 	h "reblog/server/handler"
 
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/cors"
 	"github.com/gofiber/fiber/v3/middleware/filesystem"
-	"github.com/gofiber/fiber/v3/middleware/logger"
+	fb_logger "github.com/gofiber/fiber/v3/middleware/logger"
 	_ "gorm.io/gorm"
 )
 
@@ -29,91 +25,84 @@ import (
 //	@In							header
 //	@Name						Authorization
 func Start() {
-	config.InitConfig()
+	log.Info("欢迎使用reblog")
 
-	auth.SetKey()
+	app := core.NewApp()
 
-	query.Use(db.DB())
-	query.SetDefault(db.DB())
+	fb := app.Fiber()
 
-	app := fiber.New(fiber.Config{
-		AppName:      v.GetAppName(),
-		ServerHeader: v.GetAppName(),
-	})
-
-	api := app.Group("/api")
+	api := fb.Group("/api")
 
 	uifs := ui.GetUIFS()
 
 	// logger
-	app.Use(logger.New())
+	fb.Use(fb_logger.New(fb_logger.Config{
+		Format: "[HTTP] ${time} | ${status} | ${latency} | ${ip} | ${method} | ${path}",
+		Output: io.Discard,
+		Done: func(c fiber.Ctx, logString []byte) {
+			code := c.Response().StatusCode()
+
+			if code >= 200 && code < 400 {
+				if app.Dev() {
+					log.Info(string(logString))
+				}
+			} else {
+				log.Error(string(logString))
+			}
+		},
+	}))
 
 	// cors
-	app.Use(cors.New(cors.ConfigDefault))
+	fb.Use(cors.New(cors.ConfigDefault))
 
 	// apidoc
-	h.Apidoc(app)
+	h.Apidoc(app, fb)
 
 	// init
-	h.Init(api)
+	h.Init(app, api)
 
 	// admin
 	admin := api.Group("/admin")
 
-	h.AdminLogin(admin)
-	h.AdminTokenState(admin)
-	h.AdminSiteUpdate(admin)
-	h.AdminUserInfo(admin)
+	h.AdminLogin(app, admin)
+	h.AdminTokenState(app, admin)
+	h.AdminSiteUpdate(app, admin)
+	h.AdminUserInfo(app, admin)
 
 	// article
 	article := api.Group("/article")
 
-	h.ArticleList(article)
-	h.ArticleSlug(article)
-	h.ArticleAdd(article)
-	h.ArticleDelete(article)
-	h.ArticleUpdate(article)
+	h.ArticleList(app, article)
+	h.ArticleSlug(app, article)
+	h.ArticleAdd(app, article)
+	h.ArticleDelete(app, article)
+	h.ArticleUpdate(app, article)
 
 	// rss
-	h.Rss(api)
+	h.Rss(app, api)
 
 	// site
 	site := api.Group("/site")
 
-	h.Site(site)
+	h.Site(app, site)
 
 	// version
-	h.Version(api)
+	h.Version(app, api)
 
 	// dashboard
-	if config.Config().Dashboard.Enable {
-		dashboard(app, uifs)
+	if app.Config().Dashboard.Enable {
+		dashboard(fb, uifs)
 	}
 
 	// notFound
-	h.NotFound(app)
+	h.NotFound(app, fb)
 
-	log.Fatalln(listen(app))
+	log.Fatal(app.Listen())
 }
 
-func listen(app *fiber.App) error {
-	serverConfig := config.Config().Server
-
-	port := serverConfig.Port
-	prefork := serverConfig.Prefork
-
-	listenConfig := fiber.ListenConfig{
-		EnablePrefork: prefork,
-	}
-
-	listenUrl := fmt.Sprintf(":%d", port)
-
-	return app.Listen(listenUrl, listenConfig)
-}
-
-func dashboard(app *fiber.App, uifs fs.FS) {
+func dashboard(fb *fiber.App, uifs fs.FS) {
 	// fiber无法直接获取到index.html并返回, WTF?
-	app.Get("/", func(c fiber.Ctx) error {
+	fb.Get("/", func(c fiber.Ctx) error {
 		indexFile, err := uifs.Open("dist/index.html")
 
 		if err != nil {
@@ -123,7 +112,7 @@ func dashboard(app *fiber.App, uifs fs.FS) {
 		return c.Type("html").SendStream(indexFile)
 	})
 
-	app.Use("/", filesystem.New(filesystem.Config{
+	fb.Use("/", filesystem.New(filesystem.Config{
 		Root:       ui.GetUIFS(),
 		PathPrefix: "dist",
 	}))

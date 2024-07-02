@@ -2,7 +2,7 @@ package handler
 
 import (
 	"net/http"
-	"reblog/internal/auth"
+	"reblog/internal/core"
 	"reblog/server/common"
 
 	"github.com/gofiber/fiber/v3"
@@ -10,6 +10,11 @@ import (
 
 type AdminLoginResp struct {
 	Token string `json:"token"`
+}
+
+type AdminLoginRequest struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
 }
 
 //	@Summary		登录
@@ -21,13 +26,19 @@ type AdminLoginResp struct {
 //	@Failure		400			{object}	common.Resp							"缺少必要参数"
 //	@Failure		401			{object}	common.Resp							"用户名或密码错误"
 //	@Router			/admin/login [post]
-func AdminLogin(router fiber.Router) {
+func AdminLogin(app *core.App, router fiber.Router) {
 	router.Post("/login", func(c fiber.Ctx) error {
 		username := c.FormValue("username")
 		password := c.FormValue("password")
 
 		if common.IsEmpty(username, password) {
 			return common.RespMissingParameters(c)
+		}
+
+		auth, err := core.AppService[*core.AuthService](app)
+
+		if err != nil {
+			return common.RespServerError(c, err)
 		}
 
 		token := auth.GetToken(username, password)
