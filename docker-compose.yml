@@ -2,10 +2,29 @@ version: '3'
 
 services:
   reblog:
-    build: .
+    build:
+      context: .
+      args:
+        - CNMIRROR=false
+    volumes:
+      - ./reblog.yml:/root/reblog.yml
     ports:
       - "3000:3000"
+    depends_on:
+      - db
+
+  db:
+    image: mysql:latest
+    restart: always
     environment:
-      - REBLOG_DB_TYPE=mysql
-      - REBLOG_DB_DSN=user:password@tcp(mysql:3306)/reblog?charset=utf8mb4&parseTime=True&loc=Local
-  
+      MYSQL_ROOT_PASSWORD: your_password
+      MYSQL_DATABASE: your_db_name
+      MYSQL_USER: your_user
+      MYSQL_PASSWORD: your_password
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+volumes:
+  db_data:
