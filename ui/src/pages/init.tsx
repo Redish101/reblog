@@ -39,10 +39,10 @@ const InitPage = () => {
     refresh();
   }, []);
 
-  const fromRef = useRef<ProFormInstance<Init>>();
+  const formRef = useRef<ProFormInstance<Init>>();
 
   const handleSubmit = async (values: Init) => {
-    fromRef.current?.validateFields();
+    formRef.current?.validateFields();
 
     const formData = new FormData();
 
@@ -80,7 +80,7 @@ const InitPage = () => {
       style={{ marginTop: "100px", marginInline: "auto", maxWidth: "600px" }}
     >
       <ProCard title="初始化站点" bordered>
-        <StepsForm<Init> onFinish={handleSubmit} formRef={fromRef}>
+        <StepsForm<Init> onFinish={handleSubmit} formRef={formRef}>
           <StepsForm.StepForm title="管理员信息">
             <ProFormText
               label="用户名"

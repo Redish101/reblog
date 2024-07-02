@@ -70,7 +70,7 @@ func (c *Config) Load() error {
 	return err
 }
 
-func DefuaulConfig() *Config {
+func DefaultConfig() *Config {
 	return &Config{
 		Server: ServerConfig{
 			Port:    3000,
@@ -98,7 +98,7 @@ func NewFromFile() *Config {
 	_, err := os.Stat(configFile)
 
 	if os.IsNotExist(err) {
-		DefuaulConfig().SaveConfig()
+		DefaultConfig().SaveConfig()
 	}
 
 	if err != nil {
