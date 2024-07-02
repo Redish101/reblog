@@ -54,13 +54,15 @@ const EditArticlePage = () => {
     }
   };
 
-  fetchArticle();
+  useEffect(() => {
+    fetchArticle();
+  })
 
   useEffect(() => {
     const vditor = useVditor(articleData?.content);
-
+  
     setVd(vditor);
-  }, [articleData?.content]);
+  }, [articleData]);
 
   const handleDrawerFormFinish = (values: ArticleFormValues) => {
     setArticleMeta(values);
