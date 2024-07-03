@@ -3,6 +3,7 @@ import {
   ContainerFilled,
   HomeFilled,
   KeyOutlined,
+  ProductFilled,
   SmileTwoTone,
 } from "@ant-design/icons";
 import { ProLayout } from "@ant-design/pro-components";
@@ -68,6 +69,11 @@ const Layout = () => {
                 path: "/article",
                 name: "文章",
                 icon: <ContainerFilled />,
+              },
+              {
+                path: "/site",
+                name: "站点",
+                icon: <ProductFilled />,
               },
             ],
           }}

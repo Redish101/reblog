@@ -32,6 +32,10 @@ export default defineConfig({
       component: "article/edit",
     },
     {
+      path: "/site",
+      component: "site",
+    },
+    {
       path: "/*",
       component: "404",
     },
