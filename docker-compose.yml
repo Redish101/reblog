@@ -13,6 +13,7 @@ services:
     depends_on:
       - db
 
+  # TIP: 在生产构建中, CGO是关闭的, 请不要使用sqlite
   db:
     image: mysql:latest
     restart: always
