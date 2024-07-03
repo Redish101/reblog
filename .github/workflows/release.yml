@@ -1,5 +1,4 @@
-# .github/workflows/release.yml
-name: goreleaser
+name: release
 
 on:
   push:
