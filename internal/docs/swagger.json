@@ -12,7 +12,7 @@
         "version": "1.0"
     },
     "host": "localhost:3000",
-    "basePath": "/",
+    "basePath": "/api",
     "paths": {
         "/admin/login": {
             "post": {
@@ -154,6 +154,35 @@
                                     "properties": {
                                         "data": {
                                             "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/userInfo": {
+            "get": {
+                "description": "获取管理员信息",
+                "tags": [
+                    "站点管理"
+                ],
+                "summary": "获取管理员信息",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/common.Resp"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/handler.RespUserInfo"
                                         }
                                     }
                                 }
@@ -622,6 +651,35 @@
                     }
                 }
             }
+        },
+        "/version": {
+            "get": {
+                "description": "获取reblog版本信息",
+                "tags": [
+                    "版本"
+                ],
+                "summary": "获取reblog版本信息",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/common.Resp"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/handler.RespVersion"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -668,6 +726,34 @@
                 },
                 "count": {
                     "type": "integer"
+                }
+            }
+        },
+        "handler.RespUserInfo": {
+            "type": "object",
+            "properties": {
+                "nickname": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "handler.RespVersion": {
+            "type": "object",
+            "properties": {
+                "app_name": {
+                    "type": "string"
+                },
+                "commit": {
+                    "type": "string"
+                },
+                "runtime": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
                 }
             }
         },
