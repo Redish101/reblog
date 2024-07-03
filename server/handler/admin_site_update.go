@@ -14,7 +14,7 @@ import (
 //	@Param			name	formData	string		true	"站点名称"
 //	@Param			url		formData	string		true	"站点URL"
 //	@Param			desc	formData	string		true	"站点描述"
-//	@Param			icon	formData	string		fasle	"站点图标(base64格式)"
+//	@Param			icon	formData	string		false	"站点图标(base64格式)"
 //	@Success		200		{object}	common.Resp	"操作成功, 部分主题可能需重新部署生效"
 //	@Failure		400		{object}	common.Resp	"缺少参数"
 //	@Security		ApiKeyAuth
