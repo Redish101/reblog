@@ -16,15 +16,15 @@ import (
 	_ "gorm.io/gorm"
 )
 
-// @Title						reblog api
-// @Version					1.0
-// @License.name				GPL-V3
-// @Host						localhost:3000
-// @BasePath					/api
-// @Produce					json
-// @SecurityDefinitions.apikey	ApiKeyAuth
-// @In							header
-// @Name						Authorization
+//	@Title						reblog api
+//	@Version					1.0
+//	@License.name				GPL-V3
+//	@Host						localhost:3000
+//	@BasePath					/api
+//	@Produce					json
+//	@SecurityDefinitions.apikey	ApiKeyAuth
+//	@In							header
+//	@Name						Authorization
 func Start() {
 	log.Info("欢迎使用reblog")
 
