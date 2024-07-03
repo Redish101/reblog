@@ -5,6 +5,7 @@ import (
 	"io/fs"
 	"reblog/internal/core"
 	"reblog/internal/log"
+	"reblog/internal/model"
 	"reblog/internal/ui"
 	h "reblog/server/handler"
 
@@ -97,6 +98,16 @@ func Start() {
 	// notFound
 	h.NotFound(app, fb)
 
+	articleCount, err := app.Query().Article.Count()
+
+	if err != nil {
+		log.Error("获取文章数量失败: ", err)
+	}
+
+	if articleCount == 0 {
+		createFirstArticle(app)
+	}
+
 	log.Fatal(app.Listen())
 }
 
@@ -116,4 +127,17 @@ func dashboard(fb *fiber.App, uifs fs.FS) {
 		Root:       ui.GetUIFS(),
 		PathPrefix: "dist",
 	}))
+}
+
+func createFirstArticle(app *core.App) {
+	err := app.Query().Article.Create(&model.Article{
+		Slug:    "hello-world",
+		Title:   "你好, 世界!",
+		Desc:    "欢迎使用 reblog!",
+		Content: "# 你好, 世界!\r\n\r\n欢迎使用 `reblog`，如果你能在文章列表看到这篇文章，那么说明reblog已经成功安装。\r\n",
+	})
+
+	if err != nil {
+		log.Error("创建首篇文章失败: ", err)
+	}
 }

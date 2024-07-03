@@ -1,4 +1,4 @@
-basePath: /
+basePath: /api
 definitions:
   common.Resp:
     properties:
@@ -29,6 +29,24 @@ definitions:
         type: array
       count:
         type: integer
+    type: object
+  handler.RespUserInfo:
+    properties:
+      nickname:
+        type: string
+      username:
+        type: string
+    type: object
+  handler.RespVersion:
+    properties:
+      app_name:
+        type: string
+      commit:
+        type: string
+      runtime:
+        type: string
+      version:
+        type: string
     type: object
   model.Article:
     properties:
@@ -165,6 +183,22 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: 获取token状态
+      tags:
+      - 站点管理
+  /admin/userInfo:
+    get:
+      description: 获取管理员信息
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/common.Resp'
+            - properties:
+                data:
+                  $ref: '#/definitions/handler.RespUserInfo'
+              type: object
+      summary: 获取管理员信息
       tags:
       - 站点管理
   /article/{slug}:
@@ -463,6 +497,22 @@ paths:
       summary: 更新用户信息
       tags:
       - 站点管理
+  /version:
+    get:
+      description: 获取reblog版本信息
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/common.Resp'
+            - properties:
+                data:
+                  $ref: '#/definitions/handler.RespVersion'
+              type: object
+      summary: 获取reblog版本信息
+      tags:
+      - 版本
 produces:
 - application/json
 securityDefinitions:

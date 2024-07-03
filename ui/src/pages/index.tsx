@@ -1,3 +1,4 @@
+import ArticleList from "@/components/ArticleList";
 import useApi from "@/utils/fetcher";
 import { PageContainer } from "@ant-design/pro-components";
 import { Card, Col, Row, Statistic, Typography, message } from "antd";
@@ -107,6 +108,9 @@ const HomePage = () => {
       </div>
       <div style={{ marginTop: 20 }}>
         <Typography.Text type="secondary">今天也要多写文章</Typography.Text>
+      </div>
+      <div style={{ marginTop: 20 }}>
+        <ArticleList />
       </div>
     </PageContainer>
   );

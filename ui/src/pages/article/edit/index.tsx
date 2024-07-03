@@ -56,11 +56,11 @@ const EditArticlePage = () => {
 
   useEffect(() => {
     fetchArticle();
-  })
+  });
 
   useEffect(() => {
     const vditor = useVditor(articleData?.content);
-  
+
     setVd(vditor);
   }, [articleData]);
 

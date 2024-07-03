@@ -105,4 +105,9 @@ export default defineMock({
       desc: "这是世界上最伟大的站点",
     },
   },
+  "PUT /api/admin/site": {
+    success: true,
+    msg: "操作成功, 部分主题可能需重新部署生效",
+    data: null,
+  },
 });
