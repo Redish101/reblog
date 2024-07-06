@@ -93,7 +93,9 @@ func (app *App) Init() {
 	app.initService()
 
 	app.initDefaultServices()
+}
 
+func (app *App) StartServices() {
 	for i := range *app.service {
 		if err := (*app.service)[i].Start(); err != nil {
 			log.Errorf("服务 %s 启动失败: %s", i, err)

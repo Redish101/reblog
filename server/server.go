@@ -108,6 +108,8 @@ func Start() {
 		createFirstArticle(app)
 	}
 
+	app.StartServices()
+
 	log.Fatal(app.Listen())
 }
 
