@@ -1,6 +1,5 @@
 server:
     port: 3000
-    prefork: true
 
 dashboard:
     enabled: true

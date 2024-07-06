@@ -122,10 +122,8 @@ func (app *App) Listen() error {
 
 	host := serverConfig.Host
 	port := serverConfig.Port
-	prefork := serverConfig.Prefork
 
 	listenConfig := fiber.ListenConfig{
-		EnablePrefork:         prefork,
 		DisableStartupMessage: true,
 	}
 

@@ -12,9 +12,9 @@ const configFile = "reblog.yml"
 var configInstance *Config
 
 type ServerConfig struct {
-	Host    string `yaml:"host"`
-	Port    int    `yaml:"port"`
-	Prefork bool   `yaml:"prefork"`
+	Host string `yaml:"host"`
+	Port int    `yaml:"port"`
+	// Prefork bool   `yaml:"prefork"`
 }
 
 type DBConfig struct {
@@ -73,8 +73,7 @@ func (c *Config) Load() error {
 func DefaultConfig() *Config {
 	return &Config{
 		Server: ServerConfig{
-			Port:    3000,
-			Prefork: true,
+			Port: 3000,
 		},
 		DB: DBConfig{
 			Type:     "mysql",
