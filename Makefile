@@ -1,5 +1,6 @@
-VERSION := 0.1.0
+VERSION := $(shell git describe --tags --abbrev=0 --match 'v*')
 COMMIT := $(shell git rev-parse --short HEAD)
+EXTERNAL_VERSION :=
 
 all: clean ui backend
 
@@ -7,7 +8,7 @@ install-dev:
 	$(MAKE) -C ui install-dev
 
 backend:
-	go build -o bin/reblog -ldflags "-w -s -X 'reblog/internal/version.Version=$(VERSION)' -X 'reblog/internal/version.Commit=$(COMMIT)'" -gcflags "-N -l"
+	go build -o bin/reblog -ldflags "-w -s -X 'reblog/internal/version.Version=$(VERSION)$(EXTERNAL_VERSION)' -X 'reblog/internal/version.Commit=$(COMMIT)'" -gcflags "-N -l"
 
 gen:
 	go run cmd/gen.go

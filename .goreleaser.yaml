@@ -12,7 +12,7 @@ builds:
       - darwin
     ldflags:
       - -X reblog/internal/version.Version={{ .Version }}
-      - -X reblog/internal/version.Commit={{ .Commit }}
+      - -X reblog/internal/version.Commit={{ .ShortCommit }}
       - -w -s
 
 archives:
