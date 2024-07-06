@@ -1,4 +1,4 @@
-VERSION := 0.1.0-alpha
+VERSION := 0.1.0
 COMMIT := $(shell git rev-parse --short HEAD)
 
 all: clean ui backend
