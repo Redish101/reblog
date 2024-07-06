@@ -95,6 +95,8 @@ func Start() {
 		dashboard(fb, uifs)
 	}
 
+	app.StartServices()
+
 	// notFound
 	h.NotFound(app, fb)
 
@@ -107,8 +109,6 @@ func Start() {
 	if articleCount == 0 {
 		createFirstArticle(app)
 	}
-
-	app.StartServices()
 
 	log.Fatal(app.Listen())
 }
