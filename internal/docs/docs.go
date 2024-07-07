@@ -116,8 +116,7 @@ const docTemplate = `{
                         "type": "string",
                         "description": "站点图标(base64格式)",
                         "name": "icon",
-                        "in": "formData",
-                        "required": true
+                        "in": "formData"
                     }
                 ],
                 "responses": {

@@ -1,13 +1,7 @@
-import { go } from "rebuild"
+import { go } from "rebuild";
 
 go("server", {
-    deps: [
-        "//ui:dist"
-    ],
-    flags: [
-        `-ldflags "-w -s" -gcflags "-N -l"`
-    ],
-    output: [
-        "bin/reblog"
-    ]
-})
+  deps: ["//ui:dist"],
+  flags: [`-ldflags "-w -s" -gcflags "-N -l"`],
+  output: ["bin/reblog"],
+});

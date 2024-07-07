@@ -1,0 +1,17 @@
+{
+  "name": "@reblog/monorepo",
+  "private": true,
+  "version": "0.1.0",
+  "description": "A blog system built with go and react",
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev"
+  },
+  "packageManager": "pnpm@8.11.0",
+  "keywords": [],
+  "author": "Redish101 <i@redish101.top>",
+  "license": "GPL-3.0-only",
+  "devDependencies": {
+    "turbo": "^2.0.6"
+  }
+}

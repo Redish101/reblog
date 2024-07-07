@@ -5,7 +5,7 @@ EXTERNAL_VERSION :=
 all: clean ui backend
 
 install-dev:
-	$(MAKE) -C ui install-dev
+	pnpm install
 
 backend:
 	go build -o bin/reblog -ldflags "-w -s -X 'reblog/internal/version.Version=$(VERSION)$(EXTERNAL_VERSION)' -X 'reblog/internal/version.Commit=$(COMMIT)'" -gcflags "-N -l"
@@ -19,12 +19,14 @@ apidoc:
 	redocly build-docs internal/docs/swagger.yaml -o apidoc/index.html
 
 fmt:
-	gofmt -w .
-	prettier -w ui
+	go fmt ./...
+	prettier -w packages
 	swag fmt
 
 ui:
-	$(MAKE) -C ui
+	pnpm build
+	rm -rf internal/ui/dist
+	cp -r packages/dashboard/dist internal/ui/dist
 
 dev:
 	go build -o bin/reblog-dev

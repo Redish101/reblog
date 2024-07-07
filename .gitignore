@@ -6,4 +6,5 @@ apidoc
 document/_build
 .DS_STORE
 dist/
-ui/pnpm-lock.yaml
+node_modules
+.turbo

@@ -151,7 +151,6 @@ paths:
       - description: 站点图标(base64格式)
         in: formData
         name: icon
-        required: true
         type: string
       responses:
         "200":

@@ -1,0 +1,28 @@
+{
+  "name": "@reblog/themekit",
+  "version": "0.1.0",
+  "description": "reblog themekit",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "scripts": {
+    "dev": "father dev",
+    "build": "father build",
+    "build:deps": "father prebundle",
+    "prepublishOnly": "father doctor && npm run build"
+  },
+  "keywords": [],
+  "authors": [
+    "Redish101 <i@redish101.top>"
+  ],
+  "license": "GPL-3.0-only",
+  "files": [
+    "dist",
+    "compiled"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "father": "^4.5.0-rc.2"
+  }
+}

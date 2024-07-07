@@ -1,4 +1,5 @@
 {
+  "name": "@reblog/dashboard",
   "private": true,
   "author": "Redish101 <i@redish101.top>",
   "scripts": {
