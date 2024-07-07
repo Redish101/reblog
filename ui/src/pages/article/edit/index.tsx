@@ -56,12 +56,19 @@ const EditArticlePage = () => {
 
   useEffect(() => {
     fetchArticle();
-  });
+  }, []);
 
   useEffect(() => {
-    const vditor = useVditor(articleData?.content);
+    if (articleData) {
+      const vditor = useVditor(articleData.content);
+      setVd(vditor);
+    }
 
-    setVd(vditor);
+    return () => {
+      if (vd) {
+        vd.destroy();
+      }
+    };
   }, [articleData]);
 
   const handleDrawerFormFinish = (values: ArticleFormValues) => {
