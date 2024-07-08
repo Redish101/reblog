@@ -5,6 +5,7 @@
   "description": "A blog system built with go and react",
   "scripts": {
     "build": "turbo build",
+    "build:deps": "turbo build:deps",
     "dev": "turbo dev"
   },
   "packageManager": "pnpm@8.11.0",
