@@ -32,10 +32,10 @@ FROM alpine:latest
 
 COPY --from=builder /app/bin/reblog /app/reblog
 
-WORKDIR /root
+WORKDIR /reblog
 
 CMD ["/app/reblog"]
 
 EXPOSE 3000
 
-VOLUME [ "reblog.yml" ]
+VOLUME [ "/reblog" ]
