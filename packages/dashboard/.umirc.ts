@@ -1,10 +1,7 @@
 import { defineConfig } from "umi";
 
 export default defineConfig({
-  base: "/dashboard",
-  history: {
-    type: "hash",
-  },
+  base: "/dashboard/",
   routes: [
     {
       path: "/",
