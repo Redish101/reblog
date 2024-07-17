@@ -6,6 +6,7 @@ import (
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v3"
+	"github.com/mcuadros/go-defaults"
 )
 
 func Param(app *core.App, c fiber.Ctx, dest interface{}) (isVaild bool, resp error) {
@@ -24,6 +25,8 @@ func Param(app *core.App, c fiber.Ctx, dest interface{}) (isVaild bool, resp err
 			return false, RespFail(c, http.StatusBadRequest, "无效的参数", err)
 		}
 	}
+
+	defaults.SetDefaults(dest)
 
 	return true, nil
 }
