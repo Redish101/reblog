@@ -30,10 +30,6 @@ func ArticleDelete(app *core.App, router fiber.Router) {
 			return resp
 		}
 
-		if common.IsEmpty(params.Slug) {
-			return common.RespMissingParameters(c)
-		}
-
 		article, err := a.Where(a.Slug.Eq(params.Slug)).First()
 
 		if article == nil {
