@@ -3,6 +3,7 @@ package server
 import (
 	"io"
 	"io/fs"
+	"path/filepath"
 	"reblog/internal/core"
 	"reblog/internal/log"
 	"reblog/internal/model"
@@ -115,12 +116,7 @@ func Start() {
 }
 
 func dashboard(fb *fiber.App, uifs fs.FS) {
-	// fiber无法直接获取到index.html并返回, WTF?
 	fb.Get("/", func(c fiber.Ctx) error {
-		return c.Redirect().To("/dashboard")
-	})
-
-	fb.Get("/dashboard", func(c fiber.Ctx) error {
 		path := "dist/index.html"
 
 		file, err := uifs.Open(path)
@@ -129,31 +125,26 @@ func dashboard(fb *fiber.App, uifs fs.FS) {
 			return common.RespServerError(c, err)
 		}
 
-		c.Set("Content-Type", "text/html; charset=utf-8")
+		c.Type(".html")
 
 		return c.SendStream(file)
 	})
 
-	fb.Get("/dashboard/:path", func(c fiber.Ctx) error {
+	fb.Get("/:path", func(c fiber.Ctx) error {
 		path := "dist/" + c.Params("path")
 
 		file, err := uifs.Open(path)
 
 		if err != nil {
 			if notFoundErr, ok := err.(*fs.PathError); ok && notFoundErr.Err == fs.ErrNotExist {
-				return c.Redirect().To("/dashboard")
+				return c.Next()
 			}
 
 			return common.RespServerError(c, err)
 		}
 
-		fileinfo, err := file.Stat()
-
-		if err != nil {
-			return common.RespServerError(c, err)
-		}
-
-		c.Type(fileinfo.Mode().Type().String())
+		ext := filepath.Ext(path)
+		c.Type(ext)
 
 		return c.SendStream(file)
 	})

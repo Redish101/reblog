@@ -11,6 +11,11 @@ import (
 	"github.com/gofiber/fiber/v3"
 )
 
+type ArticleListReq struct {
+	PageIndex int `json:"pageIndex" default:"1"`
+	PageSize  int `json:"pageSize" default:"10"`
+}
+
 type ArticlesListResp struct {
 	Count    int64            `json:"count"`
 	Articles []*model.Article `json:"articles"`
