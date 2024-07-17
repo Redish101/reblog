@@ -2,6 +2,7 @@ package db
 
 import (
 	"fmt"
+	"log"
 	"reblog/internal/config"
 	"reblog/internal/model"
 
@@ -44,11 +45,11 @@ func NewDB() *gorm.DB {
 		dsn := fmt.Sprint("host=", config.Host, " port=", config.Port, " user=", config.User, " password=", config.Password, " dbname=", config.Name, " sslmode=disable")
 		db, err = gorm.Open(postgres.Open(dsn), gormConfig)
 	default:
-		panic("不支持的数据库类型")
+		log.Panic("[DB] 不支持的数据库类型")
 	}
 
 	if err != nil {
-		panic("无法连接数据库")
+		log.Panicf("[DB] 无法连接数据库")
 	}
 
 	db.AutoMigrate(&model.Site{}, &model.Article{}, &model.User{})

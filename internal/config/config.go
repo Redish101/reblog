@@ -40,7 +40,7 @@ func (c *Config) SaveConfig() {
 	configFile, err := os.OpenFile(configFile, os.O_CREATE|os.O_WRONLY, 0644)
 
 	if err != nil {
-		panic(err)
+		log.Panicf("[CONFIG] 读取配置失败: %v", err)
 	}
 
 	defer configFile.Close()
@@ -48,13 +48,13 @@ func (c *Config) SaveConfig() {
 	configBytes, err := yaml.Marshal(c)
 
 	if err != nil {
-		panic(err)
+		log.Panicf("[CONFIG] 序列化配置失败: %v", err)
 	}
 
 	_, err = configFile.Write(configBytes)
 
 	if err != nil {
-		panic(err)
+		log.Panicf("[CONFIG] 配置写入失败: %v", err)
 	}
 }
 
@@ -62,7 +62,7 @@ func (c *Config) Load() error {
 	configFile, err := os.ReadFile(configFile)
 
 	if err != nil {
-		panic(err)
+		log.Panicf("[CONFIG] 加载配置失败%v", err)
 	}
 
 	err = yaml.Unmarshal(configFile, c)
@@ -101,7 +101,7 @@ func NewFromFile() *Config {
 	}
 
 	if err != nil {
-		log.Panicf("[config] 配置文件加载失败: %v", err)
+		log.Panicf("[CONFIG] 配置文件加载失败: %v", err)
 	}
 
 	config := &Config{}
