@@ -1,37 +1,6 @@
 import { Config } from "./config";
-import { Api } from "./utils/api";
-import { objToFormData } from "./utils/form";
-
-type Article = {
-  // 文章id
-  id: number;
-
-  // 文章创建时间
-  created_at: string;
-
-  // 文章更新时间
-  updated_at: string;
-
-  // 文章slug
-  slug: string;
-
-  // 文章标题
-  title: string;
-
-  // 文章描述
-  desc: string;
-
-  // 文章内容
-  content: string;
-};
-
-type ArticleList = {
-  // 文章总数
-  count: number;
-
-  // 文章列表
-  articles: Article[];
-};
+import { Article, ArticleList, Site } from "./types";
+import { Api } from "./utils";
 
 export default class ThemeKit {
   private api: Api;
@@ -54,4 +23,14 @@ export default class ThemeKit {
 
     return data.data;
   }
+
+  public async getSite() {
+    const data = await this.api.get<Site>("/api/site");
+
+    return data.data;
+  }
 }
+
+export * from "./types";
+export * from "./config";
+export * from "./utils";
