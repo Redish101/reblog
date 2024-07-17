@@ -9,6 +9,8 @@ import (
 )
 
 func Param(app *core.App, c fiber.Ctx, dest interface{}) (isVaild bool, resp error) {
+	reqMethod := c.Method()
+
 	if isVaild, resp = ValidateParams(app, c, dest); !isVaild {
 		return false, resp
 	}
@@ -17,8 +19,10 @@ func Param(app *core.App, c fiber.Ctx, dest interface{}) (isVaild bool, resp err
 		return false, RespFail(c, http.StatusBadRequest, "无效的参数", err)
 	}
 
-	if err := c.Bind().Form(dest); err != nil {
-		return false, RespFail(c, http.StatusBadRequest, "无效的参数", err)
+	if reqMethod == "POST" || reqMethod == "PUT" {
+		if err := c.Bind().Form(dest); err != nil {
+			return false, RespFail(c, http.StatusBadRequest, "无效的参数", err)
+		}
 	}
 
 	return true, nil
