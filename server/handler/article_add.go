@@ -33,7 +33,8 @@ func ArticleAdd(app *core.App, router fiber.Router) {
 		a := app.Query().Article
 
 		var params ArticleAddParams
-		if isValid, resp := common.ValidateParams(app, c, &params); !isValid {
+		params.Slug = c.Params("slug")
+		if isValid, resp := common.Param(app, c, &params); !isValid {
 			return resp
 		}
 
