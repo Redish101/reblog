@@ -33,6 +33,6 @@ func (gl *GormLogger) Trace(ctx context.Context, begin time.Time, fc func() (str
 	elapsed := time.Since(begin)
 	sql, rows := fc()
 	if err != nil {
-		gl.Error(ctx, "[DB] [%v] [rows: %d] %s %v", elapsed, rows, sql, err)
+		gl.Warn(ctx, "[DB] [%v] [rows: %d] %s %v", elapsed, rows, sql, err)
 	}
 }
