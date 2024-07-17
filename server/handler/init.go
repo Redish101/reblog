@@ -3,6 +3,7 @@ package handler
 import (
 	"net/http"
 	"reblog/internal/core"
+	"reblog/internal/hash"
 	"reblog/internal/model"
 	"reblog/server/common"
 
@@ -56,7 +57,7 @@ func Init(app *core.App, router fiber.Router) {
 			Username: params.Username,
 			Nickname: params.Nickname,
 			Email:    params.Email,
-			Password: params.Password,
+			Password: hash.Hash(params.Password),
 		}
 
 		site := &model.Site{
