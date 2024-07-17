@@ -8,15 +8,17 @@ import (
 	"reblog/internal/query"
 	"reblog/internal/version"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v3"
 	"github.com/sirupsen/logrus"
 )
 
 type App struct {
-	config *config.Config
-	fiber  *fiber.App
-	query  *query.Query
-	dev    bool
+	config    *config.Config
+	fiber     *fiber.App
+	query     *query.Query
+	validator *validator.Validate
+	dev       bool
 
 	service *map[string]Service
 }
@@ -70,6 +72,10 @@ func (app *App) initQuery() {
 	app.query = query.Q
 }
 
+func (app *App) initValidator() {
+	app.validator = validator.New()
+}
+
 func (app *App) initService() {
 	app.service = &map[string]Service{}
 }
@@ -113,6 +119,10 @@ func (app *App) Fiber() *fiber.App {
 
 func (app *App) Query() *query.Query {
 	return app.query
+}
+
+func (app *App) Validator() *validator.Validate {
+	return app.validator
 }
 
 func (app *App) Dev() bool {
