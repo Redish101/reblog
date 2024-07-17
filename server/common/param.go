@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"reblog/internal/core"
 
-	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v3"
 	"github.com/mcuadros/go-defaults"
 )
@@ -19,7 +18,7 @@ func Param(app *core.App, c fiber.Ctx, dest interface{}) (isVaild bool, resp err
 	}
 
 	if reqMethod == "POST" || reqMethod == "PUT" {
-		if err := c.Bind().Form(dest); err != nil {
+		if err := c.Bind().Body(dest); err != nil {
 			return false, RespFail(c, http.StatusBadRequest, "无效的参数", err)
 		}
 	}
@@ -36,10 +35,7 @@ func ValidateParams(app *core.App, c fiber.Ctx, dest interface{}) (isVaild bool,
 	err := validate.Struct(dest)
 
 	if err != nil {
-		if ve, ok := err.(*validator.ValidationErrors); ok {
-			return false, RespFail(c, http.StatusBadRequest, ve.Error(), nil)
-		}
-		return false, RespServerError(c, err)
+		return false, RespFail(c, http.StatusBadRequest, err.Error(), nil)
 	}
 
 	return true, nil

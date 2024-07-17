@@ -3,10 +3,8 @@ package handler
 import (
 	"net/http"
 	"reblog/internal/core"
-	"reblog/internal/hash"
 	"reblog/internal/model"
 	"reblog/server/common"
-	"regexp"
 
 	"github.com/gofiber/fiber/v3"
 )
@@ -15,6 +13,17 @@ func isInited(app *core.App) bool {
 	site, _ := app.Query().Site.First()
 
 	return site != nil
+}
+
+type InitParams struct {
+	Username string `json:"username" validate:"required"`
+	Nickname string `json:"nickname" validate:"required"`
+	Email    string `json:"email" validate:"required,email"`
+	Password string `json:"password" validate:"required"`
+	Name     string `json:"name" validate:"required"`
+	Url      string `json:"url" validate:"required,url"`
+	Desc     string `json:"desc"`
+	Icon     string `json:"icon"`
 }
 
 //	@Summary		初始化站点
@@ -38,49 +47,23 @@ func Init(app *core.App, router fiber.Router) {
 			return common.RespFail(c, http.StatusForbidden, "此站点已初始化", nil)
 		}
 
-		username := c.FormValue("username")
-		nickname := c.FormValue("nickname")
-		email := c.FormValue("email")
-		password := hash.Hash(c.FormValue("password"))
-		name := c.FormValue("name")
-		url := c.FormValue("url")
-		desc := c.FormValue("desc")
-		icon := c.FormValue("icon")
-
-		if common.IsEmpty(username, nickname, email, password, name, url) {
-			return common.RespMissingParameters(c)
-		}
-
-		usernameRegex := `^[a-zA-Z0-9._%+-]`
-		emailRegex := `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`
-		urlRegex := `^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$`
-
-		usernameMatched, _ := regexp.MatchString(usernameRegex, email)
-		emailMatched, _ := regexp.MatchString(emailRegex, email)
-		urlMatched, _ := regexp.MatchString(urlRegex, url)
-
-		if !usernameMatched {
-			return common.RespFail(c, http.StatusBadRequest, "无效的用户名", nil)
-		}
-		if !emailMatched {
-			return common.RespFail(c, http.StatusBadRequest, "无效的电子邮件地址", nil)
-		}
-		if !urlMatched {
-			return common.RespFail(c, http.StatusBadRequest, "无效的站点URL", nil)
+		var params InitParams
+		if isValid, resp := common.Param(app, c, &params); !isValid {
+			return resp
 		}
 
 		user := &model.User{
-			Username: username,
-			Nickname: nickname,
-			Email:    email,
-			Password: password,
+			Username: params.Username,
+			Nickname: params.Nickname,
+			Email:    params.Email,
+			Password: params.Password,
 		}
 
 		site := &model.Site{
-			Name: name,
-			Url:  url,
-			Desc: desc,
-			Icon: icon,
+			Name: params.Name,
+			Url:  params.Url,
+			Desc: params.Desc,
+			Icon: params.Icon,
 		}
 
 		userErr := app.Query().User.Create(user)

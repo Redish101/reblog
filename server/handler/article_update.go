@@ -9,6 +9,13 @@ import (
 	"github.com/gofiber/fiber/v3"
 )
 
+type ArticleUpdateParams struct {
+	Slug    string `json:"slug" validate:"required"`
+	Title   string `json:"title" validate:"required"`
+	Desc    string `json:"desc" validate:"required"`
+	Content string `json:"content" validate:"required"`
+}
+
 //	@Summary		更新文章
 //	@Description	根据slug更新文章的标题、描述和内容
 //	@Tags			文章
@@ -25,17 +32,13 @@ func ArticleUpdate(app *core.App, router fiber.Router) {
 	router.Put("/:slug", func(c fiber.Ctx) error {
 		a := app.Query().Article
 
-		slug := c.Params("slug")
-
-		title := c.FormValue("title")
-		desc := c.FormValue("desc")
-		content := c.FormValue("content")
-
-		if common.IsEmpty(slug, title, desc, content) {
-			return common.RespMissingParameters(c)
+		var params ArticleUpdateParams
+		params.Slug = c.Params("slug")
+		if isValid, resp := common.Param(app, c, &params); !isValid {
+			return resp
 		}
 
-		article, err := a.Where(a.Slug.Eq(slug)).First()
+		article, err := a.Where(a.Slug.Eq(params.Slug)).First()
 
 		if article == nil {
 			return common.RespFail(c, http.StatusNotFound, "未知的文章", nil)
@@ -45,10 +48,10 @@ func ArticleUpdate(app *core.App, router fiber.Router) {
 			return common.RespServerError(c, err)
 		}
 
-		_, err = a.Where(a.Slug.Eq(slug)).Updates(model.Article{
-			Title:   title,
-			Desc:    desc,
-			Content: content,
+		_, err = a.Where(a.Slug.Eq(params.Slug)).Updates(model.Article{
+			Title:   params.Title,
+			Desc:    params.Desc,
+			Content: params.Content,
 		})
 
 		if err != nil {

@@ -9,6 +9,13 @@ import (
 	"github.com/gofiber/fiber/v3"
 )
 
+type ArticleAddParams struct {
+	Slug    string `json:"slug" validate:"required"`
+	Title   string `json:"title" validate:"required"`
+	Desc    string `json:"desc" validate:"required"`
+	Content string `json:"content" validate:"required"`
+}
+
 //	@Summary		添加文章
 //	@Description	添加一篇新的文章
 //	@Tags			文章
@@ -25,31 +32,26 @@ func ArticleAdd(app *core.App, router fiber.Router) {
 	router.Post("/:slug", func(c fiber.Ctx) error {
 		a := app.Query().Article
 
-		slug := c.Params("slug")
-
-		title := c.FormValue("title")
-		desc := c.FormValue("desc")
-		content := c.FormValue("content")
-
-		if common.IsEmpty(title, slug, desc, content) {
-			return common.RespMissingParameters(c)
+		var params ArticleAddParams
+		if isValid, resp := common.ValidateParams(app, c, &params); !isValid {
+			return resp
 		}
 
-		if slug == "list" {
+		if params.Slug == "list" {
 			return common.RespFail(c, http.StatusForbidden, "不能将list作为slug", nil)
 		}
 
-		existingArticle, _ := a.Where(a.Slug.Eq(slug)).First()
+		existingArticle, _ := a.Where(a.Slug.Eq(params.Slug)).First()
 
 		if existingArticle != nil && !existingArticle.DeletedAt.Valid {
 			return common.RespFail(c, http.StatusConflict, "当前slug已被其他文章使用", nil)
 		}
 
 		article := &model.Article{
-			Title:   title,
-			Slug:    slug,
-			Desc:    desc,
-			Content: content,
+			Title:   params.Title,
+			Slug:    params.Slug,
+			Desc:    params.Desc,
+			Content: params.Content,
 		}
 
 		err := a.Create(article)

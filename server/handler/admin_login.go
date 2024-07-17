@@ -8,13 +8,13 @@ import (
 	"github.com/gofiber/fiber/v3"
 )
 
-type AdminLoginResp struct {
-	Token string `json:"token"`
+type AdminLoginParams struct {
+	Username string `json:"username" validate:"required"`
+	Password string `json:"password" validate:"required"`
 }
 
-type AdminLoginRequest struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
+type AdminLoginResp struct {
+	Token string `json:"token"`
 }
 
 //	@Summary		登录
@@ -28,11 +28,9 @@ type AdminLoginRequest struct {
 //	@Router			/admin/login [post]
 func AdminLogin(app *core.App, router fiber.Router) {
 	router.Post("/login", func(c fiber.Ctx) error {
-		username := c.FormValue("username")
-		password := c.FormValue("password")
-
-		if common.IsEmpty(username, password) {
-			return common.RespMissingParameters(c)
+		var params AdminLoginParams
+		if isValid, resp := common.Param(app, c, &params); !isValid {
+			return resp
 		}
 
 		auth, err := core.AppService[*core.AuthService](app)
@@ -41,7 +39,7 @@ func AdminLogin(app *core.App, router fiber.Router) {
 			return common.RespServerError(c, err)
 		}
 
-		token := auth.GetToken(username, password)
+		token := auth.GetToken(params.Username, params.Password)
 
 		if token == "" {
 			return common.RespFail(c, http.StatusUnauthorized, "用户名或密码错误", nil)
