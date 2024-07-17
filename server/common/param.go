@@ -12,6 +12,8 @@ import (
 func Param(app *core.App, c fiber.Ctx, dest interface{}) (isVaild bool, resp error) {
 	reqMethod := c.Method()
 
+	defaults.SetDefaults(dest)
+
 	if isVaild, resp = ValidateParams(app, c, dest); !isVaild {
 		return false, resp
 	}
@@ -25,8 +27,6 @@ func Param(app *core.App, c fiber.Ctx, dest interface{}) (isVaild bool, resp err
 			return false, RespFail(c, http.StatusBadRequest, "无效的参数", err)
 		}
 	}
-
-	defaults.SetDefaults(dest)
 
 	return true, nil
 }
