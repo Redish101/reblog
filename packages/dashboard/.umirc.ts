@@ -1,7 +1,7 @@
 import { defineConfig } from "umi";
 
 export default defineConfig({
-  base: "/dashboard/",
+  history: { type: "hash" },
   routes: [
     {
       path: "/",
@@ -41,4 +41,5 @@ export default defineConfig({
   npmClient: "pnpm",
   title: "reblog dashboard",
   icons: {},
+  esbuildMinifyIIFE: true,
 });
