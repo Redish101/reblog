@@ -14,10 +14,6 @@ func Param(app *core.App, c fiber.Ctx, dest interface{}) (isVaild bool, resp err
 
 	defaults.SetDefaults(dest)
 
-	if isVaild, resp = ValidateParams(app, c, dest); !isVaild {
-		return false, resp
-	}
-
 	if err := c.Bind().Query(dest); err != nil {
 		return false, RespFail(c, http.StatusBadRequest, "无效的参数", err)
 	}
@@ -26,6 +22,10 @@ func Param(app *core.App, c fiber.Ctx, dest interface{}) (isVaild bool, resp err
 		if err := c.Bind().Form(dest); err != nil {
 			return false, RespFail(c, http.StatusBadRequest, "无效的参数", err)
 		}
+	}
+
+	if isVaild, resp = ValidateParams(app, c, dest); !isVaild {
+		return false, resp
 	}
 
 	return true, nil
