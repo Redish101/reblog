@@ -1,15 +1,17 @@
 package handler
 
 import (
-	"fmt"
-	"net/http"
 	"reblog/internal/core"
 	"reblog/internal/model"
 	"reblog/server/common"
-	"strconv"
 
 	"github.com/gofiber/fiber/v3"
 )
+
+type ArticleListParams struct {
+	PageIndex int `json:"pageIndex" default:"1" validate:"min=1"`
+	PageSize  int `json:"pageSize" default:"10" validate:"min=1"`
+}
 
 type ArticlesListResp struct {
 	Count    int64            `json:"count"`
@@ -29,27 +31,17 @@ func ArticleList(app *core.App, router fiber.Router) {
 	router.Get("/list", func(c fiber.Ctx) error {
 		a := app.Query().Article
 
-		pageIndexStr := c.Query("pageIndex", "1")
-		pageSizeStr := c.Query("pageSize", "10")
-
-		if common.IsEmpty(pageIndexStr, pageSizeStr) {
-			return common.RespMissingParameters(c)
+		var params ArticleListParams
+		if isValid, resp := common.Param(app, c, &params); !isValid {
+			return resp
 		}
 
-		pageIndex, indexErr := strconv.Atoi(pageIndexStr)
-		pageSize, sizeErr := strconv.Atoi(pageSizeStr)
-
-		if indexErr != nil || sizeErr != nil {
-			msg := fmt.Sprintf("参数不合法: %v %v", indexErr, sizeErr)
-
-			return common.RespFail(c, http.StatusBadRequest, msg, nil)
-		}
-
-		articles, count, err := a.Order(a.CreatedAt.Desc()).FindByPage((pageIndex-1)*pageSize, pageSize)
+		articles, count, err := a.Order(a.CreatedAt.Desc()).FindByPage((params.PageIndex-1)*params.PageSize, params.PageSize)
 
 		if err != nil {
 			return common.RespServerError(c, err)
 		}
+
 		return common.RespSuccess(c, "操作成功", ArticlesListResp{
 			Count:    count,
 			Articles: articles,

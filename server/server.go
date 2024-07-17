@@ -3,15 +3,16 @@ package server
 import (
 	"io"
 	"io/fs"
+	"path/filepath"
 	"reblog/internal/core"
 	"reblog/internal/log"
 	"reblog/internal/model"
 	"reblog/internal/ui"
+	"reblog/server/common"
 	h "reblog/server/handler"
 
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/cors"
-	"github.com/gofiber/fiber/v3/middleware/filesystem"
 	fb_logger "github.com/gofiber/fiber/v3/middleware/logger"
 	_ "gorm.io/gorm"
 )
@@ -57,7 +58,8 @@ func Start() {
 	fb.Use(cors.New(cors.ConfigDefault))
 
 	// apidoc
-	h.Apidoc(app, fb)
+	apidoc := fb.Group("/apidoc")
+	h.Apidoc(app, apidoc)
 
 	// init
 	h.Init(app, api)
@@ -114,21 +116,38 @@ func Start() {
 }
 
 func dashboard(fb *fiber.App, uifs fs.FS) {
-	// fiber无法直接获取到index.html并返回, WTF?
 	fb.Get("/", func(c fiber.Ctx) error {
-		indexFile, err := uifs.Open("dist/index.html")
+		path := "dist/index.html"
+
+		file, err := uifs.Open(path)
 
 		if err != nil {
-			panic(err)
+			return common.RespServerError(c, err)
 		}
 
-		return c.Type("html").SendStream(indexFile)
+		c.Type(".html")
+
+		return c.SendStream(file)
 	})
 
-	fb.Use("/", filesystem.New(filesystem.Config{
-		Root:       ui.GetUIFS(),
-		PathPrefix: "dist",
-	}))
+	fb.Get("/:path", func(c fiber.Ctx) error {
+		path := "dist/" + c.Params("path")
+
+		file, err := uifs.Open(path)
+
+		if err != nil {
+			if notFoundErr, ok := err.(*fs.PathError); ok && notFoundErr.Err == fs.ErrNotExist {
+				return c.Next()
+			}
+
+			return common.RespServerError(c, err)
+		}
+
+		ext := filepath.Ext(path)
+		c.Type(ext)
+
+		return c.SendStream(file)
+	})
 }
 
 func createFirstArticle(app *core.App) {

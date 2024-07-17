@@ -1,9 +1,7 @@
 import { defineConfig } from "umi";
 
 export default defineConfig({
-  history: {
-    type: "hash",
-  },
+  history: { type: "hash" },
   routes: [
     {
       path: "/",

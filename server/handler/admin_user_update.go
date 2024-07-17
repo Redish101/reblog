@@ -2,11 +2,17 @@ package handler
 
 import (
 	"reblog/internal/core"
-	"reblog/internal/model"
 	"reblog/server/common"
 
 	"github.com/gofiber/fiber/v3"
 )
+
+type AdminUserUpdateParams struct {
+	Username string `json:"username" validate:"required,alphanum,min=3,max=32"`
+	Nickname string `json:"nickname" validate:"required,min=2,max=32"`
+	Email    string `json:"email" validate:"required,email"`
+	Password string `json:"password" validate:"required,min=6,max=32"`
+}
 
 //	@Summary		更新用户信息
 //	@Description	管理员更新用户信息
@@ -22,21 +28,12 @@ func AdminUserUpdate(app *core.App, router fiber.Router) {
 	router.Put("/user/:username", func(c fiber.Ctx) error {
 		u := app.Query().User
 
-		username := c.Params("username")
-		nickname := c.FormValue("nickname")
-		email := c.FormValue("email")
-		password := c.FormValue("password")
-
-		if common.IsEmpty(username, nickname, email, password) {
-			return common.RespMissingParameters(c)
+		var params AdminUserUpdateParams
+		if isValid, resp := common.ValidateParams(app, c, &params); !isValid {
+			return resp
 		}
 
-		_, err := u.Where(u.Username.Eq(username)).Updates(model.User{
-			Username: username,
-			Nickname: nickname,
-			Email:    email,
-			Password: password,
-		})
+		_, err := u.Where(u.Username.Eq(params.Username)).Updates(params)
 
 		if err != nil {
 			return common.RespServerError(c, err)

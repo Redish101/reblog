@@ -22,10 +22,6 @@ func ArticleSlug(app *core.App, router fiber.Router) {
 
 		slug := c.Params("slug")
 
-		if common.IsEmpty(slug) {
-			return common.RespMissingParameters(c)
-		}
-
 		article, err := a.Where(a.Slug.Eq(slug)).First()
 
 		if article == nil {

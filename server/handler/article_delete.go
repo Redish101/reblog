@@ -8,6 +8,10 @@ import (
 	"github.com/gofiber/fiber/v3"
 )
 
+type ArticleDeleteParams struct {
+	Slug string `json:"slug" validate:"required"`
+}
+
 //	@Summary		删除文章
 //	@Description	根据slug删除文章
 //	@Tags			文章
@@ -21,13 +25,12 @@ func ArticleDelete(app *core.App, router fiber.Router) {
 	router.Delete("/:slug", func(c fiber.Ctx) error {
 		a := app.Query().Article
 
-		slug := c.Params("slug")
-
-		if common.IsEmpty(slug) {
-			return common.RespMissingParameters(c)
+		var params ArticleDeleteParams
+		if isValid, resp := common.Param(app, c, &params); !isValid {
+			return resp
 		}
 
-		article, err := a.Where(a.Slug.Eq(slug)).First()
+		article, err := a.Where(a.Slug.Eq(params.Slug)).First()
 
 		if article == nil {
 			return common.RespFail(c, http.StatusNotFound, "未知的文章", nil)
@@ -37,7 +40,7 @@ func ArticleDelete(app *core.App, router fiber.Router) {
 			return common.RespServerError(c, err)
 		}
 
-		_, err = a.Where(a.Slug.Eq(slug)).Delete()
+		_, err = a.Where(a.Slug.Eq(params.Slug)).Delete()
 
 		if err != nil {
 			return common.RespServerError(c, err)
