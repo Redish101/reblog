@@ -96,6 +96,7 @@ func (app *App) Init() {
 	app.initConfig()
 	app.initFiber()
 	app.initQuery()
+	app.initValidator()
 	app.initService()
 
 	app.initDefaultServices()
