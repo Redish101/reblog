@@ -1,6 +1,6 @@
 import { Config } from "./config";
-import { Article, ArticleList, Site } from "./types";
-import { Api } from "./utils";
+import { Article, ArticleList, Friend, Site } from "./types";
+import { Api, objToFormData } from "./utils";
 
 export default class ThemeKit {
   private api: Api;
@@ -28,6 +28,22 @@ export default class ThemeKit {
     const data = await this.api.get<Site>("/api/site");
 
     return data.data;
+  }
+
+  public async getFriendList(opts?: { pageIndex: number; pageSize: number }) {
+    const params = opts
+      ? `/?pageIndex=${opts?.pageIndex}&pageSize=${opts?.pageSize}`
+      : "";
+    const data = await this.api.get<ArticleList>(`/api/friend/list/${params}`);
+
+    return data.data;
+  }
+
+  public async addFriend(friend: Friend) {
+    const data = objToFormData(friend);
+    const res = await this.api.post<Friend>("/api/friend", data);
+
+    return res;
   }
 }
 
