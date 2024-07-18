@@ -1,7 +1,13 @@
 import { Link } from "umi";
 import { Friend } from "@/types/friend";
 import useApi from "@/utils/fetcher";
-import { PageContainer, ProCard, ProForm } from "@ant-design/pro-components";
+import {
+  PageContainer,
+  ProCard,
+  ProForm,
+  ProFormSwitch,
+  ProFormText,
+} from "@ant-design/pro-components";
 import { Avatar, Button, Col, Drawer, Row } from "antd";
 import { useEffect, useState } from "react";
 import { EditTwoTone } from "@ant-design/icons";
@@ -12,6 +18,7 @@ const FriendPage = () => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [currentFriend, setCurrentFriend] = useState<Friend>();
 
   const loadMore = async () => {
     if (!hasMore || loading) return;
@@ -37,17 +44,84 @@ const FriendPage = () => {
     loadMore();
   }, []);
 
+  const handleDrawerSubmit = async (values: Friend) => {
+    try {
+      const formData = new FormData();
+      formData.append("name", values.name);
+      formData.append("desc", values.desc);
+      formData.append("url", values.url);
+      formData.append("avatar", values.avatar);
+      formData.append("visible", values.visible.toString());
+
+      await useApi(`/api/friend/${currentFriend?.id}`, {
+        method: "PUT",
+        body: formData,
+      });
+      setFriends((prevFriends) =>
+        prevFriends.map((friend) =>
+          friend.id === currentFriend?.id ? { ...friend, ...values } : friend,
+        ),
+      );
+      setDrawerOpen(false);
+      setCurrentFriend(undefined);
+    } catch (error) {
+      console.error("Error updating friend:", error);
+    }
+  };
+
   return (
     <PageContainer title="友情链接">
-      <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
-        <ProForm></ProForm>
+      <Drawer
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        title={`修改 ${currentFriend?.name}`}
+      >
+        <ProForm onFinish={handleDrawerSubmit}>
+          <ProFormText
+            name={"name"}
+            label={"名称"}
+            initialValue={currentFriend?.name}
+            rules={[{ required: true, message: "请输入名称" }]}
+          />
+          <ProFormText
+            name={"desc"}
+            label={"描述"}
+            initialValue={currentFriend?.desc}
+            rules={[{ required: true, message: "请输入描述" }]}
+          />
+          <ProFormText
+            name={"url"}
+            label={"链接"}
+            initialValue={currentFriend?.url}
+            rules={[{ required: true, message: "请输入链接" }]}
+          />
+          <ProFormText
+            name={"avatar"}
+            label={"头像"}
+            initialValue={currentFriend?.avatar}
+            rules={[{ required: true, message: "请输入头像URL" }]}
+          />
+          <ProFormSwitch
+            name={"visible"}
+            label={"可见性"}
+            initialValue={currentFriend?.visible}
+            rules={[{ required: true, message: "请选择可见性" }]}
+          />
+        </ProForm>
       </Drawer>
       <Row gutter={[16, 16]}>
         {friends.map((item) => (
           <Col xs={24} sm={12} md={8} key={item.name}>
             <ProCard
               title={item.name}
-              extra={<EditTwoTone onClick={() => setDrawerOpen(true)} />}
+              extra={
+                <EditTwoTone
+                  onClick={() => {
+                    setDrawerOpen(true);
+                    setCurrentFriend(item);
+                  }}
+                />
+              }
             >
               <div
                 style={{
