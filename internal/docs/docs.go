@@ -468,7 +468,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/friend/add": {
+        "/friend": {
             "post": {
                 "security": [
                     {
@@ -611,6 +611,13 @@ const docTemplate = `{
                 ],
                 "summary": "更新友情链接",
                 "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "友情链接的ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
                     {
                         "type": "string",
                         "description": "名称",

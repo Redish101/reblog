@@ -401,90 +401,7 @@ paths:
       summary: 分页获取文章列表
       tags:
       - 文章
-  /friend/{id}:
-    delete:
-      consumes:
-      - application/json
-      description: 根据ID删除一个已存在的友情链接
-      parameters:
-      - description: 友情链接的ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 删除友情链接成功
-          schema:
-            $ref: '#/definitions/common.Resp'
-        "400":
-          description: 无效的ID格式
-          schema:
-            $ref: '#/definitions/common.Resp'
-        "404":
-          description: 链接不存在
-          schema:
-            $ref: '#/definitions/common.Resp'
-        "500":
-          description: 服务器内部错误
-          schema:
-            $ref: '#/definitions/common.Resp'
-      security:
-      - ApiKeyAuth: []
-      summary: 删除友情链接
-      tags:
-      - 友情链接
-    put:
-      consumes:
-      - application/json
-      description: 更新友情链接
-      parameters:
-      - description: 名称
-        in: formData
-        name: name
-        required: true
-        type: string
-      - description: 图标URL
-        in: formData
-        name: avatar
-        required: true
-        type: string
-      - description: URL
-        in: formData
-        name: url
-        required: true
-        type: string
-      - description: 描述
-        in: formData
-        name: desc
-        type: string
-      - description: 是否可见
-        in: formData
-        name: visible
-        type: boolean
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 更新友情链接成功
-          schema:
-            $ref: '#/definitions/common.Resp'
-        "400":
-          description: 请求参数错误
-          schema:
-            $ref: '#/definitions/common.Resp'
-        "500":
-          description: 服务器内部错误
-          schema:
-            $ref: '#/definitions/common.Resp'
-      security:
-      - ApiKeyAuth: []
-      summary: 更新友情链接
-      tags:
-      - 友情链接
-  /friend/add:
+  /friend:
     post:
       consumes:
       - application/json
@@ -532,6 +449,94 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: 添加友情链接
+      tags:
+      - 友情链接
+  /friend/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: 根据ID删除一个已存在的友情链接
+      parameters:
+      - description: 友情链接的ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 删除友情链接成功
+          schema:
+            $ref: '#/definitions/common.Resp'
+        "400":
+          description: 无效的ID格式
+          schema:
+            $ref: '#/definitions/common.Resp'
+        "404":
+          description: 链接不存在
+          schema:
+            $ref: '#/definitions/common.Resp'
+        "500":
+          description: 服务器内部错误
+          schema:
+            $ref: '#/definitions/common.Resp'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除友情链接
+      tags:
+      - 友情链接
+    put:
+      consumes:
+      - application/json
+      description: 更新友情链接
+      parameters:
+      - description: 友情链接的ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 名称
+        in: formData
+        name: name
+        required: true
+        type: string
+      - description: 图标URL
+        in: formData
+        name: avatar
+        required: true
+        type: string
+      - description: URL
+        in: formData
+        name: url
+        required: true
+        type: string
+      - description: 描述
+        in: formData
+        name: desc
+        type: string
+      - description: 是否可见
+        in: formData
+        name: visible
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 更新友情链接成功
+          schema:
+            $ref: '#/definitions/common.Resp'
+        "400":
+          description: 请求参数错误
+          schema:
+            $ref: '#/definitions/common.Resp'
+        "500":
+          description: 服务器内部错误
+          schema:
+            $ref: '#/definitions/common.Resp'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新友情链接
       tags:
       - 友情链接
   /friend/list:
