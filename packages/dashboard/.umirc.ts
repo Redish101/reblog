@@ -34,6 +34,10 @@ export default defineConfig({
       component: "site",
     },
     {
+      path: "/friend",
+      component: "friend",
+    },
+    {
       path: "/*",
       component: "404",
     },
@@ -42,4 +46,9 @@ export default defineConfig({
   title: "reblog dashboard",
   icons: {},
   esbuildMinifyIIFE: true,
+  proxy: {
+    "/api": {
+      target: "http://localhost:3000",
+    },
+  },
 });

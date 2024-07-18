@@ -52,7 +52,12 @@ func NewDB() *gorm.DB {
 		log.Panicf("[DB] 无法连接数据库")
 	}
 
-	db.AutoMigrate(&model.Site{}, &model.Article{}, &model.User{})
+	db.AutoMigrate(
+		&model.Site{},
+		&model.Article{},
+		&model.User{},
+		&model.Friend{},
+	)
 
 	return db
 }

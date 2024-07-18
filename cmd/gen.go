@@ -15,7 +15,12 @@ func main() {
 
 	g.UseDB(db.DB())
 
-	g.ApplyBasic(model.Site{}, model.Article{}, model.User{})
+	g.ApplyBasic(
+		model.Site{},
+		model.Article{},
+		model.User{},
+		model.Friend{},
+	)
 
 	g.Execute()
 }

@@ -10,6 +10,14 @@ export class Api {
   async get<T>(url: string, options?: RequestInit) {
     return await useApi<T>(this.baseURL + url, options);
   }
+
+  async post<T>(url: string, body: FormData, options?: RequestInit) {
+    return await useApi<T>(this.baseURL + url, {
+      method: "POST",
+      body,
+      ...options,
+    });
+  }
 }
 
 async function useApi<T>(url: string, options?: RequestInit) {
