@@ -18,6 +18,7 @@ import (
 var (
 	Q       = new(Query)
 	Article *article
+	Friend  *friend
 	Site    *site
 	User    *user
 )
@@ -25,6 +26,7 @@ var (
 func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	*Q = *Use(db, opts...)
 	Article = &Q.Article
+	Friend = &Q.Friend
 	Site = &Q.Site
 	User = &Q.User
 }
@@ -33,6 +35,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 	return &Query{
 		db:      db,
 		Article: newArticle(db, opts...),
+		Friend:  newFriend(db, opts...),
 		Site:    newSite(db, opts...),
 		User:    newUser(db, opts...),
 	}
@@ -42,6 +45,7 @@ type Query struct {
 	db *gorm.DB
 
 	Article article
+	Friend  friend
 	Site    site
 	User    user
 }
@@ -52,6 +56,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 	return &Query{
 		db:      db,
 		Article: q.Article.clone(db),
+		Friend:  q.Friend.clone(db),
 		Site:    q.Site.clone(db),
 		User:    q.User.clone(db),
 	}
@@ -69,6 +74,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 	return &Query{
 		db:      db,
 		Article: q.Article.replaceDB(db),
+		Friend:  q.Friend.replaceDB(db),
 		Site:    q.Site.replaceDB(db),
 		User:    q.User.replaceDB(db),
 	}
@@ -76,6 +82,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 
 type queryCtx struct {
 	Article IArticleDo
+	Friend  IFriendDo
 	Site    ISiteDo
 	User    IUserDo
 }
@@ -83,6 +90,7 @@ type queryCtx struct {
 func (q *Query) WithContext(ctx context.Context) *queryCtx {
 	return &queryCtx{
 		Article: q.Article.WithContext(ctx),
+		Friend:  q.Friend.WithContext(ctx),
 		Site:    q.Site.WithContext(ctx),
 		User:    q.User.WithContext(ctx),
 	}

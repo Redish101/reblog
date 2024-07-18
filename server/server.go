@@ -89,6 +89,14 @@ func Start() {
 
 	h.Site(app, site)
 
+	// friend
+	friend := api.Group("/friend")
+
+	h.FriendList(app, friend)
+	h.FriendAdd(app, friend)
+	h.FriendUpdate(app, friend)
+	h.FriendDelete(app, friend)
+
 	// version
 	h.Version(app, api)
 

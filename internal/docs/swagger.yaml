@@ -30,6 +30,15 @@ definitions:
       count:
         type: integer
     type: object
+  handler.FriendListResp:
+    properties:
+      count:
+        type: integer
+      friends:
+        items:
+          $ref: '#/definitions/model.Friend'
+        type: array
+    type: object
   handler.RespUserInfo:
     properties:
       nickname:
@@ -66,6 +75,27 @@ definitions:
         type: string
       updated_at:
         type: string
+    type: object
+  model.Friend:
+    properties:
+      avatar:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        $ref: '#/definitions/gorm.DeletedAt'
+      desc:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      updated_at:
+        type: string
+      url:
+        type: string
+      visible:
+        type: boolean
     type: object
   model.Site:
     properties:
@@ -371,6 +401,167 @@ paths:
       summary: 分页获取文章列表
       tags:
       - 文章
+  /friend/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: 根据ID删除一个已存在的友情链接
+      parameters:
+      - description: 友情链接的ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 删除友情链接成功
+          schema:
+            $ref: '#/definitions/common.Resp'
+        "400":
+          description: 无效的ID格式
+          schema:
+            $ref: '#/definitions/common.Resp'
+        "404":
+          description: 链接不存在
+          schema:
+            $ref: '#/definitions/common.Resp'
+        "500":
+          description: 服务器内部错误
+          schema:
+            $ref: '#/definitions/common.Resp'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除友情链接
+      tags:
+      - 友情链接
+    put:
+      consumes:
+      - application/json
+      description: 更新友情链接
+      parameters:
+      - description: 名称
+        in: formData
+        name: name
+        required: true
+        type: string
+      - description: 图标URL
+        in: formData
+        name: avatar
+        required: true
+        type: string
+      - description: URL
+        in: formData
+        name: url
+        required: true
+        type: string
+      - description: 描述
+        in: formData
+        name: desc
+        type: string
+      - description: 是否可见
+        in: formData
+        name: visible
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 更新友情链接成功
+          schema:
+            $ref: '#/definitions/common.Resp'
+        "400":
+          description: 请求参数错误
+          schema:
+            $ref: '#/definitions/common.Resp'
+        "500":
+          description: 服务器内部错误
+          schema:
+            $ref: '#/definitions/common.Resp'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新友情链接
+      tags:
+      - 友情链接
+  /friend/add:
+    post:
+      consumes:
+      - application/json
+      description: 添加友情链接
+      parameters:
+      - description: 名称
+        in: formData
+        name: name
+        required: true
+        type: string
+      - description: 图标URL
+        in: formData
+        name: avatar
+        required: true
+        type: string
+      - description: URL
+        in: formData
+        name: url
+        required: true
+        type: string
+      - description: 描述
+        in: formData
+        name: desc
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 添加友情链接成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/common.Resp'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.Friend'
+              type: object
+        "400":
+          description: 请求参数错误
+          schema:
+            $ref: '#/definitions/common.Resp'
+        "500":
+          description: 服务器内部错误
+          schema:
+            $ref: '#/definitions/common.Resp'
+      security:
+      - ApiKeyAuth: []
+      summary: 添加友情链接
+      tags:
+      - 友情链接
+  /friend/list:
+    get:
+      consumes:
+      - application/json
+      description: 分页获取友情链接, 若token有效则返回所有友情链接, 否则只返回可见的友情链接
+      parameters:
+      - description: 页码，默认为1
+        in: query
+        name: pageIndex
+        type: integer
+      - description: 每页大小，默认为10
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 获取友情链接成功
+          schema:
+            $ref: '#/definitions/handler.FriendListResp'
+        "500":
+          description: 服务器内部错误
+          schema:
+            $ref: '#/definitions/common.Resp'
+      summary: 获取友情链接
+      tags:
+      - 友情链接
   /init:
     post:
       description: 使用给定的参数初始化站点
