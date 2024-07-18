@@ -8,9 +8,9 @@ import {
   ProFormSwitch,
   ProFormText,
 } from "@ant-design/pro-components";
-import { Avatar, Button, Col, Drawer, Row } from "antd";
+import { Avatar, Button, Col, Drawer, Popconfirm, Row } from "antd";
 import { useEffect, useState } from "react";
-import { EditTwoTone } from "@ant-design/icons";
+import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
 
 const FriendPage = () => {
   const [friends, setFriends] = useState<Friend[]>([]);
@@ -45,27 +45,37 @@ const FriendPage = () => {
   }, []);
 
   const handleDrawerSubmit = async (values: Friend) => {
-    try {
-      const formData = new FormData();
-      formData.append("name", values.name);
-      formData.append("desc", values.desc);
-      formData.append("url", values.url);
-      formData.append("avatar", values.avatar);
-      formData.append("visible", values.visible.toString());
+    let updatedFriends: Friend[] = [];
 
-      await useApi(`/api/friend/${currentFriend?.id}`, {
-        method: "PUT",
-        body: formData,
-      });
-      setFriends((prevFriends) =>
-        prevFriends.map((friend) =>
+    const formData = new FormData();
+    formData.append("name", values.name);
+    formData.append("desc", values.desc);
+    formData.append("url", values.url);
+    formData.append("avatar", values.avatar);
+    formData.append("visible", values.visible ? "true" : "false");
+
+    try {
+      if (currentFriend !== undefined) {
+        await useApi(`/api/friend/${currentFriend?.id}`, {
+          method: "PUT",
+          body: formData,
+        });
+        updatedFriends = friends.map((friend) =>
           friend.id === currentFriend?.id ? { ...friend, ...values } : friend,
-        ),
-      );
+        );
+      } else {
+        await useApi(`/api/friend`, {
+          method: "POST",
+          body: formData,
+        });
+        updatedFriends = [...friends, values];
+      }
+    } catch (error) {
+      console.error("Error updating or adding friend:", error);
+    } finally {
+      setFriends(updatedFriends);
       setDrawerOpen(false);
       setCurrentFriend(undefined);
-    } catch (error) {
-      console.error("Error updating friend:", error);
     }
   };
 
@@ -74,7 +84,11 @@ const FriendPage = () => {
       <Drawer
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
-        title={`修改 ${currentFriend?.name}`}
+        title={
+          currentFriend === undefined
+            ? "添加友情链接"
+            : `修改 ${currentFriend?.name}`
+        }
       >
         <ProForm onFinish={handleDrawerSubmit}>
           <ProFormText
@@ -93,18 +107,22 @@ const FriendPage = () => {
             name={"url"}
             label={"链接"}
             initialValue={currentFriend?.url}
-            rules={[{ required: true, message: "请输入链接" }]}
+            rules={[{ required: true, message: "请输入链接", type: "url" }]}
           />
           <ProFormText
             name={"avatar"}
             label={"头像"}
             initialValue={currentFriend?.avatar}
-            rules={[{ required: true, message: "请输入头像URL" }]}
+            rules={[{ required: true, message: "请输入头像URL", type: "url" }]}
           />
           <ProFormSwitch
             name={"visible"}
             label={"可见性"}
-            initialValue={currentFriend?.visible}
+            initialValue={
+              currentFriend?.visible !== undefined
+                ? currentFriend.visible
+                : true
+            }
             rules={[{ required: true, message: "请选择可见性" }]}
           />
         </ProForm>
@@ -115,12 +133,28 @@ const FriendPage = () => {
             <ProCard
               title={item.name}
               extra={
-                <EditTwoTone
-                  onClick={() => {
-                    setDrawerOpen(true);
-                    setCurrentFriend(item);
-                  }}
-                />
+                <div>
+                  <EditTwoTone
+                    onClick={() => {
+                      setCurrentFriend(item);
+                      setDrawerOpen(true);
+                    }}
+                  />
+                  <Popconfirm
+                    title="确认删除？"
+                    onConfirm={() => {
+                      useApi(`/api/friend/${item.id}`, {
+                        method: "DELETE",
+                      }).then(() => {
+                        setFriends((prev) =>
+                          prev.filter((f) => f.id !== item.id),
+                        );
+                      });
+                    }}
+                  >
+                    <DeleteTwoTone style={{ marginLeft: 16 }} />
+                  </Popconfirm>
+                </div>
               }
             >
               <div
@@ -141,9 +175,17 @@ const FriendPage = () => {
           </Col>
         ))}
       </Row>
-      <div style={{ textAlign: "center", marginTop: 16 }}>
+      <div
+        style={{
+          marginTop: 16,
+          display: "flex",
+          justifyContent: "center",
+          gap: 16,
+        }}
+      >
         {hasMore && !loading && <Button onClick={loadMore}>加载更多</Button>}
         {loading && <p>正在加载...</p>}
+        <Button onClick={() => setDrawerOpen(true)}>添加</Button>
       </div>
     </PageContainer>
   );
