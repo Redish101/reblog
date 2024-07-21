@@ -5,7 +5,7 @@ EXTERNAL_VERSION :=
 all: clean ui backend
 
 install-dev:
-	pnpm install
+	pnpm install --frozen-lockfile
 
 backend:
 	go build -o bin/reblog -ldflags "-w -s -X 'reblog/internal/version.Version=$(VERSION)$(EXTERNAL_VERSION)' -X 'reblog/internal/version.Commit=$(COMMIT)'" -gcflags "-N -l"
