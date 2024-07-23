@@ -4,7 +4,7 @@ export default {
     link: "https://github.com/redish101/reblog",
   },
   docsRepositoryBase:
-    "https://github.com/redish101/reblog/tree/main/packages/docs/pages",
+    "https://github.com/redish101/reblog/tree/main/packages/docs",
   useNextSeoProps() {
     return {
       titleTemplate: "%s – reblog",
