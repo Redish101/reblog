@@ -2,7 +2,7 @@ import { Config } from "./config";
 import { Article, ArticleList, Friend, Site } from "./types";
 import { Api, objToFormData } from "./utils";
 
-export default class ThemeKit {
+class ThemeKit {
   private api: Api;
 
   constructor(private config: Config) {
@@ -47,6 +47,7 @@ export default class ThemeKit {
   }
 }
 
+export default ThemeKit;
 export * from "./types";
 export * from "./config";
 export * from "./utils";
