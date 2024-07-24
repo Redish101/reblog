@@ -1,5 +1,5 @@
 import { Config } from "./config";
-import { Article, ArticleList, Friend, Site } from "./types";
+import { Article, ArticleList, Friend, Site, User } from "./types";
 import { Api, objToFormData } from "./utils";
 
 class ThemeKit {
@@ -42,6 +42,12 @@ class ThemeKit {
   public async addFriend(friend: Friend) {
     const data = objToFormData(friend);
     const res = await this.api.post<Friend>("/api/friend", data);
+
+    return res;
+  }
+
+  public async getUserInfo() {
+    const res = await this.api.get<User>("/api/admin/userInfo");
 
     return res;
   }

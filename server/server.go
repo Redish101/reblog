@@ -30,6 +30,7 @@ func Start() {
 	log.Info("欢迎使用reblog")
 
 	app := core.NewApp()
+	app.Bootstrap()
 
 	fb := app.Fiber()
 
@@ -104,8 +105,6 @@ func Start() {
 	if app.Config().Dashboard.Enable {
 		dashboard(fb, uifs)
 	}
-
-	app.StartServices()
 
 	// notFound
 	h.NotFound(app, fb)
