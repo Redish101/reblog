@@ -86,7 +86,7 @@ jobs:
       - name: Download Artifacts
         uses: actions/download-artifact@v4
         with:
-          path: artifacts/
+          path: /tmp/artifacts/
 
       - name: Create Release
         id: create_release
@@ -99,22 +99,44 @@ jobs:
           draft: false
           prerelease: true
 
+      - name: Create tag and push
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          gh release delete nightly --yes || true
+          git push origin :refs/tags/nightly || true
+          git tag -f nightly
+          git push -f origin nightly
+
       - name: Generate Changelog
         run: |
           curl -sL $(curl -s https://api.github.com/repos/git-chglog/git-chglog/releases/latest \
               | grep -oP '"https://.+linux_amd64.tar.gz"' | tr -d \") | tar -C /usr/local/bin -xz git-chglog
           CHANGELOG=$(git-chglog --config .github/chglog/config.yml --next-tag nightly nightly)
           MD_FILE="/tmp/changelog.md"
-          echo -e "$CHANGELOG" > $MD_FILE
+          echo -e "$CHANGELOG" > /tmp/changelog.md
           echo -e "\n> [!NOTE]\n" \
-                  "> Nightly Build不保证稳定性" >> $MD_FILE
+                  "> Nightly Build不保证稳定性" >> /tmp/changelog.md
 
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Get Files
+        run: |
+          cd artifacts
+
+          FILES=$(find ${DIST_DIR} -type f -exec readlink -f {} \;)
+          echo -e "RELEASE_FILES<<EOF" >> $GITHUB_ENV
+          echo -e "$FILES" >> $GITHUB_ENV
+          echo -e "EOF" >> $GITHUB_ENV
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./artifacts/**/*.zip
-          asset_name: ${{ matrix.os }}-${{ matrix.arch }}.zip
-          asset_content_type: application/zip
+          prerelease: true
+          tag_name: nightly
+          name: Nightly Build
+          body_path: /tmp/changelog.md
+          files: ${{ env.RELEASE_FILES }}
+          draft: false
+
+    
