@@ -11,10 +11,9 @@ const useApi = async (
 ) => {
   const token = localStorage.getItem("token");
 
-  let headers =
-    opts?.options?.headers
-      ? new Headers(opts.options.headers)
-      : new Headers();
+  let headers = opts?.options?.headers
+    ? new Headers(opts.options.headers)
+    : new Headers();
 
   headers.append("Authorization", token!);
   headers.append("Content-Type", "application/json");
