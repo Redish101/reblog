@@ -9,16 +9,19 @@ jobs:
   check_need_build:
     runs-on: ubuntu-latest
     outputs:
-      skip: ${{ steps.check_need_build.outputs.skip }}
+      skip: ${{ steps.check.outputs.skip }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Check Need Build
+        id: check
         run: |
           if [[ "$(git log --since='24 hours ago' | wc -l)" -eq 0 ]] || \
             [[ "$GITHUB_REPOSITORY" != "Redish101/reblog" ]]; then
             echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
           fi
 
   build:
@@ -33,11 +36,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Cache turbo build setup
+      - name: Cache Turbo Build Setup
         uses: actions/cache@v4
         with:
           path: .turbo
-          key: ${{ runner.os }}-turbo-${{ github.sha }}
+          key: ${{ runner.os }}-turbo-
           restore-keys: |
             ${{ runner.os }}-turbo-
 
@@ -51,7 +54,7 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Setup pnpm
+      - name: Setup PNPM
         uses: pnpm/action-setup@v4
         with:
           version: 8.11.0
@@ -75,3 +78,43 @@ jobs:
         with:
           name: ${{ matrix.os }}-${{ matrix.arch }}
           path: bin/reblog
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts/
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: nightly
+          release_name: Nightly Build
+          draft: false
+          prerelease: true
+
+      - name: Generate Changelog
+        run: |
+          curl -sL $(curl -s https://api.github.com/repos/git-chglog/git-chglog/releases/latest \
+              | grep -oP '"https://.+linux_amd64.tar.gz"' | tr -d \") | tar -C /usr/local/bin -xz git-chglog
+          CHANGELOG=$(git-chglog --config .github/chglog/config.yml --next-tag nightly nightly)
+          MD_FILE="/tmp/changelog.md"
+          echo -e "$CHANGELOG" > $MD_FILE
+          echo -e "\n> [!NOTE]\n" \
+                  "> Nightly Build不保证稳定性" >> $MD_FILE
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./artifacts/**/*.zip
+          asset_name: ${{ matrix.os }}-${{ matrix.arch }}.zip
+          asset_content_type: application/zip
