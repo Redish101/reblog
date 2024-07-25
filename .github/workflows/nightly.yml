@@ -35,6 +35,8 @@ jobs:
         run: |
           git tag -f nightly
           git push -f origin nightly
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cache turbo build setup
         uses: actions/cache@v4
