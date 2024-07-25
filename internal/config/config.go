@@ -61,11 +61,17 @@ func (c *Config) SaveConfig() {
 func (c *Config) Load() error {
 	configFile, err := os.ReadFile(configFile)
 
+	configString := string(configFile)
+
+	cookEnv(&configString)
+
 	if err != nil {
 		log.Panicf("[CONFIG] 加载配置失败%v", err)
 	}
 
-	err = yaml.Unmarshal(configFile, c)
+	configBytes := []byte(configString)
+
+	err = yaml.Unmarshal(configBytes, c)
 
 	return err
 }

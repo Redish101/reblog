@@ -11,3 +11,5 @@ import { Callout } from "nextra/components";
 reblog通过将handler转换为标准库格式的handler实现在vercel上运行，但是vercel似乎会在每次请求进行初始化操作，由于reblog采用依赖注入架构，在运行时注入服务，可能会导致无服务器函数超时。同时，由于reblog使用make处理构建，在构建时注入诸如版本号等信息，可能会与vercel的构建环境不一致，部分功能无法使用。
 
 若要部署，需先fork源码仓库，由于vercel不允许进行磁盘io操作，reblog无法自动生成配置，需手动修改`reblog.yml`。修改完成后，前往vercel，新建新项目，选择fork仓库，进行部署。
+
+由于fork无法设置可见性，对于数据库密码等敏感配置项，可通过`env`语法配置，详见[reblog配置文件特殊语法](/config/#配置项特殊语法)。
