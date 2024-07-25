@@ -113,6 +113,7 @@ jobs:
 
       - name: Generate Changelog
         run: |
+          git log --since='24 hours ago' --pretty=format:'* %s (%an)' > /tmp/changelog.md
           echo -e "\n> [!NOTE]\n" \
                   "> Nightly Build不保证稳定性" >> /tmp/changelog.md
 
@@ -123,7 +124,7 @@ jobs:
           FILES=$(find ${DIST_DIR} -type f -exec readlink -f {} \;)
           echo -e "RELEASE_FILES<<EOF" >> $GITHUB_ENV
           echo -e "$FILES" >> $GITHUB_ENV
-          echo -e "EOF" >> $GITHUB_ENV
+          echo -e "EOF" >> $GITHUmB_ENV
 
       - name: Release
         uses: softprops/action-gh-release@v2
@@ -134,23 +135,4 @@ jobs:
           body_path: /tmp/changelog.md
           files: ${{ env.RELEASE_FILES }}
           draft: false
-
-  changelog:
-    needs: release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20.x
-  
-      - name: Upload Changelog
-        run: npx changelogithub
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
