@@ -114,7 +114,7 @@ jobs:
 
       - name: Get Files
         run: |
-          cd artifacts
+          cd /tmp/artifacts
 
           FILES=$(find ${DIST_DIR} -type f -exec readlink -f {} \;)
           echo -e "RELEASE_FILES<<EOF" >> $GITHUB_ENV
