@@ -12,7 +12,7 @@ const useApi = async (
   const token = localStorage.getItem("token");
 
   let headers =
-    opts?.options && opts.options.headers
+    opts?.options?.headers
       ? new Headers(opts.options.headers)
       : new Headers();
 
@@ -30,6 +30,13 @@ const useApi = async (
 
   if (res.status === 401) {
     localStorage.removeItem("token");
+
+    message.open({
+      type: "warning",
+      content: "请登录"
+    })
+
+    history.push("/login")
   }
 
   return res;
