@@ -1,32 +1,35 @@
 import { message } from "antd";
 import { history } from "umi";
 
-const useApi = async (url: string | URL | Request, options?: RequestInit) => {
+const useApi = async (
+  url: string | URL | Request,
+  opts?: {
+    method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "OPTIONS" | "HEAD";
+    data?: any;
+    options?: RequestInit;
+  },
+) => {
   const token = localStorage.getItem("token");
 
-  if (token) {
-    const headers =
-      options && options.headers ? new Headers(options.headers) : new Headers();
+  let headers =
+    opts?.options && opts.options.headers
+      ? new Headers(opts.options.headers)
+      : new Headers();
 
-    headers.append("Authorization", token);
+  headers.append("Authorization", token!);
+  headers.append("Content-Type", "application/json");
 
-    options = {
-      ...options,
-      headers,
-    };
-  }
+  const requestOptions: RequestInit = {
+    method: opts?.method || "GET",
+    headers,
+    body: opts?.data ? JSON.stringify(opts.data) : undefined,
+    ...opts?.options,
+  };
 
-  const res = await fetch(url, options);
+  const res = await fetch(url, requestOptions);
 
-  if (res.status == 401) {
+  if (res.status === 401) {
     localStorage.removeItem("token");
-    if (history.location.pathname != "/login") {
-      message.open({
-        type: "info",
-        content: "登录信息已过期，请重新登录",
-      });
-      history.push("/login");
-    }
   }
 
   return res;

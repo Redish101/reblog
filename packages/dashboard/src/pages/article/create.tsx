@@ -59,7 +59,12 @@ const CreateArticlePage = () => {
 
     const res = await useApi(`/api/article/${slug}`, {
       method: "POST",
-      body: formData,
+      data: {
+        title,
+        desc,
+        slug,
+        content,
+      },
     });
 
     const data = await res.json().catch((err) => {

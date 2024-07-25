@@ -41,15 +41,9 @@ const SitePage = () => {
   }, []);
 
   const handleSubmit = async (value: Site) => {
-    const formData = new FormData();
-
-    formData.append("name", value.name);
-    formData.append("url", value.url);
-    formData.append("desc", value.desc);
-
     useApi("/api/admin/site", {
       method: "PUT",
-      body: formData,
+      data: value,
     })
       .then((res) => res.json())
       .then(() => {

@@ -47,18 +47,11 @@ const FriendPage = () => {
   const handleDrawerSubmit = async (values: Friend) => {
     let updatedFriends: Friend[] = [];
 
-    const formData = new FormData();
-    formData.append("name", values.name);
-    formData.append("desc", values.desc);
-    formData.append("url", values.url);
-    formData.append("avatar", values.avatar);
-    formData.append("visible", values.visible ? "true" : "false");
-
     try {
       if (currentFriend !== undefined) {
         await useApi(`/api/friend/${currentFriend?.id}`, {
           method: "PUT",
-          body: formData,
+          data: values,
         });
         updatedFriends = friends.map((friend) =>
           friend.id === currentFriend?.id ? { ...friend, ...values } : friend,
@@ -66,7 +59,7 @@ const FriendPage = () => {
       } else {
         await useApi(`/api/friend`, {
           method: "POST",
-          body: formData,
+          data: values,
         });
         updatedFriends = [...friends, values];
       }
