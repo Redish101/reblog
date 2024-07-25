@@ -29,29 +29,27 @@ jobs:
             echo "skip=false" >> $GITHUB_OUTPUT
           fi
 
-  goreleaser:
-    runs-on: ubuntu-latest
+  build:
     needs: check_need_build
+    if: ${{ needs.check_need_build.outputs.skip != 'true' }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        arch: [amd64, arm64]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Push tag
-        run: |
-          git tag -f nightly
-          git push -f origin nightly
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Cache turbo build setup
+      - name: Cache Turbo Build Setup
         uses: actions/cache@v4
         with:
           path: .turbo
-          key: ${{ runner.os }}-turbo-${{ github.sha }}
+          key: ${{ runner.os }}-turbo-
           restore-keys: |
             ${{ runner.os }}-turbo-
 
-      - name: Set up Go
+      - name: Setup Go
         uses: actions/setup-go@v5
         with:
           go-version: 1.22
@@ -61,7 +59,7 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Setup pnpm
+      - name: Setup PNPM
         uses: pnpm/action-setup@v4
         with:
           version: 8.11.0
@@ -69,11 +67,71 @@ jobs:
       - name: Install Dependencies
         run: make install-dev
 
-      - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v6
+      - name: Set GOARCH for AMD64
+        if: matrix.arch == 'amd64'
+        run: echo "GOARCH=amd64" >> $GITHUB_ENV
+
+      - name: Set GOARCH for ARM64
+        if: matrix.arch == 'arm64'
+        run: echo "GOARCH=arm64" >> $GITHUB_ENV
+
+      - name: Build
+        run: make VERSION=nightly
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
         with:
-          distribution: goreleaser
-          version: "~> v1"
-          args: release --clean
+          name: ${{ matrix.os }}-${{ matrix.arch }}
+          path: bin/reblog
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: /tmp/artifacts/
+
+      - name: Create tag and push
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          gh release delete nightly --yes || true
+          git push origin :refs/tags/nightly || true
+          git tag -f nightly
+          git push -f origin nightly
+
+      - name: Generate Changelog
+        run: |
+          curl -sL $(curl -s https://api.github.com/repos/git-chglog/git-chglog/releases/latest \
+              | grep -oP '"https://.+linux_amd64.tar.gz"' | tr -d \") | tar -C /usr/local/bin -xz git-chglog
+          CHANGELOG=$(git-chglog --config .github/chglog/config.yml --next-tag nightly nightly)
+          MD_FILE="/tmp/changelog.md"
+          echo -e "$CHANGELOG" > /tmp/changelog.md
+          echo -e "\n> [!NOTE]\n" \
+                  "> Nightly Build不保证稳定性" >> /tmp/changelog.md
+
+      - name: Get Files
+        run: |
+          cd artifacts
+
+          FILES=$(find ${DIST_DIR} -type f -exec readlink -f {} \;)
+          echo -e "RELEASE_FILES<<EOF" >> $GITHUB_ENV
+          echo -e "$FILES" >> $GITHUB_ENV
+          echo -e "EOF" >> $GITHUB_ENV
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          prerelease: true
+          tag_name: nightly
+          name: Nightly Build
+          body_path: /tmp/changelog.md
+          files: ${{ env.RELEASE_FILES }}
+          draft: false
