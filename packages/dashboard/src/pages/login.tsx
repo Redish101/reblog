@@ -29,7 +29,7 @@ const LoginPage = () => {
 
     const res = await useApi("/api/admin/login", {
       method: "POST",
-      body: formData,
+      data: values,
     });
 
     const data = await res.json();

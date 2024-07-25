@@ -44,19 +44,9 @@ const InitPage = () => {
   const handleSubmit = async (values: Init) => {
     formRef.current?.validateFields();
 
-    const formData = new FormData();
-
-    formData.append("name", values.name);
-    formData.append("url", values.url);
-    formData.append("desc", values.desc);
-    formData.append("email", values.email);
-    formData.append("username", values.username);
-    formData.append("nickname", values.nickname);
-    formData.append("password", values.password);
-
     const res = await useApi("/api/init", {
       method: "POST",
-      body: formData,
+      data: values,
     });
 
     const data = await res.json();

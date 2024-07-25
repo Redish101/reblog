@@ -26,8 +26,11 @@ func ArticleDelete(app *core.App, router fiber.Router) {
 		a := app.Query().Article
 
 		var params ArticleDeleteParams
-		if isValid, resp := common.Param(app, c, &params); !isValid {
-			return resp
+
+		params.Slug = c.Params("slug")
+
+		if common.IsEmpty(params.Slug) {
+			return common.RespFail(c, http.StatusBadRequest, "缺少slug", nil)
 		}
 
 		article, err := a.Where(a.Slug.Eq(params.Slug)).First()

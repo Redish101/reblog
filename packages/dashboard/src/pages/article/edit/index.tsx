@@ -91,14 +91,14 @@ const EditArticlePage = () => {
     const { title, desc, slug } = articleMeta;
     const content = vd?.getValue() || "";
 
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("desc", desc);
-    formData.append("content", content);
-
     const res = await useApi(`/api/article/${slug}`, {
       method: "PUT",
-      body: formData,
+      data: {
+        title,
+        desc,
+        slug,
+        content,
+      },
     });
 
     const data = await res.json().catch((err) => {

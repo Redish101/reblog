@@ -22,15 +22,10 @@ type FriendUpdateParams struct {
 //	@Tags			友情链接
 //	@Accept			json
 //	@Produce		json
-//	@Param			id		path		integer			true	"友情链接的ID"
-//	@Param			name	formData	string			true	"名称"
-//	@Param			avatar	formData	string			true	"图标URL"
-//	@Param			url		formData	string			true	"URL"
-//	@Param			desc	formData	string			false	"描述"
-//	@Param			visible	formData	bool			false	"是否可见"
-//	@Success		200		{object}	common.Resp{}	"更新友情链接成功"
-//	@Failure		400		{object}	common.Resp		"请求参数错误"
-//	@Failure		500		{object}	common.Resp		"服务器内部错误"
+//	@Param			friendUpdateParams	body		FriendUpdateParams	true	"更新友情链接参数"
+//	@Success		200					{object}	common.Resp{}		"更新友情链接成功"
+//	@Failure		400					{object}	common.Resp			"请求参数错误"
+//	@Failure		500					{object}	common.Resp			"服务器内部错误"
 //	@Security		ApiKeyAuth
 //	@Router			/friend/{id} [put]
 func FriendUpdate(app *core.App, router fiber.Router) {

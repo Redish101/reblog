@@ -16,10 +16,89 @@ definitions:
         description: Valid is true if Time is not NULL
         type: boolean
     type: object
+  handler.AdminLoginParams:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
   handler.AdminLoginResp:
     properties:
       token:
         type: string
+    type: object
+  handler.AdminSiteUpdateParams:
+    properties:
+      desc:
+        type: string
+      icon:
+        type: string
+      name:
+        type: string
+      url:
+        type: string
+    required:
+    - desc
+    - name
+    - url
+    type: object
+  handler.AdminUserUpdateParams:
+    properties:
+      email:
+        type: string
+      nickname:
+        maxLength: 32
+        minLength: 2
+        type: string
+      password:
+        maxLength: 32
+        minLength: 6
+        type: string
+      username:
+        maxLength: 32
+        minLength: 3
+        type: string
+    required:
+    - email
+    - nickname
+    - password
+    - username
+    type: object
+  handler.ArticleAddParams:
+    properties:
+      content:
+        type: string
+      desc:
+        type: string
+      slug:
+        type: string
+      title:
+        type: string
+    required:
+    - content
+    - desc
+    - slug
+    - title
+    type: object
+  handler.ArticleUpdateParams:
+    properties:
+      content:
+        type: string
+      desc:
+        type: string
+      slug:
+        type: string
+      title:
+        type: string
+    required:
+    - content
+    - desc
+    - slug
+    - title
     type: object
   handler.ArticlesListResp:
     properties:
@@ -30,6 +109,23 @@ definitions:
       count:
         type: integer
     type: object
+  handler.FriendAddParams:
+    properties:
+      avatar:
+        type: string
+      desc:
+        maxLength: 256
+        type: string
+      name:
+        maxLength: 32
+        type: string
+      url:
+        type: string
+    required:
+    - avatar
+    - name
+    - url
+    type: object
   handler.FriendListResp:
     properties:
       count:
@@ -38,6 +134,45 @@ definitions:
         items:
           $ref: '#/definitions/model.Friend'
         type: array
+    type: object
+  handler.FriendUpdateParams:
+    properties:
+      avatar:
+        type: string
+      desc:
+        type: string
+      name:
+        type: string
+      url:
+        type: string
+      visible:
+        type: boolean
+    type: object
+  handler.InitParams:
+    properties:
+      desc:
+        type: string
+      email:
+        type: string
+      icon:
+        type: string
+      name:
+        type: string
+      nickname:
+        type: string
+      password:
+        type: string
+      url:
+        type: string
+      username:
+        type: string
+    required:
+    - email
+    - name
+    - nickname
+    - password
+    - url
+    - username
     type: object
   handler.RespUserInfo:
     properties:
@@ -128,16 +263,12 @@ paths:
     post:
       description: 管理员使用用户名和密码进行登录，若登录成功，返回token
       parameters:
-      - description: 用户名或邮箱
-        in: formData
-        name: username
+      - description: 登录凭据
+        in: body
+        name: adminLoginParams
         required: true
-        type: string
-      - description: 密码
-        in: formData
-        name: password
-        required: true
-        type: string
+        schema:
+          $ref: '#/definitions/handler.AdminLoginParams'
       responses:
         "200":
           description: 登录成功
@@ -163,25 +294,12 @@ paths:
     put:
       description: 更新站点的名称、URL、描述和图标
       parameters:
-      - description: 站点名称
-        in: formData
-        name: name
+      - description: 站点信息
+        in: body
+        name: adminSiteUpdateParams
         required: true
-        type: string
-      - description: 站点URL
-        in: formData
-        name: url
-        required: true
-        type: string
-      - description: 站点描述
-        in: formData
-        name: desc
-        required: true
-        type: string
-      - description: 站点图标(base64格式)
-        in: formData
-        name: icon
-        type: string
+        schema:
+          $ref: '#/definitions/handler.AdminSiteUpdateParams'
       responses:
         "200":
           description: 操作成功, 部分主题可能需重新部署生效
@@ -294,21 +412,12 @@ paths:
         name: slug
         required: true
         type: string
-      - description: 文章标题
-        in: formData
-        name: title
+      - description: 文章参数
+        in: body
+        name: articleAddParams
         required: true
-        type: string
-      - description: 文章描述
-        in: formData
-        name: desc
-        required: true
-        type: string
-      - description: 文章内容
-        in: formData
-        name: content
-        required: true
-        type: string
+        schema:
+          $ref: '#/definitions/handler.ArticleAddParams'
       responses:
         "200":
           description: 操作成功
@@ -335,21 +444,12 @@ paths:
         name: slug
         required: true
         type: string
-      - description: 文章的标题
-        in: formData
-        name: title
+      - description: 文章更新参数
+        in: body
+        name: articleUpdateParams
         required: true
-        type: string
-      - description: 文章的描述
-        in: formData
-        name: desc
-        required: true
-        type: string
-      - description: 文章的内容
-        in: formData
-        name: content
-        required: true
-        type: string
+        schema:
+          $ref: '#/definitions/handler.ArticleUpdateParams'
       responses:
         "200":
           description: 更新成功
@@ -407,25 +507,12 @@ paths:
       - application/json
       description: 添加友情链接
       parameters:
-      - description: 名称
-        in: formData
-        name: name
+      - description: 友情链接信息
+        in: body
+        name: friendAddParams
         required: true
-        type: string
-      - description: 图标URL
-        in: formData
-        name: avatar
-        required: true
-        type: string
-      - description: URL
-        in: formData
-        name: url
-        required: true
-        type: string
-      - description: 描述
-        in: formData
-        name: desc
-        type: string
+        schema:
+          $ref: '#/definitions/handler.FriendAddParams'
       produces:
       - application/json
       responses:
@@ -491,34 +578,12 @@ paths:
       - application/json
       description: 更新友情链接
       parameters:
-      - description: 友情链接的ID
-        in: path
-        name: id
+      - description: 更新友情链接参数
+        in: body
+        name: friendUpdateParams
         required: true
-        type: integer
-      - description: 名称
-        in: formData
-        name: name
-        required: true
-        type: string
-      - description: 图标URL
-        in: formData
-        name: avatar
-        required: true
-        type: string
-      - description: URL
-        in: formData
-        name: url
-        required: true
-        type: string
-      - description: 描述
-        in: formData
-        name: desc
-        type: string
-      - description: 是否可见
-        in: formData
-        name: visible
-        type: boolean
+        schema:
+          $ref: '#/definitions/handler.FriendUpdateParams'
       produces:
       - application/json
       responses:
@@ -569,46 +634,18 @@ paths:
       - 友情链接
   /init:
     post:
+      consumes:
+      - application/json
       description: 使用给定的参数初始化站点
       parameters:
-      - description: 用户名
-        in: formData
-        name: username
+      - description: 初始化参数
+        in: body
+        name: initParams
         required: true
-        type: string
-      - description: 昵称
-        in: formData
-        name: nickname
-        required: true
-        type: string
-      - description: 邮箱
-        in: formData
-        name: email
-        required: true
-        type: string
-      - description: 密码
-        in: formData
-        name: password
-        required: true
-        type: string
-      - description: 站点名称
-        in: formData
-        name: name
-        required: true
-        type: string
-      - description: 站点URL
-        in: formData
-        name: url
-        required: true
-        type: string
-      - description: 站点描述
-        in: formData
-        name: desc
-        type: string
-      - description: 站点图标(base64格式)
-        in: formData
-        name: icon
-        type: string
+        schema:
+          $ref: '#/definitions/handler.InitParams'
+      produces:
+      - application/json
       responses:
         "200":
           description: 初始化成功
@@ -660,26 +697,12 @@ paths:
     put:
       description: 管理员更新用户信息
       parameters:
-      - description: 用户名
-        in: path
-        name: username
+      - description: 用户信息
+        in: body
+        name: adminUserUpdateParams
         required: true
-        type: string
-      - description: 昵称
-        in: formData
-        name: nickname
-        required: true
-        type: string
-      - description: 邮箱
-        in: formData
-        name: email
-        required: true
-        type: string
-      - description: 密码
-        in: formData
-        name: password
-        required: true
-        type: string
+        schema:
+          $ref: '#/definitions/handler.AdminUserUpdateParams'
       responses:
         "200":
           description: OK

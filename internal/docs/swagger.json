@@ -23,18 +23,13 @@
                 "summary": "登录",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "用户名或邮箱",
-                        "name": "username",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "密码",
-                        "name": "password",
-                        "in": "formData",
-                        "required": true
+                        "description": "登录凭据",
+                        "name": "adminLoginParams",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.AdminLoginParams"
+                        }
                     }
                 ],
                 "responses": {
@@ -85,31 +80,13 @@
                 "summary": "更新站点信息",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "站点名称",
-                        "name": "name",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "站点URL",
-                        "name": "url",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "站点描述",
-                        "name": "desc",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "站点图标(base64格式)",
-                        "name": "icon",
-                        "in": "formData"
+                        "description": "站点信息",
+                        "name": "adminSiteUpdateParams",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.AdminSiteUpdateParams"
+                        }
                     }
                 ],
                 "responses": {
@@ -315,25 +292,13 @@
                         "required": true
                     },
                     {
-                        "type": "string",
-                        "description": "文章的标题",
-                        "name": "title",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "文章的描述",
-                        "name": "desc",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "文章的内容",
-                        "name": "content",
-                        "in": "formData",
-                        "required": true
+                        "description": "文章更新参数",
+                        "name": "articleUpdateParams",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.ArticleUpdateParams"
+                        }
                     }
                 ],
                 "responses": {
@@ -377,25 +342,13 @@
                         "required": true
                     },
                     {
-                        "type": "string",
-                        "description": "文章标题",
-                        "name": "title",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "文章描述",
-                        "name": "desc",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "文章内容",
-                        "name": "content",
-                        "in": "formData",
-                        "required": true
+                        "description": "文章参数",
+                        "name": "articleAddParams",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.ArticleAddParams"
+                        }
                     }
                 ],
                 "responses": {
@@ -481,31 +434,13 @@
                 "summary": "添加友情链接",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "名称",
-                        "name": "name",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "图标URL",
-                        "name": "avatar",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "URL",
-                        "name": "url",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "描述",
-                        "name": "desc",
-                        "in": "formData"
+                        "description": "友情链接信息",
+                        "name": "friendAddParams",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.FriendAddParams"
+                        }
                     }
                 ],
                 "responses": {
@@ -605,44 +540,13 @@
                 "summary": "更新友情链接",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "友情链接的ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "名称",
-                        "name": "name",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "图标URL",
-                        "name": "avatar",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "URL",
-                        "name": "url",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "描述",
-                        "name": "desc",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "是否可见",
-                        "name": "visible",
-                        "in": "formData"
+                        "description": "更新友情链接参数",
+                        "name": "friendUpdateParams",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.FriendUpdateParams"
+                        }
                     }
                 ],
                 "responses": {
@@ -723,64 +627,25 @@
         "/init": {
             "post": {
                 "description": "使用给定的参数初始化站点",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
                 "tags": [
                     "站点管理"
                 ],
                 "summary": "初始化站点",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "用户名",
-                        "name": "username",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "昵称",
-                        "name": "nickname",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "邮箱",
-                        "name": "email",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "密码",
-                        "name": "password",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "站点名称",
-                        "name": "name",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "站点URL",
-                        "name": "url",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "站点描述",
-                        "name": "desc",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "string",
-                        "description": "站点图标(base64格式)",
-                        "name": "icon",
-                        "in": "formData"
+                        "description": "初始化参数",
+                        "name": "initParams",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.InitParams"
+                        }
                     }
                 ],
                 "responses": {
@@ -866,32 +731,13 @@
                 "summary": "更新用户信息",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "用户名",
-                        "name": "username",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "昵称",
-                        "name": "nickname",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "邮箱",
-                        "name": "email",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "密码",
-                        "name": "password",
-                        "in": "formData",
-                        "required": true
+                        "description": "用户信息",
+                        "name": "adminUserUpdateParams",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.AdminUserUpdateParams"
+                        }
                     }
                 ],
                 "responses": {
@@ -965,10 +811,122 @@
                 }
             }
         },
+        "handler.AdminLoginParams": {
+            "type": "object",
+            "required": [
+                "password",
+                "username"
+            ],
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
         "handler.AdminLoginResp": {
             "type": "object",
             "properties": {
                 "token": {
+                    "type": "string"
+                }
+            }
+        },
+        "handler.AdminSiteUpdateParams": {
+            "type": "object",
+            "required": [
+                "desc",
+                "name",
+                "url"
+            ],
+            "properties": {
+                "desc": {
+                    "type": "string"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "handler.AdminUserUpdateParams": {
+            "type": "object",
+            "required": [
+                "email",
+                "nickname",
+                "password",
+                "username"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "nickname": {
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 2
+                },
+                "password": {
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 6
+                },
+                "username": {
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 3
+                }
+            }
+        },
+        "handler.ArticleAddParams": {
+            "type": "object",
+            "required": [
+                "content",
+                "desc",
+                "slug",
+                "title"
+            ],
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "desc": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "handler.ArticleUpdateParams": {
+            "type": "object",
+            "required": [
+                "content",
+                "desc",
+                "slug",
+                "title"
+            ],
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "desc": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "title": {
                     "type": "string"
                 }
             }
@@ -987,6 +945,30 @@
                 }
             }
         },
+        "handler.FriendAddParams": {
+            "type": "object",
+            "required": [
+                "avatar",
+                "name",
+                "url"
+            ],
+            "properties": {
+                "avatar": {
+                    "type": "string"
+                },
+                "desc": {
+                    "type": "string",
+                    "maxLength": 256
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 32
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
         "handler.FriendListResp": {
             "type": "object",
             "properties": {
@@ -998,6 +980,63 @@
                     "items": {
                         "$ref": "#/definitions/model.Friend"
                     }
+                }
+            }
+        },
+        "handler.FriendUpdateParams": {
+            "type": "object",
+            "properties": {
+                "avatar": {
+                    "type": "string"
+                },
+                "desc": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "visible": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "handler.InitParams": {
+            "type": "object",
+            "required": [
+                "email",
+                "name",
+                "nickname",
+                "password",
+                "url",
+                "username"
+            ],
+            "properties": {
+                "desc": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "nickname": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
                 }
             }
         },
