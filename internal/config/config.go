@@ -35,6 +35,7 @@ type Config struct {
 	Server    ServerConfig    `yaml:"server"`
 	DB        DBConfig        `yaml:"db"`
 	Dashboard DashboardConfig `yaml:"dashboard"`
+	Plugins   []string        `yaml:"plugins"`
 }
 
 func (c *Config) SaveConfig() {

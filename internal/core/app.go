@@ -24,14 +24,14 @@ type App struct {
 }
 
 // 注入服务到App实例
-func (a *App) inject(name string, service Service) {
+func (a *App) Inject(name string, service Service) {
 	(*a.service)[name] = service
 }
 
 // 注入服务到App实例, 并生成服务名称
 func AppInject[T Service](app *App, service T) {
 	log.Debugf("[SERVICE] 注入服务 %s", getServiceName[T]())
-	app.inject(getServiceName[T](), service)
+	app.Inject(getServiceName[T](), service)
 }
 
 func (app *App) Service(name string) (Service, error) {

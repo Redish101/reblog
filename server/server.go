@@ -7,6 +7,7 @@ import (
 	"reblog/internal/core"
 	"reblog/internal/log"
 	"reblog/internal/model"
+	"reblog/internal/plugin"
 	"reblog/internal/ui"
 	"reblog/server/common"
 	h "reblog/server/handler"
@@ -30,6 +31,8 @@ func Start() {
 	log.Info("欢迎使用reblog")
 
 	app := core.NewApp()
+
+	loadPlugins(app)
 	app.Bootstrap()
 
 	fb := app.Fiber()
@@ -120,6 +123,14 @@ func Start() {
 	}
 
 	log.Fatal(app.Listen())
+}
+
+func loadPlugins(app *core.App) {
+	plugins := app.Config().Plugins
+
+	for _, pluginPath := range plugins {
+		plugin.LoadPlugin(app, pluginPath)
+	}
 }
 
 func dashboard(fb *fiber.App, uifs fs.FS) {

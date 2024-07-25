@@ -33,10 +33,10 @@ const useApi = async (
 
     message.open({
       type: "warning",
-      content: "请登录"
-    })
+      content: "请登录",
+    });
 
-    history.push("/login")
+    history.push("/login");
   }
 
   return res;

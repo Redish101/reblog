@@ -7,3 +7,7 @@ dashboard:
 db:
   type: sqlite3
   name: reblog.db
+
+plugins:
+  - example/plugin
+  
