@@ -135,12 +135,22 @@ jobs:
           files: ${{ env.RELEASE_FILES }}
           draft: false
 
+  changelog:
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 20.x
-
+  
       - name: Upload Changelog
         run: npx changelogithub
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
