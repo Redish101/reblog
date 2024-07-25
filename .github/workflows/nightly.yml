@@ -124,7 +124,7 @@ jobs:
           FILES=$(find ${DIST_DIR} -type f -exec readlink -f {} \;)
           echo -e "RELEASE_FILES<<EOF" >> $GITHUB_ENV
           echo -e "$FILES" >> $GITHUB_ENV
-          echo -e "EOF" >> $GITHUmB_ENV
+          echo -e "EOF" >> $GITHUB_ENV
 
       - name: Release
         uses: softprops/action-gh-release@v2
