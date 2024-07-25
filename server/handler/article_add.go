@@ -19,13 +19,11 @@ type ArticleAddParams struct {
 //	@Summary		添加文章
 //	@Description	添加一篇新的文章
 //	@Tags			文章
-//	@Param			slug	path		string		true	"文章slug"
-//	@Param			title	formData	string		true	"文章标题"
-//	@Param			desc	formData	string		true	"文章描述"
-//	@Param			content	formData	string		true	"文章内容"
-//	@Success		200		{object}	common.Resp	"操作成功"
-//	@Failure		400		{object}	common.Resp	"缺少必要参数"
-//	@Failure		409		{object}	common.Resp	"slug已被其他文章使用"
+//	@Param			slug				path		string				true	"文章slug"
+//	@Param			articleAddParams	body		ArticleAddParams	true	"文章参数"
+//	@Success		200					{object}	common.Resp			"操作成功"
+//	@Failure		400					{object}	common.Resp			"缺少必要参数"
+//	@Failure		409					{object}	common.Resp			"slug已被其他文章使用"
 //	@Security		ApiKeyAuth
 //	@Router			/article/{slug} [post]
 func ArticleAdd(app *core.App, router fiber.Router) {

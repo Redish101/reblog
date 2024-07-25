@@ -20,13 +20,10 @@ type FriendAddParams struct {
 //	@Tags			友情链接
 //	@Accept			json
 //	@Produce		json
-//	@Param			name	formData	string							true	"名称"
-//	@Param			avatar	formData	string							true	"图标URL"
-//	@Param			url		formData	string							true	"URL"
-//	@Param			desc	formData	string							false	"描述"
-//	@Success		200		{object}	common.Resp{data=model.Friend}	"添加友情链接成功"
-//	@Failure		400		{object}	common.Resp						"请求参数错误"
-//	@Failure		500		{object}	common.Resp						"服务器内部错误"
+//	@Param			friendAddParams	body		FriendAddParams					true	"友情链接信息"
+//	@Success		200				{object}	common.Resp{data=model.Friend}	"添加友情链接成功"
+//	@Failure		400				{object}	common.Resp						"请求参数错误"
+//	@Failure		500				{object}	common.Resp						"服务器内部错误"
 //	@Security		ApiKeyAuth
 //	@Router			/friend [post]
 func FriendAdd(app *core.App, router fiber.Router) {

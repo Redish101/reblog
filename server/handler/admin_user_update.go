@@ -17,12 +17,9 @@ type AdminUserUpdateParams struct {
 //	@Summary		更新用户信息
 //	@Description	管理员更新用户信息
 //	@Tags			站点管理
-//	@Param			username	path		string	true	"用户名"
-//	@Param			nickname	formData	string	true	"昵称"
-//	@Param			email		formData	string	true	"邮箱"
-//	@Param			password	formData	string	true	"密码"
-//	@Success		200			{object}	common.Resp
-//	@Failure		400			{object}	common.Resp
+//	@Param			adminUserUpdateParams	body		AdminUserUpdateParams	true	"用户信息"
+//	@Success		200						{object}	common.Resp
+//	@Failure		400						{object}	common.Resp
 //	@Router			/user/{username} [put]
 func AdminUserUpdate(app *core.App, router fiber.Router) {
 	router.Put("/user/:username", func(c fiber.Ctx) error {
