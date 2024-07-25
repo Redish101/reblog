@@ -24,6 +24,7 @@ type DBConfig struct {
 	Name     string `yaml:"name"`
 	User     string `yaml:"user"`
 	Password string `yaml:"pass"`
+	SSL      bool   `yaml:"ssl"`
 }
 
 type DashboardConfig struct {

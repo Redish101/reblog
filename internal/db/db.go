@@ -42,7 +42,20 @@ func NewDB() *gorm.DB {
 	// 	db, err = gorm.Open(mongodb.Open(config.DB_URI), &gorm.Config{})
 	// Q: 为什么没有MongoDB? A: 因为MongoDB无法进行自动迁移!!!!!!!!!!
 	case "postgres":
-		dsn := fmt.Sprint("host=", config.Host, " port=", config.Port, " user=", config.User, " password=", config.Password, " dbname=", config.Name, " sslmode=disable")
+		var sslmode string
+		if config.SSL {
+			sslmode = "require"
+		} else {
+			sslmode = "disable"
+		}
+		dsn := fmt.Sprint(
+			"host=", config.Host,
+			" port=", config.Port,
+			" user=", config.User,
+			" password=", config.Password,
+			" dbname=", config.Name,
+			" sslmode=", sslmode,
+		)
 		db, err = gorm.Open(postgres.Open(dsn), gormConfig)
 	default:
 		log.Panic("[DB] 不支持的数据库类型")
