@@ -111,7 +111,7 @@ jobs:
         run: |
           curl -sL $(curl -s https://api.github.com/repos/git-chglog/git-chglog/releases/latest \
               | grep -oP '"https://.+linux_amd64.tar.gz"' | tr -d \") | tar -C /usr/local/bin -xz git-chglog
-          CHANGELOG=$(git-chglog --config .github/chglog/config.yml --next-tag nightly nightly)
+          CHANGELOG=$(git-chglog --next-tag nightly nightly)
           MD_FILE="/tmp/changelog.md"
           echo -e "$CHANGELOG" > /tmp/changelog.md
           echo -e "\n> [!NOTE]\n" \
