@@ -88,17 +88,6 @@ jobs:
         with:
           path: /tmp/artifacts/
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: nightly
-          release_name: Nightly Build
-          draft: false
-          prerelease: true
-
       - name: Create tag and push
         env:
           GH_TOKEN: ${{ github.token }}
