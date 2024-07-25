@@ -1,0 +1,38 @@
+version: 2
+updates:
+  - package-ecosystem: gomod
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: "deps: "
+    groups:
+      deps:
+        patterns:
+          - "*"
+    open-pull-requests-limit: 15
+
+  - package-ecosystem: npm
+    directory: /packages/*
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: "deps: "
+    groups:
+      prod-deps:
+        dependency-type: production
+      dev-deps:
+        dependency-type: development
+    open-pull-requests-limit: 15
+
+  - package-ecosystem: github-actions
+    directory: /.github/workflows
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: "deps(ci): "
+    groups:
+      deps:
+        patterns:
+          - "*"
+    open-pull-requests-limit: 15
