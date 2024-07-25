@@ -11,7 +11,7 @@ export class Api {
     return await useApi<T>(this.baseURL + url, options);
   }
 
-  async post<T>(url: string, body: FormData, options?: RequestInit) {
+  async post<T>(url: string, body: any, options?: RequestInit) {
     return await useApi<T>(this.baseURL + url, {
       method: "POST",
       body,
