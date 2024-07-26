@@ -5,6 +5,7 @@ package handler
 import (
 	"net/http"
 
+	"github.com/redish101/reblog/internal/config"
 	"github.com/redish101/reblog/internal/core"
 
 	"github.com/gofiber/fiber/v3/middleware/adaptor"
@@ -13,7 +14,8 @@ import (
 var srv http.Handler
 
 func init() {
-	app := core.NewApp()
+	config := config.NewFromFile()
+	app := core.NewApp(config)
 	app.Bootstrap()
 
 	srv = adaptor.FiberApp(app.Fiber())

@@ -58,17 +58,13 @@ func AppService[T Service](app *App) (T, error) {
 	return service.(T), nil
 }
 
-func (app *App) initConfig() {
-	app.config = config.NewFromFile()
-}
-
 func (app *App) initFiber() {
 	app.fiber = GetFiber()
 }
 
 func (app *App) initQuery() {
-	query.Use(db.DB())
-	query.SetDefault(db.DB())
+	query.Use(db.DB(&app.config.DB))
+	query.SetDefault(db.DB(&app.config.DB))
 
 	app.query = query.Q
 }
@@ -77,30 +73,8 @@ func (app *App) initValidator() {
 	app.validator = validator.New()
 }
 
-func (app *App) initService() {
-	app.service = &map[string]Service{}
-}
-
 func (app *App) initDefaultServices() {
 	AppInject(app, NewAuthService(app))
-}
-
-func (app *App) Init() {
-	if version.Version == "dev" {
-		app.dev = true
-		log.Logger().SetLevel(logrus.DebugLevel)
-		log.Debug("以开发模式启动")
-	} else {
-		app.dev = false
-	}
-
-	app.initConfig()
-	app.initFiber()
-	app.initQuery()
-	app.initValidator()
-	app.initService()
-
-	app.initDefaultServices()
 }
 
 func (app *App) Bootstrap() {
@@ -148,10 +122,25 @@ func (app *App) Listen() error {
 	return app.fiber.Listen(listenUrl, listenConfig)
 }
 
-func NewApp() *App {
-	app := &App{}
+func NewApp(config *config.Config) *App {
+	app := &App{
+		config:  config,
+		service: &map[string]Service{},
+	}
 
-	app.Init()
+	if version.Version == "dev" {
+		app.dev = true
+		log.Logger().SetLevel(logrus.DebugLevel)
+		log.Debug("以开发模式启动")
+	} else {
+		app.dev = false
+	}
+
+	app.initFiber()
+	app.initQuery()
+	app.initValidator()
+
+	app.initDefaultServices()
 
 	return app
 }

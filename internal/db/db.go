@@ -16,13 +16,7 @@ import (
 
 var dbInstance *gorm.DB
 
-func init() {
-	dbInstance = NewDB()
-}
-
-func NewDB() *gorm.DB {
-	config := config.NewFromFile().DB
-
+func NewDB(config *config.DBConfig) *gorm.DB {
 	var db *gorm.DB
 	var err error
 
@@ -76,9 +70,9 @@ func NewDB() *gorm.DB {
 	return db
 }
 
-func DB() *gorm.DB {
+func DB(config *config.DBConfig) *gorm.DB {
 	if dbInstance == nil {
-		dbInstance = NewDB()
+		dbInstance = NewDB(config)
 	}
 
 	return dbInstance

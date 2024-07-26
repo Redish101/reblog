@@ -32,6 +32,9 @@ dev:
 	go build -o bin/reblog-dev -v
 	./bin/reblog-dev
 
+test:
+	TESTPWD=$(shell pwd) go test ./...
+
 clean:
 	rm -rf bin/*
 

@@ -8,6 +8,7 @@ import (
 	"github.com/redish101/reblog/server/common"
 	h "github.com/redish101/reblog/server/handler"
 
+	"github.com/redish101/reblog/internal/config"
 	"github.com/redish101/reblog/internal/core"
 	"github.com/redish101/reblog/internal/log"
 	"github.com/redish101/reblog/internal/model"
@@ -32,7 +33,8 @@ import (
 func Start() {
 	log.Info("欢迎使用reblog")
 
-	app := core.NewApp()
+	config := config.NewFromFile()
+	app := core.NewApp(config)
 
 	loadPlugins(app)
 	app.Bootstrap()

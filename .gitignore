@@ -1,4 +1,5 @@
 reblog.db
+reblog_test.db
 reblog.yml
 bin
 internal/ui/dist
