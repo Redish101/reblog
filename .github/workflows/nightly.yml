@@ -130,12 +130,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: /tmp/artifacts/
-      
-      - name: Generate Changelog
-        run: |
-          git log --since='24 hours ago' --pretty=format:'* %s (%an)' > /tmp/changelog.md
-          echo -e "\n> [!NOTE]\n" \
-                  "> Nightly Build不保证稳定性" >> /tmp/changelog.md
 
       - name: Create tag and push
         env:
@@ -147,6 +141,19 @@ jobs:
           git push origin :refs/tags/nightly || true
           git tag -f nightly
           git push -f origin nightly
+
+      - name: Generate Changelog
+        run: |
+          # install git-chglog
+          curl -sL $(curl -s https://api.github.com/repos/git-chglog/git-chglog/releases/latest \
+              | grep -oP '"https://.+linux_amd64.tar.gz"' | tr -d \") | tar -C /usr/local/bin -xz git-chglog
+
+          CHANGELOG=$(git-chglog --config .github/chglog/config.yml --next-tag nightly nightly)
+          MD_FILE="/tmp/changelog.md"
+          echo -e "$CHANGELOG" > $MD_FILE
+          echo -e "\n> [!NOTE]\n" \
+                  "> Nightly Build由ci在每晚自动从最新源代码构建并发布，仅作为预览使用，不保证可用性，不建议在生产环境下使用。" >> $MD_FILE
+
 
       - name: Get Files
         run: |
