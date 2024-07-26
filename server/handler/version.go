@@ -3,10 +3,9 @@ package handler
 import (
 	"runtime"
 
-	"github.com/redish101/reblog/server/common"
-
 	"github.com/redish101/reblog/internal/core"
 	"github.com/redish101/reblog/internal/version"
+	"github.com/redish101/reblog/server/common"
 
 	"github.com/gofiber/fiber/v3"
 )
