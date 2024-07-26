@@ -130,6 +130,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: /tmp/artifacts/
+      
+      - name: Generate Changelog
+        run: |
+          git log --since='24 hours ago' --pretty=format:'* %s (%an)' > /tmp/changelog.md
+          echo -e "\n> [!NOTE]\n" \
+                  "> Nightly Build不保证稳定性" >> /tmp/changelog.md
 
       - name: Create tag and push
         env:
@@ -141,12 +147,6 @@ jobs:
           git push origin :refs/tags/nightly || true
           git tag -f nightly
           git push -f origin nightly
-
-      - name: Generate Changelog
-        run: |
-          git log --since='24 hours ago' --pretty=format:'* %s (%an)' > /tmp/changelog.md
-          echo -e "\n> [!NOTE]\n" \
-                  "> Nightly Build不保证稳定性" >> /tmp/changelog.md
 
       - name: Get Files
         run: |
