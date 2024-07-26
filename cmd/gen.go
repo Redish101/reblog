@@ -1,8 +1,8 @@
 package main
 
 import (
-	"reblog/internal/db"
-	"reblog/internal/model"
+	"github.com/redish101/reblog/internal/db"
+	"github.com/redish101/reblog/internal/model"
 
 	"gorm.io/gen"
 )

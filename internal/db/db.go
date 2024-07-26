@@ -3,8 +3,9 @@ package db
 import (
 	"fmt"
 	"log"
-	"reblog/internal/config"
-	"reblog/internal/model"
+
+	"github.com/redish101/reblog/internal/config"
+	"github.com/redish101/reblog/internal/model"
 
 	"gorm.io/driver/mysql"
 	// "gorm.io/driver/mongodb"

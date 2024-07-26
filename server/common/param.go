@@ -2,8 +2,9 @@ package common
 
 import (
 	"net/http"
-	"reblog/internal/core"
-	"reblog/internal/log"
+
+	"github.com/redish101/reblog/internal/core"
+	"github.com/redish101/reblog/internal/log"
 
 	"github.com/gofiber/fiber/v3"
 	"github.com/mcuadros/go-defaults"

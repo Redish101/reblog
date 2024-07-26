@@ -4,7 +4,8 @@ package handler
 
 import (
 	"net/http"
-	"reblog/internal/core"
+
+	"github.com/redish101/reblog/internal/core"
 
 	"github.com/gofiber/fiber/v3/middleware/adaptor"
 )

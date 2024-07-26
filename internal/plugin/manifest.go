@@ -3,7 +3,8 @@ package plugin
 import (
 	"encoding/json"
 	"os"
-	"reblog/internal/log"
+
+	"github.com/redish101/reblog/internal/log"
 )
 
 type Manifest struct {

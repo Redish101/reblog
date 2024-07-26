@@ -2,9 +2,11 @@ package handler
 
 import (
 	"net/http"
-	"reblog/internal/core"
-	"reblog/server/common"
 	"strconv"
+
+	"github.com/redish101/reblog/server/common"
+
+	"github.com/redish101/reblog/internal/core"
 
 	"github.com/gofiber/fiber/v3"
 )

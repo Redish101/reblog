@@ -2,7 +2,8 @@ package config
 
 import (
 	"os"
-	"reblog/internal/log"
+
+	"github.com/redish101/reblog/internal/log"
 
 	"gopkg.in/yaml.v3"
 )

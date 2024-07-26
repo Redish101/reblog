@@ -1,9 +1,10 @@
 package handler
 
 import (
-	"reblog/internal/core"
-	"reblog/internal/rss"
-	"reblog/server/common"
+	"github.com/redish101/reblog/server/common"
+
+	"github.com/redish101/reblog/internal/core"
+	"github.com/redish101/reblog/internal/rss"
 
 	"github.com/gofiber/fiber/v3"
 )

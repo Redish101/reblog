@@ -2,8 +2,9 @@ package config
 
 import (
 	"os"
-	"reblog/internal/log"
 	"regexp"
+
+	"github.com/redish101/reblog/internal/log"
 )
 
 func cookEnv(content *string) {

@@ -2,11 +2,12 @@ package core
 
 import (
 	"fmt"
-	"reblog/internal/config"
-	"reblog/internal/db"
-	"reblog/internal/log"
-	"reblog/internal/query"
-	"reblog/internal/version"
+
+	"github.com/redish101/reblog/internal/config"
+	"github.com/redish101/reblog/internal/db"
+	"github.com/redish101/reblog/internal/log"
+	"github.com/redish101/reblog/internal/query"
+	"github.com/redish101/reblog/internal/version"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v3"

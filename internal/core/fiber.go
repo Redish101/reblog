@@ -1,7 +1,7 @@
 package core
 
 import (
-	"reblog/internal/version"
+	"github.com/redish101/reblog/internal/version"
 
 	"github.com/gofiber/fiber/v3"
 )

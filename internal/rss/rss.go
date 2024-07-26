@@ -1,8 +1,8 @@
 package rss
 
 import (
-	"reblog/internal/core"
-	"reblog/internal/model"
+	"github.com/redish101/reblog/internal/core"
+	"github.com/redish101/reblog/internal/model"
 
 	"github.com/gorilla/feeds"
 )

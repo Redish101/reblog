@@ -2,8 +2,9 @@ package db
 
 import (
 	"context"
-	"reblog/internal/log"
 	"time"
+
+	"github.com/redish101/reblog/internal/log"
 
 	"gorm.io/gorm/logger"
 )

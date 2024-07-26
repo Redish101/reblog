@@ -11,8 +11,8 @@ builds:
       - linux
       - darwin
     ldflags:
-      - -X reblog/internal/version.Version={{ .Version }}
-      - -X reblog/internal/version.Commit={{ .ShortCommit }}
+      - -X github.com/redish101/reblog/internal/version.Version={{ .Version }}
+      - -X github.com/redish101/reblog/internal/version.Commit={{ .ShortCommit }}
       - -w -s
 
 archives:

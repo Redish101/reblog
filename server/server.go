@@ -4,13 +4,15 @@ import (
 	"io"
 	"io/fs"
 	"path/filepath"
-	"reblog/internal/core"
-	"reblog/internal/log"
-	"reblog/internal/model"
-	"reblog/internal/plugin"
-	"reblog/internal/ui"
-	"reblog/server/common"
-	h "reblog/server/handler"
+
+	"github.com/redish101/reblog/server/common"
+	h "github.com/redish101/reblog/server/handler"
+
+	"github.com/redish101/reblog/internal/core"
+	"github.com/redish101/reblog/internal/log"
+	"github.com/redish101/reblog/internal/model"
+	"github.com/redish101/reblog/internal/plugin"
+	"github.com/redish101/reblog/internal/ui"
 
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/cors"

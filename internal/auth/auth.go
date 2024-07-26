@@ -3,11 +3,12 @@ package auth
 import (
 	"fmt"
 	"math/rand"
-	"reblog/internal/hash"
-	"reblog/internal/model"
-	"reblog/internal/query"
 	"regexp"
 	"time"
+
+	"github.com/redish101/reblog/internal/hash"
+	"github.com/redish101/reblog/internal/model"
+	"github.com/redish101/reblog/internal/query"
 
 	"github.com/golang-jwt/jwt/v5"
 )

@@ -3,8 +3,9 @@ package plugin
 import (
 	"fmt"
 	"plugin"
-	"reblog/internal/core"
-	"reblog/internal/log"
+
+	"github.com/redish101/reblog/internal/core"
+	"github.com/redish101/reblog/internal/log"
 )
 
 func LoadPlugin(app *core.App, path string) {

@@ -16,7 +16,7 @@ import (
 
 	"gorm.io/plugin/dbresolver"
 
-	"reblog/internal/model"
+	"github.com/redish101/reblog/internal/model"
 )
 
 func newSite(db *gorm.DB, opts ...gen.DOOption) site {

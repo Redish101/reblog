@@ -1,9 +1,10 @@
 package main
 
 import (
-	"reblog/internal/core"
-	"reblog/internal/log"
-	"reblog/server/common"
+	"github.com/redish101/reblog/server/common"
+
+	"github.com/redish101/reblog/internal/core"
+	"github.com/redish101/reblog/internal/log"
 
 	"github.com/gofiber/fiber/v3"
 )

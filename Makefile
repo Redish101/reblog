@@ -8,7 +8,7 @@ install-dev:
 	pnpm install --no-frozen-lockfile
 
 backend:
-	go build -o bin/reblog -ldflags "-w -s -X 'reblog/internal/version.Version=$(VERSION)$(EXTERNAL_VERSION)' -X 'reblog/internal/version.Commit=$(COMMIT)'" -gcflags "-N -l"
+	go build -o bin/reblog -ldflags "-w -s -X 'github.com/redish101/reblog/internal/version.Version=$(VERSION)$(EXTERNAL_VERSION)' -X 'github.com/redish101/reblog/internal/version.Commit=$(COMMIT)'" -gcflags "-N -l" -v
 
 gen:
 	go run cmd/gen.go
@@ -29,7 +29,7 @@ ui:
 	cp -r packages/dashboard/dist internal/ui/dist
 
 dev:
-	go build -o bin/reblog-dev
+	go build -o bin/reblog-dev -v
 	./bin/reblog-dev
 
 clean:

@@ -4,7 +4,7 @@
 
 package main
 
-import "reblog/server"
+import "github.com/redish101/reblog/server"
 
 func main() {
 	server.Start()
