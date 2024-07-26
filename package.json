@@ -1,7 +1,6 @@
 {
   "name": "@reblog/monorepo",
   "private": true,
-  "version": "0.1.0",
   "description": "基于go和react的博客系统",
   "scripts": {
     "build": "turbo build",
