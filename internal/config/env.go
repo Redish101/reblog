@@ -4,7 +4,7 @@ import (
 	"os"
 	"regexp"
 
-	"github.com/redish101/reblog/internal/log"
+	"github.com/ChuqiCloud/acmeidc/internal/log"
 )
 
 func cookEnv(content *string) {

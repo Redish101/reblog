@@ -3,8 +3,8 @@ package handler
 import (
 	"net/http"
 
-	"github.com/redish101/reblog/internal/core"
-	"github.com/redish101/reblog/server/common"
+	"github.com/ChuqiCloud/acmeidc/internal/core"
+	"github.com/ChuqiCloud/acmeidc/server/common"
 
 	"github.com/gofiber/fiber/v3"
 )

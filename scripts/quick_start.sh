@@ -1,7 +1,7 @@
-echo "reblog quickstart"
+echo "acmeidc quickstart"
 
-git clone https://github.com/redish101/reblog.git
+git clone https://github.com/ChuqiCloud/acmeidc.git
 
-cd reblog
+cd acmeidc
 
 docker-compose up -d

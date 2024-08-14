@@ -2,35 +2,20 @@ VERSION := $(shell git describe --tags --abbrev=0 --match 'v*')
 COMMIT := $(shell git rev-parse --short HEAD)
 EXTERNAL_VERSION :=
 
-all: clean ui backend
-
-install-dev:
-	pnpm install --frozen-lockfile
+all: clean backend
 
 backend:
-	go build -o bin/reblog -ldflags "-w -s -X 'github.com/redish101/reblog/internal/version.Version=$(VERSION)$(EXTERNAL_VERSION)' -X 'github.com/redish101/reblog/internal/version.Commit=$(COMMIT)'" -gcflags "-N -l" -v
+	go build -o bin/acmeidc -ldflags "-w -s -X 'github.com/ChuqiCloud/acmeidc/internal/version.Version=$(VERSION)$(EXTERNAL_VERSION)' -X 'github.com/ChuqiCloud/acmeidc/internal/version.Commit=$(COMMIT)'" -gcflags "-N -l" -v
 
 gen:
 	go run cmd/gen.go
 
-apidoc:
-	swag fmt
-	swag init -g server/server.go -o internal/docs --parseDependency --parseInternal
-	redocly build-docs internal/docs/swagger.yaml -o apidoc/index.html
-
 fmt:
 	go fmt ./...
-	prettier -w packages
-	swag fmt
-
-ui:
-	pnpm build
-	rm -rf internal/ui/dist
-	cp -r packages/dashboard/dist internal/ui/dist
 
 dev:
-	go build -o bin/reblog-dev -v
-	./bin/reblog-dev
+	go build -o bin/acmeidc-dev -v
+	./bin/acmeidc-dev
 
 test:
 	TESTPWD=$(shell pwd) go test ./...

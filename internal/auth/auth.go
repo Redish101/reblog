@@ -6,9 +6,9 @@ import (
 	"regexp"
 	"time"
 
-	"github.com/redish101/reblog/internal/hash"
-	"github.com/redish101/reblog/internal/model"
-	"github.com/redish101/reblog/internal/query"
+	"github.com/ChuqiCloud/acmeidc/internal/hash"
+	"github.com/ChuqiCloud/acmeidc/internal/model"
+	"github.com/ChuqiCloud/acmeidc/internal/query"
 
 	"github.com/golang-jwt/jwt/v5"
 )
@@ -33,7 +33,7 @@ type TokenClaim struct {
 }
 
 func NewKey() []byte {
-	return []byte(hash.Hash("reblog_sign_key" + fmt.Sprint(time.Now().UnixMicro()+rand.Int63n(1000000000))))
+	return []byte(hash.Hash("acmeidc_sign_key" + fmt.Sprint(time.Now().UnixMicro()+rand.Int63n(1000000000))))
 }
 
 func (a *Auth) GetToken(username string, password string) string {
@@ -62,7 +62,7 @@ func (a *Auth) GetToken(username string, password string) string {
 		user.Username,
 		user.Password,
 		jwt.RegisteredClaims{
-			Issuer:    "reblog-server",
+			Issuer:    "acmeidc-server",
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(24 * time.Hour)),
 		},

@@ -1,4 +1,4 @@
-module github.com/redish101/reblog
+module github.com/ChuqiCloud/acmeidc
 
 go 1.22
 

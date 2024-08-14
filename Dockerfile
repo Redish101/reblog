@@ -30,12 +30,12 @@ RUN make
 
 FROM alpine:latest
 
-COPY --from=builder /app/bin/reblog /app/reblog
+COPY --from=builder /app/bin/acmeidc /app/acmeidc
 
-WORKDIR /reblog
+WORKDIR /acmeidc
 
-CMD ["/app/reblog"]
+CMD ["/app/acmeidc"]
 
 EXPOSE 3000
 
-VOLUME [ "/reblog" ]
+VOLUME [ "/acmeidc" ]

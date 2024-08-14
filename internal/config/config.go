@@ -3,12 +3,12 @@ package config
 import (
 	"os"
 
-	"github.com/redish101/reblog/internal/log"
+	"github.com/ChuqiCloud/acmeidc/internal/log"
 
 	"gopkg.in/yaml.v3"
 )
 
-const configFile = "reblog.yml"
+const configFile = "acmeidc.yml"
 
 var configInstance *Config
 
@@ -28,15 +28,10 @@ type DBConfig struct {
 	SSL      bool   `yaml:"ssl"`
 }
 
-type DashboardConfig struct {
-	Enable bool `yaml:"enable"`
-}
-
 type Config struct {
-	Server    ServerConfig    `yaml:"server"`
-	DB        DBConfig        `yaml:"db"`
-	Dashboard DashboardConfig `yaml:"dashboard"`
-	Plugins   []string        `yaml:"plugins"`
+	Server  ServerConfig `yaml:"server"`
+	DB      DBConfig     `yaml:"db"`
+	Plugins []string     `yaml:"plugins"`
 }
 
 func (c *Config) SaveConfig() {
@@ -88,12 +83,9 @@ func DefaultConfig() *Config {
 			Type:     "mysql",
 			Host:     "localhost",
 			Port:     3306,
-			Name:     "reblog",
-			User:     "reblog",
-			Password: "reblog",
-		},
-		Dashboard: DashboardConfig{
-			Enable: true,
+			Name:     "acmeidc",
+			User:     "acmeidc",
+			Password: "acmeidc",
 		},
 	}
 }

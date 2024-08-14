@@ -3,11 +3,11 @@ package core
 import (
 	"fmt"
 
-	"github.com/redish101/reblog/internal/config"
-	"github.com/redish101/reblog/internal/db"
-	"github.com/redish101/reblog/internal/log"
-	"github.com/redish101/reblog/internal/query"
-	"github.com/redish101/reblog/internal/version"
+	"github.com/ChuqiCloud/acmeidc/internal/config"
+	"github.com/ChuqiCloud/acmeidc/internal/db"
+	"github.com/ChuqiCloud/acmeidc/internal/log"
+	"github.com/ChuqiCloud/acmeidc/internal/query"
+	"github.com/ChuqiCloud/acmeidc/internal/version"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v3"

@@ -1,6 +1,6 @@
-reblog.db
-reblog_test.db
-reblog.yml
+acmeidc.db
+acmeidc_test.db
+acmeidc.yml
 bin
 internal/ui/dist
 apidoc

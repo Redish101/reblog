@@ -1,13 +1,13 @@
 version: "3"
 
 services:
-  reblog:
+  acmeidc:
     build:
       context: .
       args:
         - CNMIRROR=false
     volumes:
-      - .:/reblog
+      - .:/acmeidc
     ports:
       - "3000:3000"
     depends_on:
