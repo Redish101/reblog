@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/ChuqiCloud/acmeidc/internal/model"
+	"github.com/redish101/reblog/internal/model"
 
 	"gorm.io/gen"
 )
@@ -13,7 +13,10 @@ func main() {
 	})
 
 	g.ApplyBasic(
+		model.Site{},
+		model.Article{},
 		model.User{},
+		model.Friend{},
 	)
 
 	g.Execute()

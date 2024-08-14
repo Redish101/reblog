@@ -3,8 +3,8 @@ package core
 import (
 	"testing"
 
-	"github.com/ChuqiCloud/acmeidc/internal/hash"
-	"github.com/ChuqiCloud/acmeidc/internal/model"
+	"github.com/redish101/reblog/internal/hash"
+	"github.com/redish101/reblog/internal/model"
 	"github.com/stretchr/testify/assert"
 	"gorm.io/gen/field"
 )
@@ -25,13 +25,13 @@ func TestAuthService(t *testing.T) {
 	assert.NoError(t, err)
 
 	user, err := app.Query().User.Attrs(field.Attrs(&model.User{
-		Username: "acmeidc_test_user",
-		Password: hash.Hash("acmeidc_test_password"),
+		Username: "reblog_test_user",
+		Password: hash.Hash("reblog_test_password"),
 	})).FirstOrCreate()
 	assert.NotNil(t, user)
 	assert.NoError(t, err)
 
-	token := authService.GetToken("acmeidc_test_user", "acmeidc_test_password")
+	token := authService.GetToken("reblog_test_user", "reblog_test_password")
 	assert.NotNil(t, token)
 	assert.True(t, authService.VerifyToken(token))
 }

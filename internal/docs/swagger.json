@@ -4,7 +4,7 @@
     ],
     "swagger": "2.0",
     "info": {
-        "title": "acmeidc api",
+        "title": "reblog api",
         "contact": {},
         "license": {
             "name": "GPL-V3"
@@ -758,11 +758,11 @@
         },
         "/version": {
             "get": {
-                "description": "获取acmeidc版本信息",
+                "description": "获取reblog版本信息",
                 "tags": [
                     "版本"
                 ],
-                "summary": "获取acmeidc版本信息",
+                "summary": "获取reblog版本信息",
                 "responses": {
                     "200": {
                         "description": "OK",

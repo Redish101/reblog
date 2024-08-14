@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/ChuqiCloud/acmeidc/internal/config"
+	"github.com/redish101/reblog/internal/config"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -14,7 +14,7 @@ var TestPwd = os.Getenv("TESTPWD")
 var TestConfig = &config.Config{
 	DB: config.DBConfig{
 		Type: "sqlite3",
-		Name: fmt.Sprintf("%s/acmeidc_test.db", TestPwd),
+		Name: fmt.Sprintf("%s/reblog_test.db", TestPwd),
 	},
 }
 

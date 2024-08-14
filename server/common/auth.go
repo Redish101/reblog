@@ -3,7 +3,7 @@ package common
 import (
 	"net/http"
 
-	"github.com/ChuqiCloud/acmeidc/internal/core"
+	"github.com/redish101/reblog/internal/core"
 
 	"github.com/gofiber/fiber/v3"
 )

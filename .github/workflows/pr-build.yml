@@ -17,6 +17,19 @@ jobs:
         with:
           go-version: 1.22
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8.11.0
+
+      - name: Install Dependencies
+        run: make install-dev
+
       - name: Build
         run: make
 
@@ -47,6 +60,19 @@ jobs:
         with:
           go-version: 1.22
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8.11.0
+
+      - name: Install Dependencies
+        run: make install-dev
+
       - name: Set GOARCH for AMD64
         if: matrix.arch == 'amd64'
         run: echo "GOARCH=amd64" >> $GITHUB_ENV
@@ -62,4 +88,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.os }}-${{ matrix.arch }}
-          path: bin/acmeidc
+          path: bin/reblog

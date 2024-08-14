@@ -1,6 +1,6 @@
 package core
 
-import "github.com/ChuqiCloud/acmeidc/internal/auth"
+import "github.com/redish101/reblog/internal/auth"
 
 type AuthService struct {
 	app *App

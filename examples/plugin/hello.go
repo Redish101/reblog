@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/ChuqiCloud/acmeidc/internal/core"
-	"github.com/ChuqiCloud/acmeidc/internal/log"
-	"github.com/ChuqiCloud/acmeidc/server/common"
+	"github.com/redish101/reblog/internal/core"
+	"github.com/redish101/reblog/internal/log"
+	"github.com/redish101/reblog/server/common"
 
 	"github.com/gofiber/fiber/v3"
 )

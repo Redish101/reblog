@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"os"
 
-	"github.com/ChuqiCloud/acmeidc/internal/log"
+	"github.com/redish101/reblog/internal/log"
 )
 
 type Manifest struct {

@@ -1,0 +1,27 @@
+{
+  "name": "@reblog/dashboard",
+  "private": true,
+  "author": "Redish101 <i@redish101.top>",
+  "scripts": {
+    "dev": "umi dev",
+    "build": "umi build",
+    "analyze": "ANALYZE=1 umi build",
+    "postinstall": "umi setup",
+    "setup": "umi setup",
+    "start": "npm run dev"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^5.3.7",
+    "@ant-design/pro-components": "^2.7.9",
+    "antd": "^5.18.0",
+    "github-markdown-css": "^5.6.1",
+    "marked": "^13.0.1",
+    "umi": "^4.2.10",
+    "vditor": "^3.10.4"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.33",
+    "@types/react-dom": "^18.0.11",
+    "typescript": "^5.0.3"
+  }
+}

@@ -1,0 +1,43 @@
+# 配置
+
+启动时如果reblog发不存在`reblog.yml`，则会自动生成配置文件并停止启动流程。
+
+reblog采用yml格式配置文件，以下为示例配置文件：
+
+```yaml
+server:
+  host: localhost # 服务器地址
+  port: 3000 # 服务器端口
+db:
+  type: mysql # 数据库类型
+  host: localhost # 数据库地址
+  port: 3306 # 数据库端口
+  name: reblog # 数据库名称
+  user: root # 数据库用户名
+  password: password # 数据库密码
+
+dashboard:
+  enable: true # 是否启用控制台
+```
+
+## 服务端 `server`
+
+- `host`：服务器地址，默认为`localhost`
+- `port`：服务器端口，默认为`3000`
+
+## 数据库 `db`
+
+- `type`：数据库类型，目前支持`mysql`、`postgres`，在dev环境下额外支持`sqlite3`
+- `host`：数据库地址
+- `port`：数据库端口
+- `name`：数据库名称
+- `user`：数据库用户名
+- `password`：数据库密码
+
+## 控制台 `dashboard`
+
+- `enable`：是否启用控制台，默认为`true`
+
+## 配置项特殊语法
+
+- `env()`：读取环境变量，如`env(ENV_VAR_NAME)`，读取环境变量`ENV_VAR_NAME`的值（>= v0.1.2）。

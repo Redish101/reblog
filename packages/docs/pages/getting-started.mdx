@@ -1,0 +1,89 @@
+import { Callout, Tabs, Steps } from "nextra/components";
+
+# 快速上手
+
+reblog采用前后端分离架构，因此需单独部署后端与前端。
+
+## 后端
+
+<Callout type="info">建议使用`docker-compose`部署</Callout>
+
+<Tabs items={['docker-compose', '手动部署']}>
+
+<Tabs.Tab>
+
+<Steps>
+
+### 克隆源码
+
+```bash
+git clone https://github.com/redish101/reblog.git
+cd reblog
+```
+
+### 构建镜像并生成配置文件
+
+```bash
+docker-compose up
+```
+
+### 修改配置文件
+
+修改`reblog.yml`，配置数据库等选项。
+
+### 启动服务
+
+```bash
+docker-compose up -d
+```
+
+如果需要，可通过`Nginx`等进行反向代理配置域名，SSL等。
+
+</Steps>
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+<Steps>
+
+### 编译环境
+
+- `go 1.22+`
+- `node 20+`
+- `pnpm 8.11.0+`
+
+### 克隆源码
+
+```bash
+git clone https://github.com/redish101/reblog.git
+cd reblog
+```
+
+### 安装依赖
+
+```bash
+make install-dev
+```
+
+### 构建
+
+```bash
+make
+```
+
+### 运行
+
+```bash
+./bash/reblog
+```
+
+</Steps>
+
+</Tabs.Tab>
+
+</Tabs>
+
+## 前端
+
+请参考你所用主题的配置文档。

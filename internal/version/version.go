@@ -8,5 +8,5 @@ var (
 )
 
 func GetAppName() string {
-	return fmt.Sprintf("acmeidc-%s.%s", Version, Commit)
+	return fmt.Sprintf("reblog-%s.%s", Version, Commit)
 }

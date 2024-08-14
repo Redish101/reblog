@@ -6,7 +6,7 @@ dashboard:
 
 db:
   type: sqlite3
-  name: acmeidc.db
+  name: reblog.db
 
 plugins:
   - example/plugin

@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/ChuqiCloud/acmeidc/internal/log"
+	"github.com/redish101/reblog/internal/log"
 
 	"gorm.io/gorm/logger"
 )

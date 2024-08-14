@@ -765,11 +765,11 @@ const docTemplate = `{
         },
         "/version": {
             "get": {
-                "description": "获取acmeidc版本信息",
+                "description": "获取reblog版本信息",
                 "tags": [
                     "版本"
                 ],
-                "summary": "获取acmeidc版本信息",
+                "summary": "获取reblog版本信息",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1181,7 +1181,7 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "localhost:3000",
 	BasePath:         "/api",
 	Schemes:          []string{},
-	Title:            "acmeidc api",
+	Title:            "reblog api",
 	Description:      "",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,

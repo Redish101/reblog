@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/ChuqiCloud/acmeidc/internal/config"
-	"github.com/ChuqiCloud/acmeidc/internal/model"
+	"github.com/redish101/reblog/internal/config"
+	"github.com/redish101/reblog/internal/model"
 
 	"gorm.io/driver/mysql"
 	// "gorm.io/driver/mongodb"
@@ -61,7 +61,10 @@ func NewDB(config *config.DBConfig) *gorm.DB {
 	}
 
 	db.AutoMigrate(
+		&model.Site{},
+		&model.Article{},
 		&model.User{},
+		&model.Friend{},
 	)
 
 	return db
