@@ -2,6 +2,7 @@ package rss
 
 import (
 	"github.com/redish101/reblog/internal/core"
+	"github.com/redish101/reblog/internal/markdown"
 	"github.com/redish101/reblog/internal/model"
 
 	"github.com/gorilla/feeds"
@@ -26,7 +27,7 @@ func GenerateRSS(app *core.App, articles []*model.Article) (string, error) {
 		feed.Items = append(feed.Items, &feeds.Item{
 			Title:       article.Title,
 			Description: article.Desc,
-			Content:     article.Content,
+			Content:     markdown.MarkdownToHtml(article.Content),
 			Created:     article.CreatedAt,
 		})
 	}
