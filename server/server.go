@@ -115,9 +115,7 @@ func LoadHttp(app *core.App) {
 	h.Version(app, api)
 
 	// dashboard
-	if app.Config().Dashboard.Enable {
-		dashboard(fb, uifs)
-	}
+	dashboard(fb, uifs)
 
 	// notFound
 	h.NotFound(app, fb)

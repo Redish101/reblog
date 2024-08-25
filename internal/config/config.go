@@ -28,15 +28,10 @@ type DBConfig struct {
 	SSL      bool   `yaml:"ssl"`
 }
 
-type DashboardConfig struct {
-	Enable bool `yaml:"enable"`
-}
-
 type Config struct {
-	Server    ServerConfig    `yaml:"server"`
-	DB        DBConfig        `yaml:"db"`
-	Dashboard DashboardConfig `yaml:"dashboard"`
-	Plugins   []string        `yaml:"plugins"`
+	Server  ServerConfig `yaml:"server"`
+	DB      DBConfig     `yaml:"db"`
+	Plugins []string     `yaml:"plugins"`
 }
 
 func (c *Config) SaveConfig() {
@@ -91,9 +86,6 @@ func DefaultConfig() *Config {
 			Name:     "reblog",
 			User:     "reblog",
 			Password: "reblog",
-		},
-		Dashboard: DashboardConfig{
-			Enable: true,
 		},
 	}
 }
