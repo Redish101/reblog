@@ -28,16 +28,16 @@ type InitParams struct {
 	Icon     string `json:"icon"`
 }
 
-//	@Summary		初始化站点
-//	@Description	使用给定的参数初始化站点
-//	@Tags			站点管理
-//	@Accept			json
-//	@Produce		json
-//	@Param			initParams	body		InitParams	true	"初始化参数"
-//	@Success		200			{object}	common.Resp	"初始化成功"
-//	@Failure		400			{object}	common.Resp	"无效的邮箱或URL"
-//	@Failure		403			{object}	common.Resp	"此站点已初始化"
-//	@Router			/init [post]
+// @Summary		初始化站点
+// @Description	使用给定的参数初始化站点
+// @Tags			站点管理
+// @Accept			json
+// @Produce		json
+// @Param			initParams	body		InitParams	true	"初始化参数"
+// @Success		200			{object}	common.Resp	"初始化成功"
+// @Failure		400			{object}	common.Resp	"无效的邮箱或URL"
+// @Failure		403			{object}	common.Resp	"此站点已初始化"
+// @Router			/init [post]
 func Init(app *core.App, router fiber.Router) {
 	router.Post("/init", func(c fiber.Ctx) error {
 		if isInited(app) {

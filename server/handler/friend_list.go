@@ -18,16 +18,16 @@ type FriendListResp struct {
 	Friends []*model.Friend `json:"friends"`
 }
 
-//	@Summary		获取友情链接
-//	@Description	分页获取友情链接, 若token有效则返回所有友情链接, 否则只返回可见的友情链接
-//	@Tags			友情链接
-//	@Accept			json
-//	@Produce		json
-//	@Param			pageIndex	query		integer			false	"页码，默认为1"
-//	@Param			pageSize	query		integer			false	"每页大小，默认为10"
-//	@Success		200			{object}	FriendListResp	"获取友情链接成功"
-//	@Failure		500			{object}	common.Resp		"服务器内部错误"
-//	@Router			/friend/list [get]
+// @Summary		获取友情链接
+// @Description	分页获取友情链接, 若token有效则返回所有友情链接, 否则只返回可见的友情链接
+// @Tags			友情链接
+// @Accept			json
+// @Produce		json
+// @Param			pageIndex	query		integer			false	"页码，默认为1"
+// @Param			pageSize	query		integer			false	"每页大小，默认为10"
+// @Success		200			{object}	FriendListResp	"获取友情链接成功"
+// @Failure		500			{object}	common.Resp		"服务器内部错误"
+// @Router			/friend/list [get]
 func FriendList(app *core.App, router fiber.Router) {
 	router.Get("/list", func(c fiber.Ctx) error {
 		f := app.Query().Friend

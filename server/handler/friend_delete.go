@@ -10,18 +10,18 @@ import (
 	"github.com/gofiber/fiber/v3"
 )
 
-//	@Summary		删除友情链接
-//	@Description	根据ID删除一个已存在的友情链接
-//	@Tags			友情链接
-//	@Accept			json
-//	@Produce		json
-//	@Param			id	path		integer		true	"友情链接的ID"
-//	@Success		200	{object}	common.Resp	"删除友情链接成功"
-//	@Failure		400	{object}	common.Resp	"无效的ID格式"
-//	@Failure		404	{object}	common.Resp	"链接不存在"
-//	@Failure		500	{object}	common.Resp	"服务器内部错误"
-//	@Security		ApiKeyAuth
-//	@Router			/friend/{id} [delete]
+// @Summary		删除友情链接
+// @Description	根据ID删除一个已存在的友情链接
+// @Tags			友情链接
+// @Accept			json
+// @Produce		json
+// @Param			id	path		integer		true	"友情链接的ID"
+// @Success		200	{object}	common.Resp	"删除友情链接成功"
+// @Failure		400	{object}	common.Resp	"无效的ID格式"
+// @Failure		404	{object}	common.Resp	"链接不存在"
+// @Failure		500	{object}	common.Resp	"服务器内部错误"
+// @Security		ApiKeyAuth
+// @Router			/friend/{id} [delete]
 func FriendDelete(app *core.App, router fiber.Router) {
 	router.Delete("/:id", func(c fiber.Ctx) error {
 		f := app.Query().Friend

@@ -21,15 +21,15 @@ import (
 	_ "gorm.io/gorm"
 )
 
-//	@Title						reblog api
-//	@Version					1.0
-//	@License.name				GPL-V3
-//	@Host						localhost:3000
-//	@BasePath					/api
-//	@Produce					json
-//	@SecurityDefinitions.apikey	ApiKeyAuth
-//	@In							header
-//	@Name						Authorization
+// @Title						reblog api
+// @Version					1.0
+// @License.name				GPL-V3
+// @Host						localhost:3000
+// @BasePath					/api
+// @Produce					json
+// @SecurityDefinitions.apikey	ApiKeyAuth
+// @In							header
+// @Name						Authorization
 func Start() {
 	log.Info("欢迎使用reblog")
 
@@ -39,6 +39,10 @@ func Start() {
 	loadPlugins(app)
 	app.Bootstrap()
 
+	log.Fatal(app.Listen())
+}
+
+func LoadHttp(app *core.App) {
 	fb := app.Fiber()
 
 	api := fb.Group("/api")
@@ -125,8 +129,6 @@ func Start() {
 	if articleCount == 0 {
 		createFirstArticle(app)
 	}
-
-	log.Fatal(app.Listen())
 }
 
 func loadPlugins(app *core.App) {

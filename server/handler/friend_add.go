@@ -15,17 +15,17 @@ type FriendAddParams struct {
 	Desc   string `json:"desc" validate:"max=256"`
 }
 
-//	@Summary		添加友情链接
-//	@Description	添加友情链接
-//	@Tags			友情链接
-//	@Accept			json
-//	@Produce		json
-//	@Param			friendAddParams	body		FriendAddParams					true	"友情链接信息"
-//	@Success		200				{object}	common.Resp{data=model.Friend}	"添加友情链接成功"
-//	@Failure		400				{object}	common.Resp						"请求参数错误"
-//	@Failure		500				{object}	common.Resp						"服务器内部错误"
-//	@Security		ApiKeyAuth
-//	@Router			/friend [post]
+// @Summary		添加友情链接
+// @Description	添加友情链接
+// @Tags			友情链接
+// @Accept			json
+// @Produce		json
+// @Param			friendAddParams	body		FriendAddParams					true	"友情链接信息"
+// @Success		200				{object}	common.Resp{data=model.Friend}	"添加友情链接成功"
+// @Failure		400				{object}	common.Resp						"请求参数错误"
+// @Failure		500				{object}	common.Resp						"服务器内部错误"
+// @Security		ApiKeyAuth
+// @Router			/friend [post]
 func FriendAdd(app *core.App, router fiber.Router) {
 	router.Post("/", func(c fiber.Ctx) error {
 		f := app.Query().Friend

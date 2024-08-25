@@ -14,13 +14,13 @@ type AdminUserUpdateParams struct {
 	Password string `json:"password" validate:"required,min=6,max=32"`
 }
 
-//	@Summary		更新用户信息
-//	@Description	管理员更新用户信息
-//	@Tags			站点管理
-//	@Param			adminUserUpdateParams	body		AdminUserUpdateParams	true	"用户信息"
-//	@Success		200						{object}	common.Resp
-//	@Failure		400						{object}	common.Resp
-//	@Router			/user/{username} [put]
+// @Summary		更新用户信息
+// @Description	管理员更新用户信息
+// @Tags			站点管理
+// @Param			adminUserUpdateParams	body		AdminUserUpdateParams	true	"用户信息"
+// @Success		200						{object}	common.Resp
+// @Failure		400						{object}	common.Resp
+// @Router			/user/{username} [put]
 func AdminUserUpdate(app *core.App, router fiber.Router) {
 	router.Put("/user/:username", func(c fiber.Ctx) error {
 		u := app.Query().User

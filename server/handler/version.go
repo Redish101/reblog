@@ -17,11 +17,11 @@ type RespVersion struct {
 	Runtime string `json:"runtime"`
 }
 
-//	@Summary		获取reblog版本信息
-//	@Description	获取reblog版本信息
-//	@Tags			版本
-//	@Success		200	{object}	common.Resp{data=RespVersion}
-//	@Router			/version [get]
+// @Summary		获取reblog版本信息
+// @Description	获取reblog版本信息
+// @Tags			版本
+// @Success		200	{object}	common.Resp{data=RespVersion}
+// @Router			/version [get]
 func Version(app *core.App, router fiber.Router) {
 	router.Get("/version", func(c fiber.Ctx) error {
 		return common.RespSuccess(c, "操作成功", RespVersion{

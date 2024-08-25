@@ -14,14 +14,14 @@ type AdminSiteUpdateParams struct {
 	Icon string `json:"icon"`
 }
 
-//	@Summary		更新站点信息
-//	@Description	更新站点的名称、URL、描述和图标
-//	@Tags			站点管理
-//	@Param			adminSiteUpdateParams	body		AdminSiteUpdateParams	true	"站点信息"
-//	@Success		200						{object}	common.Resp				"操作成功, 部分主题可能需重新部署生效"
-//	@Failure		400						{object}	common.Resp				"缺少参数"
-//	@Security		ApiKeyAuth
-//	@Router			/admin/site [PUT]
+// @Summary		更新站点信息
+// @Description	更新站点的名称、URL、描述和图标
+// @Tags			站点管理
+// @Param			adminSiteUpdateParams	body		AdminSiteUpdateParams	true	"站点信息"
+// @Success		200						{object}	common.Resp				"操作成功, 部分主题可能需重新部署生效"
+// @Failure		400						{object}	common.Resp				"缺少参数"
+// @Security		ApiKeyAuth
+// @Router			/admin/site [PUT]
 func AdminSiteUpdate(app *core.App, router fiber.Router) {
 	router.Put("/site", func(c fiber.Ctx) error {
 		s := app.Query().Site
