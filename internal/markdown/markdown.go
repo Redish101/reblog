@@ -4,9 +4,10 @@ import (
 	"github.com/gomarkdown/markdown"
 	"github.com/gomarkdown/markdown/html"
 	"github.com/gomarkdown/markdown/parser"
+	"github.com/redish101/reblog/internal/cache"
 )
 
-func MarkdownToHtml(content string) string {
+var MarkdownToHtml = cache.Memoize(func(content string) string {
 	extensions := parser.CommonExtensions | parser.AutoHeadingIDs | parser.NoEmptyLineBeforeBlock
 	p := parser.NewWithExtensions(extensions)
 	doc := p.Parse([]byte(content))
@@ -16,4 +17,4 @@ func MarkdownToHtml(content string) string {
 	renderer := html.NewRenderer(opts)
 
 	return string(markdown.Render(doc, renderer))
-}
+})

@@ -1,20 +1,24 @@
 package cache
 
-import "fmt"
+import "sync"
 
-func Memoize[T any, R any](f func(T) R) func(T) R {
-	cache := make(map[string]R)
+func Memoize[T comparable, R any](f func(T) R) func(T) R {
+	cache := make(map[T]R)
+	var mu sync.Mutex
 
-	return func(arg T) R {
-		key := fmt.Sprintf("%v", arg)
-
-		if val, found := cache[key]; found {
-			return val
+	return func(x T) R {
+		mu.Lock()
+		if result, found := cache[x]; found {
+			mu.Unlock()
+			return result
 		}
+		mu.Unlock()
 
-		result := f(arg)
+		result := f(x)
 
-		cache[key] = result
+		mu.Lock()
+		cache[x] = result
+		mu.Unlock()
 
 		return result
 	}
