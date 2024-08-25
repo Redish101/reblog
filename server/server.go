@@ -39,6 +39,8 @@ func Start() {
 	loadPlugins(app)
 	app.Bootstrap()
 
+	LoadHttp(app)
+
 	log.Fatal(app.Listen())
 }
 
