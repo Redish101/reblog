@@ -15,6 +15,7 @@ func NewMarkdownService(app *App) *MarkdownService {
 
 func (s *MarkdownService) Start() error {
 	s.renderer = markdown.NewRenderer()
+	s.cache = make(map[string]string)
 
 	return nil
 }
