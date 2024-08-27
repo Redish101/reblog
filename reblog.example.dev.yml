@@ -8,6 +8,9 @@ db:
   type: sqlite3
   name: reblog.db
 
+rss:
+  limit: 10
+
 plugins:
   - example/plugin
   

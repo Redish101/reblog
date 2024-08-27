@@ -28,9 +28,14 @@ type DBConfig struct {
 	SSL      bool   `yaml:"ssl"`
 }
 
+type RssConfig struct {
+	Limit int `yaml:"limit"`
+}
+
 type Config struct {
 	Server  ServerConfig `yaml:"server"`
 	DB      DBConfig     `yaml:"db"`
+	Rss     RssConfig    `yaml:"rss"`
 	Plugins []string     `yaml:"plugins"`
 }
 
@@ -86,6 +91,9 @@ func DefaultConfig() *Config {
 			Name:     "reblog",
 			User:     "reblog",
 			Password: "reblog",
+		},
+		Rss: RssConfig{
+			Limit: 10,
 		},
 	}
 }

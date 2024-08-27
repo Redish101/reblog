@@ -19,7 +19,8 @@ func Rss(app *core.App, router fiber.Router) {
 	router.Get("/rss", func(c fiber.Ctx) error {
 		a := app.Query().Article
 
-		articles, err := a.Find()
+		limit := app.Config().Rss.Limit
+		articles, err := a.Order(a.CreatedAt.Desc()).Limit(limit).Find()
 
 		if err != nil {
 			return common.RespServerError(c, err)
