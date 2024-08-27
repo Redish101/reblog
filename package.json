@@ -7,7 +7,7 @@
     "build:deps": "turbo build:deps",
     "dev": "turbo dev"
   },
-  "packageManager": "pnpm@8.11.0",
+  "packageManager": "pnpm@9.7.0",
   "keywords": [],
   "author": "Redish101 <i@redish101.top>",
   "license": "GPL-3.0-only",
