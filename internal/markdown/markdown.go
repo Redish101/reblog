@@ -1,17 +1,17 @@
 package markdown
 
-import "github.com/88250/lute"
+import "gitlab.com/golang-commonmark/markdown"
 
 type Renderer struct {
-	luteEngine *lute.Lute
+	markdown *markdown.Markdown
 }
 
 func NewRenderer() *Renderer {
-	luteEngine := lute.New()
+	md := markdown.New(markdown.XHTMLOutput(true))
 
-	return &Renderer{luteEngine: luteEngine}
+	return &Renderer{markdown: md}
 }
 
 func (r *Renderer) Render(content string) string {
-	return r.luteEngine.MarkdownStr("", content)
+	return r.markdown.RenderToString([]byte(content))
 }
