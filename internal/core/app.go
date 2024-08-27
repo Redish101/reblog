@@ -75,6 +75,7 @@ func (app *App) initValidator() {
 
 func (app *App) initDefaultServices() {
 	AppInject(app, NewAuthService(app))
+	AppInject(app, NewMarkdownService(app))
 }
 
 func (app *App) Bootstrap() {

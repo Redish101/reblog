@@ -1,20 +1,17 @@
 package markdown
 
-import (
-	"github.com/gomarkdown/markdown"
-	"github.com/gomarkdown/markdown/html"
-	"github.com/gomarkdown/markdown/parser"
-	"github.com/redish101/reblog/internal/cache"
-)
+import "github.com/88250/lute"
 
-var MarkdownToHtml = cache.Memoize(func(content string) string {
-	extensions := parser.CommonExtensions | parser.AutoHeadingIDs | parser.NoEmptyLineBeforeBlock
-	p := parser.NewWithExtensions(extensions)
-	doc := p.Parse([]byte(content))
+type Renderer struct {
+	luteEngine *lute.Lute
+}
 
-	htmlFlags := html.CommonFlags | html.HrefTargetBlank
-	opts := html.RendererOptions{Flags: htmlFlags}
-	renderer := html.NewRenderer(opts)
+func NewRenderer() *Renderer {
+	luteEngine := lute.New()
 
-	return string(markdown.Render(doc, renderer))
-})
+	return &Renderer{luteEngine: luteEngine}
+}
+
+func (r *Renderer) Render(content string) string {
+	return r.luteEngine.MarkdownStr("", content)
+}
