@@ -8,7 +8,7 @@ install-dev:
 	pnpm install --frozen-lockfile
 
 backend:
-	go build -o bin/reblog -ldflags "-w -s -X 'github.com/redish101/reblog/internal/version.Version=$(VERSION)$(EXTERNAL_VERSION)' -X 'github.com/redish101/reblog/internal/version.Commit=$(COMMIT)'" -gcflags "-N -l" -v
+	go build -o bin/reblog -ldflags "-w -s -X 'github.com/redish101/reblog/internal/version.Version=$(VERSION)$(EXTERNAL_VERSION)' -X 'github.com/redish101/reblog/internal/version.Commit=$(COMMIT)'" -v
 
 gen:
 	go run cmd/gen.go
