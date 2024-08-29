@@ -6,7 +6,7 @@ class ThemeKit {
   private api: Api;
 
   constructor(private config: Config) {
-    this.api = new Api(this.config.server.url);
+    this.api = new Api(this.config.server.url, this.config.cache);
   }
 
   public async getArticleList(opts?: { pageIndex: number; pageSize: number }) {

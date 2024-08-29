@@ -4,4 +4,5 @@ export type ServerConfig = {
 
 export type Config = {
   server: ServerConfig;
+  cache: RequestCache;
 };
