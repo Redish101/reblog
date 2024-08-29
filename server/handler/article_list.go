@@ -36,7 +36,16 @@ func ArticleList(app *core.App, router fiber.Router) {
 			return resp
 		}
 
-		articles, count, err := a.Order(a.CreatedAt.Desc()).FindByPage((params.PageIndex-1)*params.PageSize, params.PageSize)
+		articles, count, err := a.Select(
+			a.ID,
+			a.Slug,
+			a.CreatedAt,
+			a.UpdatedAt,
+			a.DeletedAt,
+			a.Title,
+			a.Slug,
+			a.Desc,
+		).Order(a.CreatedAt.Desc()).FindByPage((params.PageIndex-1)*params.PageSize, params.PageSize)
 
 		if err != nil {
 			return common.RespServerError(c, err)
