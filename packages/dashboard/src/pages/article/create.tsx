@@ -120,11 +120,7 @@ const CreateArticlePage = () => {
             name="slug"
             rules={[{ required: true, message: "请填写slug" }]}
           />
-          <ProFormSwitch
-            label="草稿"
-            name="draft"
-            rules={[{ required: true, message: "请选择是否为草稿" }]}
-          />
+          <ProFormSwitch label="草稿" name="draft" />
         </ProForm>
       </Drawer>
       <div id="vditor" className="vditor" />

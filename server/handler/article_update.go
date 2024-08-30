@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/redish101/reblog/internal/core"
@@ -53,10 +52,8 @@ func ArticleUpdate(app *core.App, router fiber.Router) {
 			Title:   params.Title,
 			Desc:    params.Desc,
 			Content: params.Content,
-			Draft:   params.Draft,
+			Draft:   &params.Draft,
 		})
-
-		fmt.Println(article.Draft)
 
 		if err != nil {
 			return common.RespServerError(c, err)
