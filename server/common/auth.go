@@ -29,3 +29,15 @@ func Auth(app *core.App) func(c fiber.Ctx) error {
 		return c.Next()
 	}
 }
+
+func IsLogined(app *core.App, c fiber.Ctx) bool {
+	token := c.Get("Authorization")
+
+	auth, err := core.AppService[*core.AuthService](app)
+
+	if err != nil {
+		return false
+	}
+
+	return auth.VerifyToken(token)
+}

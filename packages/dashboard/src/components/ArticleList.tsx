@@ -20,6 +20,12 @@ const ArticleList = () => {
       title: "标题",
       dataIndex: "title",
       copyable: true,
+      width: 300,
+    },
+    {
+      title: "草稿",
+      dataIndex: "draft",
+      render: (text, record, _, action) => (record.draft ? "是" : "否"),
     },
     {
       title: "创建时间",

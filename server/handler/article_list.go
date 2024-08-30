@@ -36,7 +36,9 @@ func ArticleList(app *core.App, router fiber.Router) {
 			return resp
 		}
 
-		articles, count, err := a.Select(
+		includeDrafts := common.IsLogined(app, c)
+
+		query := a.Select(
 			a.ID,
 			a.Slug,
 			a.CreatedAt,
@@ -45,7 +47,14 @@ func ArticleList(app *core.App, router fiber.Router) {
 			a.Title,
 			a.Slug,
 			a.Desc,
-		).Order(a.CreatedAt.Desc()).FindByPage((params.PageIndex-1)*params.PageSize, params.PageSize)
+			a.Draft,
+		).Order(a.CreatedAt.Desc())
+
+		if !includeDrafts {
+			query = query.Where(a.Draft.Is(false))
+		}
+
+		articles, count, err := query.FindByPage((params.PageIndex-1)*params.PageSize, params.PageSize)
 
 		if err != nil {
 			return common.RespServerError(c, err)

@@ -5,6 +5,7 @@ import (
 
 	"github.com/redish101/reblog/internal/core"
 	"github.com/redish101/reblog/server/common"
+	"gorm.io/gen"
 
 	"github.com/gofiber/fiber/v3"
 )
@@ -23,7 +24,13 @@ func ArticleSlug(app *core.App, router fiber.Router) {
 
 		slug := c.Params("slug")
 
-		article, err := a.Where(a.Slug.Eq(slug)).First()
+		includeDrafts := common.IsLogined(app, c)
+		var conditions gen.Condition
+		if !includeDrafts {
+			conditions = a.Draft.Is(false)
+		}
+
+		article, err := a.Where(a.Slug.Eq(slug), conditions).First()
 
 		if article == nil {
 			return common.RespFail(c, http.StatusNotFound, "未知的slug", nil)

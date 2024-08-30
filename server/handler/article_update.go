@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/redish101/reblog/internal/core"
@@ -15,6 +16,7 @@ type ArticleUpdateParams struct {
 	Title   string `json:"title" validate:"required"`
 	Desc    string `json:"desc" validate:"required"`
 	Content string `json:"content" validate:"required"`
+	Draft   bool   `json:"draft"`
 }
 
 // @Summary		更新文章
@@ -51,7 +53,10 @@ func ArticleUpdate(app *core.App, router fiber.Router) {
 			Title:   params.Title,
 			Desc:    params.Desc,
 			Content: params.Content,
+			Draft:   params.Draft,
 		})
+
+		fmt.Println(article.Draft)
 
 		if err != nil {
 			return common.RespServerError(c, err)

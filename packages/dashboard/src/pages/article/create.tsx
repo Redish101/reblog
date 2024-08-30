@@ -5,6 +5,7 @@ import { SendOutlined } from "@ant-design/icons";
 import {
   PageContainer,
   ProForm,
+  ProFormSwitch,
   ProFormText,
 } from "@ant-design/pro-components";
 import { Drawer, FloatButton, message } from "antd";
@@ -15,6 +16,7 @@ interface ArticleFormValues {
   title: string;
   desc: string;
   slug: string;
+  draft: boolean;
 }
 
 const CreateArticlePage = () => {
@@ -48,14 +50,8 @@ const CreateArticlePage = () => {
       return;
     }
 
-    const { title, desc, slug } = articleMeta;
+    const { title, desc, slug, draft } = articleMeta;
     const content = vd?.getValue() || "";
-
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("desc", desc);
-    formData.append("slug", slug);
-    formData.append("content", content);
 
     const res = await useApi(`/api/article/${slug}`, {
       method: "POST",
@@ -64,6 +60,7 @@ const CreateArticlePage = () => {
         desc,
         slug,
         content,
+        draft,
       },
     });
 
@@ -122,6 +119,11 @@ const CreateArticlePage = () => {
             label="slug"
             name="slug"
             rules={[{ required: true, message: "请填写slug" }]}
+          />
+          <ProFormSwitch
+            label="草稿"
+            name="draft"
+            rules={[{ required: true, message: "请选择是否为草稿" }]}
           />
         </ProForm>
       </Drawer>

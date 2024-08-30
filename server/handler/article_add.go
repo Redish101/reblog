@@ -15,6 +15,7 @@ type ArticleAddParams struct {
 	Title   string `json:"title" validate:"required"`
 	Desc    string `json:"desc" validate:"required"`
 	Content string `json:"content" validate:"required"`
+	Draft   bool   `json:"draft"`
 }
 
 // @Summary		添加文章
@@ -52,6 +53,7 @@ func ArticleAdd(app *core.App, router fiber.Router) {
 			Slug:    params.Slug,
 			Desc:    params.Desc,
 			Content: params.Content,
+			Draft:   params.Draft,
 		}
 
 		err := a.Create(article)

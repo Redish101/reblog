@@ -5,6 +5,7 @@ import { SendOutlined } from "@ant-design/icons";
 import {
   PageContainer,
   ProForm,
+  ProFormSwitch,
   ProFormText,
 } from "@ant-design/pro-components";
 import { Drawer, FloatButton, message } from "antd";
@@ -16,6 +17,7 @@ interface ArticleFormValues {
   title: string;
   desc: string;
   slug: string;
+  draft: boolean;
 }
 
 const EditArticlePage = () => {
@@ -45,6 +47,7 @@ const EditArticlePage = () => {
         title: data["data"]["title"],
         desc: data["data"]["desc"],
         slug: data["data"]["slug"],
+        draft: data["data"]["draft"],
       });
     } else {
       message.open({
@@ -88,7 +91,7 @@ const EditArticlePage = () => {
       return;
     }
 
-    const { title, desc, slug } = articleMeta;
+    const { title, desc, slug, draft } = articleMeta;
     const content = vd?.getValue() || "";
 
     const res = await useApi(`/api/article/${slug}`, {
@@ -98,6 +101,7 @@ const EditArticlePage = () => {
         desc,
         slug,
         content,
+        draft,
       },
     });
 
@@ -160,6 +164,12 @@ const EditArticlePage = () => {
             rules={[{ required: true, message: "请填写slug" }]}
             initialValue={articleMeta?.slug}
             disabled
+          />
+          <ProFormSwitch
+            label="草稿"
+            name="draft"
+            initialValue={articleMeta?.draft}
+            rules={[{ required: true }]}
           />
         </ProForm>
       </Drawer>

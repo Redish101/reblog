@@ -6,6 +6,7 @@ interface Article {
   title: string;
   desc: string;
   content: string;
+  draft: boolean;
 }
 
 interface Articles {
