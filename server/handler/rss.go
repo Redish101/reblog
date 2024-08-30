@@ -20,7 +20,7 @@ func Rss(app *core.App, router fiber.Router) {
 		a := app.Query().Article
 
 		limit := app.Config().Rss.Limit
-		articles, err := a.Order(a.CreatedAt.Desc()).Limit(limit).Find()
+		articles, err := a.Order(a.CreatedAt.Desc()).Where(a.Draft.Is(false)).Limit(limit).Find()
 
 		if err != nil {
 			return common.RespServerError(c, err)
