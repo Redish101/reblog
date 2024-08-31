@@ -16,13 +16,7 @@ export class Api {
       ...options,
     });
     const json = await response.json();
-    if (!response.ok) {
-      const text = await response.text();
-      throw new Error(`reblog api error: ${text}`);
-    }
     const data = json as Resp<T>;
-
-    if (!data.success) throw new Error(`reblog api error: ${data.msg}`);
 
     return data;
   }
