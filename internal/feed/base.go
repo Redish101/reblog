@@ -1,13 +1,15 @@
-package rss
+package feed
 
 import (
+	"fmt"
+
 	"github.com/redish101/reblog/internal/core"
 	"github.com/redish101/reblog/internal/model"
 
 	"github.com/gorilla/feeds"
 )
 
-func GenerateRSS(app *core.App, articles []*model.Article) (string, error) {
+func GenerateFeed(app *core.App, articles []*model.Article) (string, error) {
 	s := app.Query().Site
 
 	site, err := s.First()
@@ -16,9 +18,16 @@ func GenerateRSS(app *core.App, articles []*model.Article) (string, error) {
 		return "", err
 	}
 
+	user, err := app.Query().User.First()
+
+	if err != nil {
+		return "", err
+	}
+
 	feed := feeds.Feed{
 		Title:       site.Name,
 		Description: site.Desc,
+		Author:      &feeds.Author{Name: user.Nickname},
 		Link:        &feeds.Link{Href: site.Url},
 	}
 
@@ -33,6 +42,7 @@ func GenerateRSS(app *core.App, articles []*model.Article) (string, error) {
 			Title:       article.Title,
 			Description: article.Desc,
 			Content:     markdownService.Render(article.Content),
+			Link:        &feeds.Link{Href: fmt.Sprintf("%s/article/%s", site.Url, article.Slug)},
 			Created:     article.CreatedAt,
 		})
 	}

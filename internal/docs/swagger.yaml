@@ -74,6 +74,8 @@ definitions:
         type: string
       desc:
         type: string
+      draft:
+        type: boolean
       slug:
         type: string
       title:
@@ -90,6 +92,8 @@ definitions:
         type: string
       desc:
         type: string
+      draft:
+        type: boolean
       slug:
         type: string
       title:
@@ -202,6 +206,8 @@ definitions:
         $ref: '#/definitions/gorm.DeletedAt'
       desc:
         type: string
+      draft:
+        type: boolean
       id:
         type: integer
       slug:
@@ -664,7 +670,7 @@ paths:
       - 站点管理
   /rss:
     get:
-      description: 获取包含所有文章的RSS
+      description: 获取包含所有文章的Feed
       produces:
       - text/xml
       responses:
@@ -674,9 +680,9 @@ paths:
           description: 服务器错误
           schema:
             $ref: '#/definitions/common.Resp'
-      summary: 获取Rss
+      summary: 获取Feed
       tags:
-      - Rss
+      - Feed
   /site:
     get:
       description: 获取站点信息

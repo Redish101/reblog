@@ -96,7 +96,7 @@ func LoadHttp(app *core.App) {
 	h.ArticleUpdate(app, article)
 
 	// rss
-	h.Rss(app, api)
+	h.Feed(app, api)
 
 	// site
 	site := api.Group("/site")

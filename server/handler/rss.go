@@ -2,21 +2,21 @@ package handler
 
 import (
 	"github.com/redish101/reblog/internal/core"
-	"github.com/redish101/reblog/internal/rss"
+	"github.com/redish101/reblog/internal/feed"
 	"github.com/redish101/reblog/server/common"
 
 	"github.com/gofiber/fiber/v3"
 )
 
-// @Summary		获取Rss
-// @Description	获取包含所有文章的RSS
-// @Tags			Rss
+// @Summary		获取Feed
+// @Description	获取包含所有文章的Feed
+// @Tags			Feed
 // @Produce		xml
 // @Success		200	"RSS Feed"
 // @Failure		500	{object}	common.Resp	"服务器错误"
 // @Router			/rss [get]
-func Rss(app *core.App, router fiber.Router) {
-	router.Get("/rss", func(c fiber.Ctx) error {
+func Feed(app *core.App, router fiber.Router) {
+	router.Get("/feed", func(c fiber.Ctx) error {
 		a := app.Query().Article
 
 		limit := app.Config().Rss.Limit
@@ -26,7 +26,7 @@ func Rss(app *core.App, router fiber.Router) {
 			return common.RespServerError(c, err)
 		}
 
-		rssString, err := rss.GenerateRSS(app, articles)
+		rssString, err := feed.GenerateFeed(app, articles)
 
 		if err != nil {
 			return common.RespServerError(c, err)

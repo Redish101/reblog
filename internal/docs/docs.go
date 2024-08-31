@@ -679,14 +679,14 @@ const docTemplate = `{
         },
         "/rss": {
             "get": {
-                "description": "获取包含所有文章的RSS",
+                "description": "获取包含所有文章的Feed",
                 "produces": [
                     "text/xml"
                 ],
                 "tags": [
-                    "Rss"
+                    "Feed"
                 ],
-                "summary": "获取Rss",
+                "summary": "获取Feed",
                 "responses": {
                     "200": {
                         "description": "RSS Feed"
@@ -907,6 +907,9 @@ const docTemplate = `{
                 "desc": {
                     "type": "string"
                 },
+                "draft": {
+                    "type": "boolean"
+                },
                 "slug": {
                     "type": "string"
                 },
@@ -929,6 +932,9 @@ const docTemplate = `{
                 },
                 "desc": {
                     "type": "string"
+                },
+                "draft": {
+                    "type": "boolean"
                 },
                 "slug": {
                     "type": "string"
@@ -1089,6 +1095,9 @@ const docTemplate = `{
                 },
                 "desc": {
                     "type": "string"
+                },
+                "draft": {
+                    "type": "boolean"
                 },
                 "id": {
                     "type": "integer"
