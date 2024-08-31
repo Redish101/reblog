@@ -4,3 +4,8 @@ export type Friend = {
   url: string;
   desc: string;
 };
+
+export type FriendList = {
+  count: number;
+  friends: Friend[];
+};

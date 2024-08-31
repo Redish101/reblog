@@ -1,5 +1,5 @@
 import { Config } from "./config";
-import { Article, ArticleList, Friend, Site, User } from "./types";
+import { Article, ArticleList, Friend, FriendList, Site, User } from "./types";
 import { Api } from "./utils";
 
 class ThemeKit {
@@ -34,7 +34,7 @@ class ThemeKit {
     const params = opts
       ? `/?pageIndex=${opts?.pageIndex}&pageSize=${opts?.pageSize}`
       : "";
-    const data = await this.api.get<ArticleList>(`/api/friend/list/${params}`);
+    const data = await this.api.get<FriendList>(`/api/friend/list/${params}`);
 
     return data.data;
   }
