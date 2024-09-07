@@ -7,6 +7,7 @@ import (
 
 	"github.com/redish101/reblog/server/common"
 	h "github.com/redish101/reblog/server/handler"
+	"github.com/redish101/reblog/server/middleware/monitor"
 
 	"github.com/redish101/reblog/internal/config"
 	"github.com/redish101/reblog/internal/core"
@@ -70,6 +71,9 @@ func LoadHttp(app *core.App) {
 
 	// cors
 	fb.Use(cors.New(cors.ConfigDefault))
+
+	// monitor
+	fb.Use("/monitor", monitor.New(monitor.Config{Title: "reblog monitor"}))
 
 	// apidoc
 	apidoc := fb.Group("/apidoc")
