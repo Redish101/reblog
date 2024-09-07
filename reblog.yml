@@ -5,7 +5,7 @@ db:
   type: env(DB_TYPE) # 数据库类型
   host: env(PGSQL_HOST) # 数据库地址
   port: 3306 # 数据库端口
-  name: env(PGSQL_PORT) # 数据库名称
+  name: env(PGSQL_DB) # 数据库名称
   user: env(PGSQL_USER) # 数据库用户名
   password: env(PGSQL_PASSWORD) # 数据库密码
  
