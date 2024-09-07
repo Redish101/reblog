@@ -1,0 +1,13 @@
+server:
+  host: env(HOST) # 服务器地址
+  port: 3000 # 服务器端口
+db:
+  type: env(DB_TYPE) # 数据库类型
+  host: env(PGSQL_HOST) # 数据库地址
+  port: 3306 # 数据库端口
+  name: env(PGSQL_PORT) # 数据库名称
+  user: env(PGSQL_USER) # 数据库用户名
+  password: env(PGSQL_PASSWORD) # 数据库密码
+ 
+dashboard:
+  enable: true # 是否启用控制台
