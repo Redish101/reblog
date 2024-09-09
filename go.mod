@@ -3,10 +3,9 @@ module github.com/redish101/reblog
 go 1.22
 
 require (
-	github.com/go-playground/validator/v10 v10.22.0
+	github.com/go-playground/validator/v10 v10.22.1
 	github.com/gofiber/fiber/v3 v3.0.0-beta.3
 	github.com/mcuadros/go-defaults v1.2.0
-	github.com/shirou/gopsutil v3.21.11+incompatible
 	github.com/shirou/gopsutil/v4 v4.24.8
 	github.com/sirupsen/logrus v1.9.3
 	github.com/stretchr/testify v1.9.0
