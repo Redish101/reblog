@@ -15,7 +15,7 @@ require (
 	gorm.io/driver/mysql v1.5.7
 	gorm.io/driver/postgres v1.5.9
 	gorm.io/gen v0.3.26
-	gorm.io/plugin/dbresolver v1.5.2
+	gorm.io/plugin/dbresolver v1.5.3
 )
 
 require (
@@ -78,5 +78,5 @@ require (
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	golang.org/x/sys v0.24.0 // indirect
 	gorm.io/driver/sqlite v1.5.6
-	gorm.io/gorm v1.25.11
+	gorm.io/gorm v1.25.12
 )
