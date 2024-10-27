@@ -10,7 +10,7 @@ import (
 )
 
 func cookContent(link string,content string) string {
-	prefix := fmt.Sprintf("> 本文该渲染由 reblog 生成，可能存在排版问题，最佳体验请前往：\n[%s](%s)\n", link, link)
+	prefix := fmt.Sprintf("> 本文该渲染由 reblog 生成，可能存在排版问题，最佳体验请前往：\n[%s](%s)\n\n", link, link)
 	return prefix + content
 }
 
