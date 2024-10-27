@@ -194,6 +194,12 @@ const docTemplate = `{
                         "description": "每页数量, 默认为10",
                         "name": "pageSize",
                         "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "是否返回文章内容, 默认为false",
+                        "name": "content",
+                        "in": "query"
                     }
                 ],
                 "responses": {

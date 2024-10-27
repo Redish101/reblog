@@ -486,6 +486,10 @@ paths:
         in: query
         name: pageSize
         type: integer
+      - description: 是否返回文章内容, 默认为false
+        in: query
+        name: content
+        type: boolean
       responses:
         "200":
           description: 成功返回文章列表

@@ -10,6 +10,7 @@ db:
 
 rss:
   limit: 10
+  content_link_format: "%s/article/%s"
 
 plugins:
   - example/plugin

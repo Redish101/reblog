@@ -30,6 +30,7 @@ type DBConfig struct {
 
 type RssConfig struct {
 	Limit int `yaml:"limit"`
+	ContentLinkFormat string `yaml:"content_link_format"`
 }
 
 type Config struct {
