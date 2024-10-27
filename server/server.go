@@ -7,7 +7,7 @@ import (
 
 	"github.com/redish101/reblog/server/common"
 	h "github.com/redish101/reblog/server/handler"
-	"github.com/redish101/reblog/server/middleware/monitor"
+	"github.com/gofiber/contrib/monitor"
 
 	"github.com/redish101/reblog/internal/config"
 	"github.com/redish101/reblog/internal/core"
