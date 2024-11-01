@@ -9,9 +9,9 @@ class ThemeKit {
     this.api = new Api(this.config.server.url, this.config.cache);
   }
 
-  public async getArticleList(opts?: { pageIndex: number; pageSize: number }) {
+  public async getArticleList(opts?: { pageIndex: number; pageSize: number, withContent?: boolean }) {
     const params = opts
-      ? `/?pageIndex=${opts?.pageIndex}&pageSize=${opts?.pageSize}`
+      ? `/?pageIndex=${opts?.pageIndex}&pageSize=${opts?.pageSize}&content=${opts.withContent}`
       : "";
     const data = await this.api.get<ArticleList>(`/api/article/list/${params}`);
 
