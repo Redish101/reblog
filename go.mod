@@ -3,16 +3,16 @@ module github.com/redish101/reblog
 go 1.22
 
 require (
-	github.com/go-playground/validator/v10 v10.22.1
+	github.com/go-playground/validator/v10 v10.23.0
 	github.com/gofiber/fiber/v3 v3.0.0-beta.3
 	github.com/mcuadros/go-defaults v1.2.0
 	github.com/sirupsen/logrus v1.9.3
-	github.com/stretchr/testify v1.9.0
+	github.com/stretchr/testify v1.10.0
 	github.com/swaggo/swag v1.16.4
 	gitlab.com/golang-commonmark/markdown v0.0.0-20211110145824-bf3e522c626a
 	gopkg.in/yaml.v3 v3.0.1
 	gorm.io/driver/mysql v1.5.7
-	gorm.io/driver/postgres v1.5.9
+	gorm.io/driver/postgres v1.5.11
 	gorm.io/gen v0.3.26
 	gorm.io/plugin/dbresolver v1.5.3
 )
