@@ -12,7 +12,7 @@
   "author": "Redish101 <i@redish101.top>",
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "next": "^14.2.10",
+    "next": "^14.2.21",
     "nextra": "^2.13.4",
     "nextra-theme-docs": "^2.13.4",
     "react": "^18.3.1",
