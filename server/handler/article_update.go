@@ -14,7 +14,7 @@ type ArticleUpdateParams struct {
 	Slug    string `json:"slug" validate:"required"`
 	Title   string `json:"title" validate:"required"`
 	Desc    string `json:"desc" validate:"required"`
-	Cover 	string `json:"cover"`
+	Cover   string `json:"cover"`
 	Content string `json:"content" validate:"required"`
 	Draft   bool   `json:"draft"`
 }
@@ -52,6 +52,7 @@ func ArticleUpdate(app *core.App, router fiber.Router) {
 		_, err = a.Where(a.Slug.Eq(params.Slug)).Updates(model.Article{
 			Title:   params.Title,
 			Desc:    params.Desc,
+			Cover:   &params.Cover,
 			Content: params.Content,
 			Draft:   &params.Draft,
 		})

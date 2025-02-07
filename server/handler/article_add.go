@@ -54,6 +54,7 @@ func ArticleAdd(app *core.App, router fiber.Router) {
 			Slug:    params.Slug,
 			Desc:    params.Desc,
 			Content: params.Content,
+			Cover:   &params.Cover,
 			Draft:   &params.Draft,
 		}
 
