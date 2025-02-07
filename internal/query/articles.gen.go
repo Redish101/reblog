@@ -34,6 +34,7 @@ func newArticle(db *gorm.DB, opts ...gen.DOOption) article {
 	_article.Title = field.NewString(tableName, "title")
 	_article.Slug = field.NewString(tableName, "slug")
 	_article.Desc = field.NewString(tableName, "desc")
+	_article.Cover = field.NewString(tableName, "cover")
 	_article.Content = field.NewString(tableName, "content")
 	_article.Draft = field.NewBool(tableName, "draft")
 
@@ -53,6 +54,7 @@ type article struct {
 	Title     field.String
 	Slug      field.String
 	Desc      field.String
+	Cover     field.String
 	Content   field.String
 	Draft     field.Bool
 
@@ -78,6 +80,7 @@ func (a *article) updateTableName(table string) *article {
 	a.Title = field.NewString(table, "title")
 	a.Slug = field.NewString(table, "slug")
 	a.Desc = field.NewString(table, "desc")
+	a.Cover = field.NewString(table, "cover")
 	a.Content = field.NewString(table, "content")
 	a.Draft = field.NewBool(table, "draft")
 
@@ -96,7 +99,7 @@ func (a *article) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (a *article) fillFieldMap() {
-	a.fieldMap = make(map[string]field.Expr, 9)
+	a.fieldMap = make(map[string]field.Expr, 10)
 	a.fieldMap["id"] = a.ID
 	a.fieldMap["created_at"] = a.CreatedAt
 	a.fieldMap["updated_at"] = a.UpdatedAt
@@ -104,6 +107,7 @@ func (a *article) fillFieldMap() {
 	a.fieldMap["title"] = a.Title
 	a.fieldMap["slug"] = a.Slug
 	a.fieldMap["desc"] = a.Desc
+	a.fieldMap["cover"] = a.Cover
 	a.fieldMap["content"] = a.Content
 	a.fieldMap["draft"] = a.Draft
 }
