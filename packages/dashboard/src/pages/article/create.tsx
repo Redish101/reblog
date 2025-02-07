@@ -16,6 +16,7 @@ interface ArticleFormValues {
   title: string;
   desc: string;
   slug: string;
+  cover?: string;
   draft: boolean;
 }
 
@@ -50,7 +51,7 @@ const CreateArticlePage = () => {
       return;
     }
 
-    const { title, desc, slug, draft } = articleMeta;
+    const { title, desc, slug, cover, draft } = articleMeta;
     const content = vd?.getValue() || "";
 
     const res = await useApi(`/api/article/${slug}`, {
@@ -59,6 +60,7 @@ const CreateArticlePage = () => {
         title,
         desc,
         slug,
+        cover,
         content,
         draft,
       },
@@ -120,6 +122,7 @@ const CreateArticlePage = () => {
             name="slug"
             rules={[{ required: true, message: "请填写slug" }]}
           />
+          <ProFormText label="封面" name="cover" />
           <ProFormSwitch label="草稿" name="draft" />
         </ProForm>
       </Drawer>

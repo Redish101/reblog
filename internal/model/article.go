@@ -6,6 +6,7 @@ type Article struct {
 	Title   string `json:"title"`
 	Slug    string `json:"slug"`
 	Desc    string `json:"desc"`
+	Cover   *string `json:"cover"`
 	Content string `json:"content"`
 	Draft   *bool  `json:"draft"`
 }

@@ -17,6 +17,7 @@ interface ArticleFormValues {
   title: string;
   desc: string;
   slug: string;
+  cover?: string;
   draft: boolean;
 }
 
@@ -47,6 +48,7 @@ const EditArticlePage = () => {
         title: data["data"]["title"],
         desc: data["data"]["desc"],
         slug: data["data"]["slug"],
+        cover: data["data"]["cover"],
         draft: data["data"]["draft"],
       });
     } else {
@@ -91,7 +93,7 @@ const EditArticlePage = () => {
       return;
     }
 
-    const { title, desc, slug, draft } = articleMeta;
+    const { title, desc, slug, cover, draft } = articleMeta;
     const content = vd?.getValue() || "";
 
     const res = await useApi(`/api/article/${slug}`, {
@@ -100,6 +102,7 @@ const EditArticlePage = () => {
         title,
         desc,
         slug,
+        cover,
         content,
         draft,
       },

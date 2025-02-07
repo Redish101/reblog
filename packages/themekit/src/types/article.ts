@@ -17,6 +17,9 @@ export type Article = {
   // 文章描述
   desc: string;
 
+  // 文章封面
+  cover?: string;
+
   // 文章内容
   content: string;
 };
