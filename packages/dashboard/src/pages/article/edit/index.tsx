@@ -48,7 +48,7 @@ const EditArticlePage = () => {
         title: data["data"]["title"],
         desc: data["data"]["desc"],
         slug: data["data"]["slug"],
-        cover: data["data"]["cover"] || "",
+        cover: data["data"]["cover"],
         draft: data["data"]["draft"],
       });
     } else {
@@ -148,7 +148,7 @@ const EditArticlePage = () => {
         title="文章信息"
         onClose={() => setDrawerOpen(false)}
       >
-        <ProForm onFinish={handleDrawerFormFinish}>
+        <ProForm onFinish={handleDrawerFormFinish} preserve={true}>
           <ProFormText
             label="标题"
             name="title"
