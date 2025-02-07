@@ -48,7 +48,7 @@ const EditArticlePage = () => {
         title: data["data"]["title"],
         desc: data["data"]["desc"],
         slug: data["data"]["slug"],
-        cover: data["data"]["cover"],
+        cover: data["data"]["cover"] || "",
         draft: data["data"]["draft"],
       });
     } else {
