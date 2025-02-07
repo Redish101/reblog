@@ -168,6 +168,11 @@ const EditArticlePage = () => {
             initialValue={articleMeta?.slug}
             disabled
           />
+          <ProFormText
+            label="封面"
+            name="cover"
+            initialValue={articleMeta?.cover}
+          />
           <ProFormSwitch
             label="草稿"
             name="draft"
