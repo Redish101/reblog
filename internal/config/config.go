@@ -29,14 +29,19 @@ type DBConfig struct {
 }
 
 type RssConfig struct {
-	Limit int `yaml:"limit"`
+	Limit             int    `yaml:"limit"`
 	ContentLinkFormat string `yaml:"content_link_format"`
+}
+
+type AiConfig struct {
+	ApiKey string `yaml:"apikey"`
 }
 
 type Config struct {
 	Server  ServerConfig `yaml:"server"`
 	DB      DBConfig     `yaml:"db"`
 	Rss     RssConfig    `yaml:"rss"`
+	Ai      AiConfig     `yaml:"ai"`
 	Plugins []string     `yaml:"plugins"`
 }
 
@@ -95,6 +100,9 @@ func DefaultConfig() *Config {
 		},
 		Rss: RssConfig{
 			Limit: 10,
+		},
+		Ai: AiConfig{
+			ApiKey: "",
 		},
 	}
 }

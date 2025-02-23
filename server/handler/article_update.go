@@ -3,7 +3,9 @@ package handler
 import (
 	"net/http"
 
+	"github.com/redish101/reblog/internal/ai"
 	"github.com/redish101/reblog/internal/core"
+	"github.com/redish101/reblog/internal/log"
 	"github.com/redish101/reblog/internal/model"
 	"github.com/redish101/reblog/server/common"
 
@@ -60,6 +62,20 @@ func ArticleUpdate(app *core.App, router fiber.Router) {
 		if err != nil {
 			return common.RespServerError(c, err)
 		}
+
+		go func() {
+			aiSummary := ai.Summary(app, params.Content)
+
+			if aiSummary != "" {
+				article.AiSummary = &aiSummary
+				_, err = a.Where(a.Slug.Eq(article.Slug)).Updates(article)
+
+				if err != nil {
+					log.Error(err)
+					return
+				}
+			}
+		}()
 
 		return common.RespSuccess(c, "更新成功", nil)
 	}, common.Auth(app))

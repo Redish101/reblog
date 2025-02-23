@@ -9,4 +9,5 @@ type Article struct {
 	Cover   *string `json:"cover"`
 	Content string `json:"content"`
 	Draft   *bool  `json:"draft"`
+	AiSummary *string `json:"ai_summary"`
 }

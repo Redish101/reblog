@@ -22,6 +22,8 @@ export type Article = {
 
   // 文章内容
   content: string;
+
+  ai_summary?: string;
 };
 
 export type ArticleList = {

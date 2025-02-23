@@ -12,6 +12,9 @@ rss:
   limit: 10
   content_link_format: "%s/article/%s"
 
+ai:
+  apikey: your_api_key
+  
 plugins:
 #  - example/plugin
   

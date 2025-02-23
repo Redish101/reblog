@@ -37,6 +37,7 @@ func newArticle(db *gorm.DB, opts ...gen.DOOption) article {
 	_article.Cover = field.NewString(tableName, "cover")
 	_article.Content = field.NewString(tableName, "content")
 	_article.Draft = field.NewBool(tableName, "draft")
+	_article.AiSummary = field.NewString(tableName, "ai_summary")
 
 	_article.fillFieldMap()
 
@@ -57,6 +58,7 @@ type article struct {
 	Cover     field.String
 	Content   field.String
 	Draft     field.Bool
+	AiSummary field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -83,6 +85,7 @@ func (a *article) updateTableName(table string) *article {
 	a.Cover = field.NewString(table, "cover")
 	a.Content = field.NewString(table, "content")
 	a.Draft = field.NewBool(table, "draft")
+	a.AiSummary = field.NewString(table, "ai_summary")
 
 	a.fillFieldMap()
 
@@ -99,7 +102,7 @@ func (a *article) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (a *article) fillFieldMap() {
-	a.fieldMap = make(map[string]field.Expr, 10)
+	a.fieldMap = make(map[string]field.Expr, 11)
 	a.fieldMap["id"] = a.ID
 	a.fieldMap["created_at"] = a.CreatedAt
 	a.fieldMap["updated_at"] = a.UpdatedAt
@@ -110,6 +113,7 @@ func (a *article) fillFieldMap() {
 	a.fieldMap["cover"] = a.Cover
 	a.fieldMap["content"] = a.Content
 	a.fieldMap["draft"] = a.Draft
+	a.fieldMap["ai_summary"] = a.AiSummary
 }
 
 func (a article) clone(db *gorm.DB) article {
