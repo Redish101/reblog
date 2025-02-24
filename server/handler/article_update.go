@@ -67,7 +67,10 @@ func ArticleUpdate(app *core.App, router fiber.Router) {
 			aiSummary := ai.Summary(app, params.Content)
 
 			if aiSummary != "" {
+				article, err = a.Where(a.Slug.Eq(article.Slug)).First()
+
 				article.AiSummary = &aiSummary
+				
 				_, err = a.Where(a.Slug.Eq(article.Slug)).Updates(article)
 
 				if err != nil {
